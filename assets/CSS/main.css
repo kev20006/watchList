@@ -1,0 +1,13 @@
+#search {
+  margin: 0 auto;
+  width: 60%;
+  box-shadow: 2px 2px 1px rgba(50, 50, 50, 0.5), -2px -2px 1px rgba(50, 50, 50, 0.5);
+  border-radius: 15px;
+  padding-top: 1%;
+  padding-bottom: 1%; }
+
+.list-card {
+  box-shadow: 2px 2px 1px rgba(50, 50, 50, 0.5), -2px -2px 1px rgba(50, 50, 50, 0.5);
+  border-radius: 15px; }
+
+/*# sourceMappingURL=main.css.map */

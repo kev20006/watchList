@@ -2,7 +2,7 @@
 
 
 var movieKey = "405219586381645a0c87c4c5dc9211d9",
-    movieBox = document.getElementById("movieTitle"),
+    movieBox = document.getElementById("search"),
     results = document.getElementById("results"),
     selectedMovie = document.getElementById("selectedMovie");
 
@@ -63,9 +63,12 @@ function genMovieHTML(movie){
             type: "Movie",
             title: movie.title,
             image:`https://image.tmdb.org/t/p/w92${movie.poster_path}`,
-            description:  movie.overview
+            description:  movie.overview.split(".")[0] +"."
         });
-        alert(`${movie.title} added to list`)
+        selectedMovie.innerHTML = "";
+        results.innerHTML =""
+        movieBox.value = ""
+        
     });
     movieCard.appendChild(movieThumb);
     movieCard.appendChild(movieCardTitle);
