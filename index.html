@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Watch List</title>
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" 
+    integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+        crossorigin="anonymous">
     <!-- bootstrap -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" 
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
@@ -14,10 +18,12 @@
     
 </head>
 <body>
+    <main id="app">
     <nav></nav> 
+    
     <header class="container">
         <div class="px-5">
-            <input id="search" placeholder="type in name of media" class="px-1"></input>
+             <input id="search" placeholder="type in name of media" class="px-1"></input> 
         </div>
         
         <div>
@@ -25,11 +31,13 @@
             <ul id="results">
             </ul>
         </div>
-    </header> 
-    <main class="container">
+    </header>
+    <article class="container">
         <div id="watch-list" class="d-flex row"></div>
-    </main>
+    </article>
     <footer></footer>
+    </main>
+    <div id="add-button" class="icon"><span id="add-icon">+</span></div>
     <!-- bootstrap scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
@@ -40,5 +48,7 @@
     <script type="text/javascript" src="./assets/scripts/watchList.js"></script>
     <!-- loading the tmdb api -->
     <script type="text/javascript" src="./assets/scripts/getMovies.js"></script>
+    <!-- loading the menu scripts-->
+    <script type="text/javascript" src="./assets/scripts/menu.js"></script>
 </body>
 </html>
