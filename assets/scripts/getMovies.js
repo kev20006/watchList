@@ -2,7 +2,7 @@
 
 
 var movieKey = "405219586381645a0c87c4c5dc9211d9",
-    movieBox = document.getElementById("search"),
+
     results = document.getElementById("results"),
     selectedMovie = document.getElementById("selectedMovie");
 

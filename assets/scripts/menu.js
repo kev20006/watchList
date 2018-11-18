@@ -20,8 +20,12 @@ function searchMenu(type){
             .css("border-radius", "15px 15px 0px 0px")
             .html(`${type} Search...`);
         let searchBar = $("<input></input>").attr("id","search").attr("placeholder","type in name of media").attr("class","px-1");
+        searchBar.on("input", ()=>{
+            $(`#results`).html("");
+            searches.movie(searchBar.val());
+        });
         let selectedResult = $("<div></div>").attr("id","selectedMovie");
-        let searchResults = $(`<ul></ul>`).attr("id", "results");
+        let searchResults = $(`<div></div>`).attr("id", "results");
         $("#add-button").append(searchHeader, searchBar, selectedResult, searchResults);
     })
 }
@@ -69,9 +73,9 @@ $("#app").on("click", () => {
             left: `${(($(window).width() - 60) / $(window).width()) * 100}%`,
             height: "29px",
             width: "30px",
-            "border-radius": "100%"
+            
         },
-        100,
+        200,
         () => {
             $("#add-button").html(`<span id="add-icon">+</span>`);
         }
