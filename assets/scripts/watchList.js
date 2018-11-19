@@ -12,6 +12,7 @@ function miscItem(element){
 }
 
 function movieItem(element) {
+    console.log(element)
     let newItem = document.createElement("div");
     newItem.setAttribute("class", "col-6 col-md-4 col-lg-3 mx-2 list-card")
     newItem.setAttribute("id", element.id);

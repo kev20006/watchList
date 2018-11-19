@@ -1,3 +1,20 @@
+function minimizeMenu(){
+    $("#add-button").html("");
+    $("#add-button").animate(
+        {
+            left: `${(($(window).width() - 60) / $(window).width()) * 100}%`,
+            height: "29px",
+            width: "30px",
+
+        },
+        200,
+        () => {
+            $("#add-button").html(`<span id="add-icon">+</span>`);
+            $("#add-button").removeClass("menu").removeClass("search").addClass("icon");
+        }
+    );
+}
+
 function searchMenu(type){
     let searchMenuColors = {
         Movie: "rgba(255, 255, 102, 0.4)",
@@ -5,10 +22,20 @@ function searchMenu(type){
         Book: "rgba(51, 153, 255, 0.2)",
         Game: "rgba(51, 204, 51, 0.2)"
     }
+    let wLeft=""
+    let wWidth=""
+    if ($(window).width() >= 600) {
+        wLeft= `${50 - (250 / $(window).width()) * 100}%`
+        wWidth = "500px";
+    }else {
+        wLeft= "10%"
+        wWidth="80%";
+        
+    }
     $("#add-button").html("").removeClass("menu").addClass("search");
     $("#add-button").animate({
-        left: "10%",
-        width: "80vw",
+        left: `${wLeft}`,
+        width: `${wWidth}`,
         height: "80vh",
         padding: "0px"
     },
@@ -65,19 +92,6 @@ $("#add-button").on("click", () => {
     
 })
 
-$("#app").on("click", () => {
-    $("#add-button").removeClass("menu").removeClass("search").addClass("icon");
-    $("#add-button").html("");
-    $("#add-button").animate(
-        {
-            left: `${(($(window).width() - 60) / $(window).width()) * 100}%`,
-            height: "29px",
-            width: "30px",
-            
-        },
-        200,
-        () => {
-            $("#add-button").html(`<span id="add-icon">+</span>`);
-        }
-    );
+$("#app").on("click", ()=>{
+    minimizeMenu()
 });
