@@ -42,19 +42,7 @@ let watchList = {
         watchListDOM.innerHTML = ""
         watchList.contents.forEach((element)=>{
             element.id= index;
-            switch(element.type){
-                case "Movie":
-                    watchListDOM.appendChild(movieItem(element));
-                    break;
-                case "Book":
-                    break;
-                case "Game":
-                    break;
-                case "TV Show":
-                    break;
-                default:
-                    watchListDOM.appendChild(miscItem(element));
-            }
+            watchListDOM.appendChild(movieItem(element));
             index ++;
         })
     }

@@ -49,7 +49,7 @@ function searchMenu(type){
         let searchBar = $("<input></input>").attr("id","search").attr("placeholder","type in name of media").attr("class","px-1");
         searchBar.on("input", ()=>{
             $(`#results`).html("");
-            searches.movie(searchBar.val());
+            searches[`${type.toLowerCase()}`](searchBar.val());
         });
         let selectedResult = $("<div></div>").attr("id","selectedMovie");
         let searchResults = $(`<div></div>`).attr("id", "results");

@@ -5,23 +5,16 @@ let searches = {
     keys: ["405219586381645a0c87c4c5dc9211d9"],
     movie: (terms) =>{
         let url = `https://api.themoviedb.org/3/search/movie?api_key=${searches.keys[0]}&language=en-US&query=${terms}`;
-        
         $.getJSON(url, (data)=>{
-            let resultsMobile = [
-                data.results[0], 
-                data.results[1], 
-                data.results[2], 
-                data.results[3], 
-                data.results[4],
-                data.results[5]
-            ] 
+            let resultsMobile = data.results.slice(0,5)
+            $(`#results`).html("")
             resultsMobile.forEach((element)=>{
-                console.log(element)
                let searchItem = createListItem(
                    `https://image.tmdb.org/t/p/w92${element.poster_path}`,
                    element.title,
-                   element.release_date,
-                   element.overview)
+                   element.release_date.split("-")[0],
+                   element.overview,
+                   "movie")
                $(`#results`).append(searchItem);
            })
         })
@@ -29,35 +22,72 @@ let searches = {
             console.log("there was an error of sorts")
         });
     },
-    tv: ()=>{
-        alert("nothing yet");
+    tv: (terms)=>{
+        let url = `https://api.themoviedb.org/3/search/tv?api_key=${searches.keys[0]}&language=en-US&query=${terms}`;
+        $.getJSON(url, (data) => {
+            console.log(data.results)
+            let resultsMobile = data.results.slice(0, 5)
+            $(`#results`).html("")
+            resultsMobile.forEach((element) => {
+                let searchItem = createListItem(
+                    `https://image.tmdb.org/t/p/w92${element.poster_path}`,
+                    element.name,
+                    element.first_air_date.split("-")[0],
+                    element.overview,
+                    "tv")
+                $(`#results`).append(searchItem);
+            })
+        })
+            .fail(function () {
+                console.log("there was an error of sorts")
+            });
+       
     },
-    book: ()=>{
-        alert("nothing yet");
+    book: (terms)=>{
+        let url = `https://www.googleapis.com/books/v1/volumes?q=${terms}`;
+        $.getJSON(url, (data) => {
+            let resultsMobile = data.items.slice(0,5)
+            console.log(resultsMobile)
+            $(`#results`).html("")
+            resultsMobile.forEach((element) => {
+                console.log(element)
+                let searchItem = createListItem(
+                    element.volumeInfo.imageLinks.smallThumbnail,
+                    element.volumeInfo.title,
+                    element.volumeInfo.publishedDate,
+                    element.volumeInfo.description,
+                    "book")
+                
+                $(`#results`).append(searchItem);
+            })
+        })
+        .fail(function () {
+            console.log("there was an error of sorts")
+        });
     },
-    game: ()=>{
-        alert("nothing yet")
+    game: (terms)=>{
+        //some trouble finding a good API here - maybe have to make a proxy in node
     }
 }
 
-function createListItem(thumbnail, title, year, description){
+function createListItem(thumbnail, title, year, description, type){
     let wrapper = $(`<div class="d-flex my-2 mx-1"></div>`);
     let imgWrapper = $(`<div></div>`);
     let textWrapper = $(`<div></div>`);
     imgWrapper.append(`<img src=${thumbnail} class="result-thumb" alt=${title} height="50px" />`);
-    textWrapper.append(`<p class="result-title">${title} - ${year.split("-")[0]}</p>`);
+    textWrapper.append(`<p class="result-title">${title} - ${year}</p>`);
     wrapper.on("click", () => {
-        $(`#results`).html(createItemPreview(thumbnail, title, year, description));
+        $(`#results`).html(createItemPreview(thumbnail, title, year, description, type));
     })
     wrapper.append(imgWrapper, textWrapper);
     return wrapper
 }
 
-function createItemPreview(thumbnail, title, year, description) {
+function createItemPreview(thumbnail, title, year, description, type) {
     let wrapper = $(`<div class="d-flex my-2 mx-1"></div>`);
     let imgWrapper = $(`<div></div>`);
-    let textWrapper = $(`<div></div>`);
-    let buttonWrapper= $(`<div class="d-flex"></div>`);
+    let textWrapper = $(`<div class="row"></div>`);
+    let buttonWrapper= $(`<div class="row d-flex"></div>`);
     let add = $(`<input type="button" value="add to list"/>`);
     let back = $(`<input type="button" value="back"/>`);
     add.on("click",()=>{
@@ -67,13 +97,13 @@ function createItemPreview(thumbnail, title, year, description) {
             title: title,
             year: year,
             description: description,
-            type: "Movie"
+            type: type
         });
         
     });
     back.on("click",()=>{
         $("#results").html("")
-        searches.movie($("#search").val());
+        searches[type]($("#search").val());
     });
     imgWrapper.append(`<img src=${thumbnail} class="result-thumb" alt=${title} />`);
     textWrapper.append(`<p class="result-title">${title}</p>`,`<p>${description}</p>`);
