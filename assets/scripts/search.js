@@ -66,7 +66,30 @@ let searches = {
         });
     },
     game: (terms)=>{
+        //https://IGDB-PROXY--kev20006.repl.co/games/[search term]
         //some trouble finding a good API here - maybe have to make a proxy in node
+        let url = `https://IGDB-PROXY--kev20006.repl.co/games/${terms}`;
+        $.getJSON(url, (data) => {
+            console.log(data)
+            let resultsMobile = data.slice(0, 5)
+            console.log(resultsMobile)
+            $(`#results`).html("")
+            resultsMobile.forEach((element) => {
+                console.log(element)
+                let date = new Date(element.first_release_date)
+                let searchItem = createListItem(
+                    `https://images.igdb.com/igdb/image/upload/t_cover_small/${element.cover.cloudinary_id}.jpg`,
+                    element.name,
+                    date.getFullYear(),
+                    element.summary,
+                    "game")
+
+                $(`#results`).append(searchItem);
+            })
+        })
+            .fail(function () {
+                console.log("there was an error of sorts")
+            });
     }
 }
 
