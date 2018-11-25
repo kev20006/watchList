@@ -66,8 +66,6 @@ let searches = {
         });
     },
     game: (terms)=>{
-        //https://IGDB-PROXY--kev20006.repl.co/games/[search term]
-        //some trouble finding a good API here - maybe have to make a proxy in node
         let url = `https://IGDB-PROXY--kev20006.repl.co/games/${terms}`;
         $.getJSON(url, (data) => {
             console.log(data)

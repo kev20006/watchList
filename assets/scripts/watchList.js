@@ -32,22 +32,33 @@ let watchList = {
     add: (obj)=>{
         watchList.contents.push(obj);
         console.log(watchList.contents);
-        watchList.render()
+        watchList.render(watchList.contents);
     },
     remove: (id)=>{
-        //do something
+        watchList.contents.splice(id, 1);
+        watchList.render(watchList.contents);
     },
-    render: ()=>{
-        let index = 0;
-        watchListDOM.innerHTML = ""
-        watchList.contents.forEach((element)=>{
-            element.id= index;
-            watchListDOM.appendChild(movieItem(element));
-            index ++;
+    render: (list)=>{
+        if (list.length >= 1) {
+            let index = 0;
+            watchListDOM.innerHTML = ""
+            list.forEach((element) => {
+                element.id = index;
+                watchListDOM.appendChild(movieItem(element));
+                index++;
+            })
+        }
+        
+    },
+    filter: (type)=>{
+        let filterList = watchList.contents.filter((element) =>{
+            console.log(element)
+            return element.type == type
         })
+        console.log(filterList)
+        watchList.render(filterList)
     }
-    
 };
 
-watchList.render();
+watchList.render(watchList.contents);
 
