@@ -111,10 +111,11 @@ function createListItem(thumbnail, title, year, description, type){
 }
 
 function createItemPreview(thumbnail, title, year, description, type) {
-    let wrapper = $(`<div class="d-flex my-2 mx-1"></div>`);
-    let imgWrapper = $(`<div></div>`);
-    let textWrapper = $(`<div class="row"></div>`);
-    let buttonWrapper= $(`<div class="row d-flex"></div>`);
+    let wrapper = $(`<div class="my-2 mx-1"></div>`);
+    let textAndImageWrapper= $(`<div class="row d-flex mx-3"></div>`)
+    let imgWrapper = $(`<div class="col"></div>`);
+    let textWrapper = $(`<div></div>`);
+    let buttonWrapper = $(`<div class="row mx-3"></div>`);
     let add = $(`<input type="button" value="add to list"/>`);
     let back = $(`<input type="button" value="back"/>`);
     add.on("click",()=>{
@@ -134,8 +135,9 @@ function createItemPreview(thumbnail, title, year, description, type) {
     });
     imgWrapper.append(`<img src=${thumbnail} class="result-thumb" alt=${title} />`);
     textWrapper.append(`<p class="result-title">${title}</p>`,`<p>${description}</p>`);
+    textAndImageWrapper.append(imgWrapper, textWrapper)
     buttonWrapper.append(add, back);
-    wrapper.append(imgWrapper, textWrapper, buttonWrapper);
+    wrapper.append(textAndImageWrapper, buttonWrapper);
     return wrapper
 }
 
