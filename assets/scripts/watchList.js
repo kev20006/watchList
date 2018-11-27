@@ -13,13 +13,20 @@ function miscItem(element){
 
 function movieItem(element) {
     console.log(element)
-    let newItem = document.createElement("div");
-    newItem.setAttribute("class", "col-6 col-md-4 col-lg-3 mx-2 list-card")
-    newItem.setAttribute("id", element.id);
-    newItem.innerHTML = `
-                    <img src=${element.image} alt=${element.title}>
-                    <h6>${element.title}</h6>
-                    <p>${element.description}</p>`;
+    let newItem = $("<div></div>")
+        .attr("class", "col-6 col-md-4 col-lg-3 mx-2 list-card")
+        .attr("id", element.id);
+    let deleteButton = $("<button></button>").text("delete")
+    deleteButton.on("click", ()=>{
+        console.log(element.id)
+        watchList.remove(element.id)
+    });
+    
+    newItem.html(`<h3>${element.title}</h3>
+                <img src=${element.image} alt=${element.title}>
+                <p>${element.description.split(".")[0]}</p>`)   
+        .append(deleteButton)        
+                
     return newItem;
 }
 
@@ -41,12 +48,18 @@ let watchList = {
     render: (list)=>{
         if (list.length >= 1) {
             let index = 0;
-            watchListDOM.innerHTML = ""
+            $("#watch-list").html(""); 
             list.forEach((element) => {
                 element.id = index;
-                watchListDOM.appendChild(movieItem(element));
+                $("#watch-list").append(movieItem(element));
                 index++;
             })
+        }else{
+            $("#watch-list").html(`<div>
+                <h5>Currently you have no items in your list</h5>
+                <p >Click the add button to the left to start adding movies, tv shows and games to your to watch list</p> 
+                </div>
+            `);
         }
         
     },
@@ -56,7 +69,16 @@ let watchList = {
             return element.type == type
         })
         console.log(filterList)
-        watchList.render(filterList)
+        if(filterList.length == 0){
+            $("#watch-list").html(`<div>
+                <h5>Currently you have no ${type}s in your list</h5>
+                <p>Click the add button to the left to start adding some ${type}s</p>
+                </div>
+            `);
+        }else{
+            watchList.render(filterList)
+        }
+        
     }
 };
 

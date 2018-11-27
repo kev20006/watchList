@@ -74,9 +74,15 @@ let searches = {
             $(`#results`).html("")
             resultsMobile.forEach((element) => {
                 console.log(element)
+                let imgUrl;
+                if ("cover" in element){
+                    imgUrl = `https://images.igdb.com/igdb/image/upload/t_cover_small/${element.cover.cloudinary_id}.jpg`
+                }else{
+                    imgUrl = `http://webmaster.ypsa.org/wp-content/uploads/2012/08/no_thumb.jpg`
+                }
                 let date = new Date(element.first_release_date)
                 let searchItem = createListItem(
-                    `https://images.igdb.com/igdb/image/upload/t_cover_small/${element.cover.cloudinary_id}.jpg`,
+                    imgUrl,
                     element.name,
                     date.getFullYear(),
                     element.summary,

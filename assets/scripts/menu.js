@@ -9,8 +9,9 @@ function minimizeMenu(){
         },
         200,
         () => {
-            $("#add-button").html(`<span id="add-icon">+</span>`);
-            $("#add-button").removeClass("menu").removeClass("search").addClass("icon");
+            $("#add-button").html(`<span id="add-icon">+</span>`)
+                .removeClass("menu").removeClass("search").addClass("icon")
+                .attr('border-radius', "100%");
         }
     );
 }
@@ -37,19 +38,19 @@ function searchMenu(type){
         left: `${wLeft}`,
         width: `${wWidth}`,
         height: "80vh",
-        padding: "0px"
+        padding: "0px",
     },
     300,
     ()=>{
         let searchHeader = $("<div></div>")
-            .css("background-color", searchMenuColors[type])
+            .css("background-color", searchMenuColors[type[1]])
             .css("font-size", "2rem")
-            .css("border-radius", "15px 15px 0px 0px")
-            .html(`${type} Search...`);
+            .css("border-radius", "5px 5px 0px 0px")
+            .html(`${type[0]}${type[1]} Search...`);
         let searchBar = $("<input></input>").attr("id","search").attr("placeholder","type in name of media").attr("class","px-1");
         searchBar.on("input", ()=>{
             $(`#results`).html("");
-            searches[`${type.toLowerCase()}`](searchBar.val());
+            searches[`${type[1].toLowerCase()}`](searchBar.val());
         });
         let selectedResult = $("<div></div>").attr("id","selectedMovie");
         let searchResults = $(`<div></div>`).attr("id", "results");
@@ -66,23 +67,27 @@ $("#add-button").on("click", () => {
                 left: `${(($(window).width() - 150) / $(window).width()) * 100}%`,
                 height: "200px",
                 width: "120px",
-                "border-radius": "15px"
+                "border-radius": "15px",
+                "background-color": "none"
             },
             300,
             () => {
                 let menuHeader = $("<p></p>").text("Add New.. ");
                 $("#add-button").append(menuHeader);
                 let menu = $("<div></div>").attr('id', "create-item-menu");
-                [["Movie", `<i class="fas fa-film mr-1"></i>`],
-                ["TV", `<i class="fas fa-tv mr-1"></i>`],
-                ["Game", ` <i class="fas fa-gamepad mr-1"></i>`],
-                ["Book", `<i class="fas fa-book mr-1"></i>`]].forEach((element) => {
-                    let newMenuItem = $("<div></div>")
-                        .attr('id', element[0])
-                        .attr('class', "menu-item")
+                [
+                    [`<div class="icon-bg"><i class="fas fa-film m-1"></i></div>`, "Movie"],
+                    [`<div class="icon-bg"><i class="fas fa-tv mr-1"></i></div>`, "TV"],
+                    [`<div class="icon-bg"><i class="fas fa-gamepad mr-1"></i></div>`, "Game",],
+                    [`<div class="icon-bg"><i class="fas fa-book mr-1"></i></div>`, "Book",]
+                ]
+                .forEach((element) => {
+                    let newMenuItem = $(`<div></div>`)
+                        .attr('id', element[1])
+                        .attr('class', "menu-item d-flex justify-content-between")
                         .html(`${element[1]}${element[0]}`);
                     newMenuItem.on("click", () => {
-                        searchMenu(element[0])
+                        searchMenu(element)
                     });
                     menu.append(newMenuItem)
                 });
@@ -93,5 +98,7 @@ $("#add-button").on("click", () => {
 })
 
 $("#app").on("click", ()=>{
-    minimizeMenu()
+    if (!$("#add-button").hasClass("icon")){
+        minimizeMenu()
+    }
 });

@@ -19,20 +19,32 @@
 </head>
 <body>
     <main id="app">
-    <nav></nav> 
+   <nav class="navbar navbar-light">
+    <span class="navbar-brand">
+    <img id= "toggle-menu" src="https://cdn4.iconfinder.com/data/icons/tupix-1/30/list-512.png" width="30" height="30" class="d-inline-block align-top" alt="hamburger icon">
+        Watch List
+    </span>
+</nav>
     
-    <header class="container">
-        <!-- 
-        <div class="px-5">
-             <input id="search" placeholder="type in name of media" class="px-1"></input> 
+    <header class="container d-flex">
+       <div>
+           <p>Filters: </p>
         </div>
-        
-        <div>
-            <div id="selectedMovie"></div>
-            <ul id="results">
-            </ul>
-        </div>
-        -->
+    <div>
+        <button onclick="watchList.render(watchList.contents)">All</button>
+    </div>
+    <div>
+        <button onclick="watchList.filter('movie')">Movies</button>
+    </div>
+    <div>
+        <button onclick="watchList.filter('tv')">TV</button>
+    </div>
+    <div>
+        <button onclick="watchList.filter('book')">Games</button>
+    </div>
+    <div>
+        <button onclick="watchList.filter('game')">Books</button>
+    </div>
     </header>
     <article class="container">
         <div id="watch-list" class="d-flex row"></div>
