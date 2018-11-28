@@ -4,6 +4,8 @@ Have you ever seen a trailer for a movie or tv show only to forget it by the tim
 
 Watch-list is an app to help with exactly that. It allows you to record any books, films, movies and games that you want to remember and store them conviently in your webbrowser. Using a series of database API's watch-list will search for and store details of media that you want to watch later.
 
+[check out the app here](https://kev20006.github.io/watchList/)
+
 ## User Stories
 
 * As an end user I should be able to add a movie to my watch list
