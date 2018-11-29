@@ -9,13 +9,15 @@ let searches = {
             let resultsMobile = data.results.slice(0,5)
             $(`#results`).html("")
             resultsMobile.forEach((element)=>{
-               let searchItem = createListItem(
-                   `https://image.tmdb.org/t/p/w92${element.poster_path}`,
+               let searchResult = new movie(
                    element.title,
-                   element.release_date.split("-")[0],
+                   `https://image.tmdb.org/t/p/w92${element.poster_path}`,
                    element.overview,
-                   "movie")
-               $(`#results`).append(searchItem);
+                   element.release_date.split("-")[0],
+                   "genre",
+                   ["bob"])
+                   console.log(searchResult)
+               $(`#results`).append(searchResult.searchItem);
            })
         })
         .fail(function(){
