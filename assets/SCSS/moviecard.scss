@@ -1,0 +1,88 @@
+$movie-color: #ffff99;
+$shadow: 1px 1px 5px rgba(0,0,0,0.5), -1px -1px 5px rgba(0,0,0,0.5);
+
+
+.card{
+  background-color: $movie-color;
+  margin:10%;
+  width: 300px;
+  box-shadow: $shadow;
+  .icon{
+    font-size:2em;
+    height:50px;
+    width: 50px;
+    background-color: #ffffff;
+    border-radius: 50%;
+  }
+  .card-content{
+    background-color:white;
+  }
+  p {
+    margin-bottom:0px;
+  }
+}
+
+.movie-thumb{
+  height:200px;
+  box-shadow: 2px 2px 150px black;
+}
+
+.image-wrapper{
+  overflow:hidden;
+  background-color: #567DA7;
+  background-size: cover;
+  background-image: url("https://imgc.allpostersimages.com/img/print/posters/teen-wolf-official-movie-poster-print_a-G-8848874-0.jpg");
+}
+
+.delete-button{
+  box-shadow: $shadow;
+  height:1.5rem;
+  width:1.5rem;
+  margin:0px;
+  padding:0px;
+  border-radius:50%;
+  border: 2px solid white;
+  background-color:red;
+  position: absolute;
+  z-index: 25;
+  top: -10px;
+  right: -10px;
+}
+
+.collection-item{
+  margin-right:2px;
+  padding:0px 0px;
+  background-color: $movie-color;
+}
+
+.media-note{
+  width:100%;
+}
+
+.context-button{
+  margin:0 auto;
+  font-size:2em;
+  padding:10px;
+  width:100px;
+  height: 70px;
+  padding-top: 2px;
+  border-radius:50%;
+  border: 2px solid black;
+}
+
+.selected-content{
+  display: none;
+}
+
+.media-note{
+  border:none;
+}
+
+.fade-item{
+  display:none;
+}
+
+
+
+
+

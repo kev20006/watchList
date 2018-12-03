@@ -50,8 +50,9 @@ let watchList = {
             let index = 0;
             $("#watch-list").html(""); 
             list.forEach((element) => {
-                element.id = index;
-                $("#watch-list").append(movieItem(element));
+                element.id = "card-"+index;
+                $("#watch-list").append(element.movieCard());
+                element.updateCollections();
                 index++;
             })
         }else{

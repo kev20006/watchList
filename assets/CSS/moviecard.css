@@ -1,10 +1,3 @@
-#search {
-  margin: 0 auto;
-  width: 60%;
-  padding-top: 1%;
-  padding-bottom: 1%;
-}
-
 .card {
   background-color: #ffff99;
   margin: 10%;
@@ -85,70 +78,4 @@
   display: none;
 }
 
-.navbar {
-  background-color: rgba(255, 255, 102, 0.4);
-}
-
-.list-card {
-  box-shadow: 2px 2px 1px rgba(50, 50, 50, 0.5), -2px -2px 1px rgba(50, 50, 50, 0.5);
-  border-radius: 15px;
-}
-
-main .app {
-  background-color: #eeeeee;
-  font-family: sans-serif;
-  height: 100vh;
-  width: 100vw;
-}
-
-#add-button {
-  position: absolute;
-  z-index: 10;
-  top: 5%;
-  user-select: none;
-  text-align: center;
-  height: 29px;
-  width: 30px;
-  border-radius: 100%;
-  background-color: white;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-}
-
-#add-icon {
-  font-size: 1.6rem;
-  line-height: 0.9;
-}
-
-#add-button:hover {
-  cursor: default;
-  background-color: #f9f9f9;
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
-}
-
-#create-item-menu {
-  font-size: 0.8rem;
-  text-align: left;
-}
-
-.menu-item {
-  padding: 10px 0px 10px 0px;
-  padding-left: 15px;
-}
-
-#Movie:hover {
-  background-color: rgba(255, 255, 102, 0.4);
-}
-
-#TV:hover {
-  background-color: rgba(255, 51, 102, 0.2);
-}
-
-#Book:hover {
-  background-color: rgba(51, 153, 255, 0.2);
-}
-
-#Game:hover {
-  background-color: rgba(51, 204, 51, 0.2);
-}
-
-/*# sourceMappingURL=main.css.map */
+/*# sourceMappingURL=moviecard.css.map */
