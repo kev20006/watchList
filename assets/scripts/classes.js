@@ -5,10 +5,10 @@ class watchItem {
         this.title = title;
         this.thumb = thumb;
         this.longDescription = longDescription;
-        if (longDescription.length <= 100) {
+        if (longDescription.length <= 200) {
             this.shortDescription = longDescription.substring(0, longDescription.length);
         } else {
-            this.shortDescription = `${longDescription.substring(0, 100)}...`;
+            this.shortDescription = `${longDescription.substring(0, 200)}...`;
         }
         this.year = year;
         this.genre = genre;
@@ -96,9 +96,11 @@ class movie extends watchItem {
         })
         newCard.append(newCardHeader);
         let newCardMain = $(`<main></main>`);
-        let mainContents = $(
-            `<div class="image-wrapper d-flex justify-content-center">
-                <img class="movie-thumb" src="${this.thumb}" alt="${this.title}"></div>
+        
+        let imageWrapper = $(`<div class="image-wrapper d-flex justify-content-center">`);
+        imageWrapper.css("background-image", `url(${this.thumb});`);
+        imageWrapper.html(`<img class="movie-thumb" src="${this.thumb}" alt="${this.title}" />`)
+        let mainContents = $(   `
                 <div class="row card-content mx-0 py-3">
                     <div class="col">
                     <!-- collapseable Content -->
@@ -119,7 +121,8 @@ class movie extends watchItem {
                     <!-- end of User Generated Card Info -->
                 </div>
             </div>`);
-        newCardMain.append(mainContents)
+        imageWrapper.css("background-image", `url(${this.thumb})`)
+        newCardMain.append(imageWrapper, mainContents)
         newCard.append(newCardMain)
         
         let newCardFooter = $(`<footer class="card-footer p-3 row mx-0"></footer>`);

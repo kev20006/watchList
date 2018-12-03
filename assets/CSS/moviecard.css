@@ -1,6 +1,6 @@
 .card {
   background-color: #ffff99;
-  margin: 10%;
+  margin: 25px;
   width: 300px;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5), -1px -1px 5px rgba(0, 0, 0, 0.5);
 }
@@ -27,7 +27,6 @@
   overflow: hidden;
   background-color: #567DA7;
   background-size: cover;
-  background-image: url("https://imgc.allpostersimages.com/img/print/posters/teen-wolf-official-movie-poster-print_a-G-8848874-0.jpg");
 }
 
 .delete-button {
