@@ -19,38 +19,44 @@
 </head>
 <body>
     <main id="app">
-   <nav class="navbar navbar-light">
-    <span class="navbar-brand">
-    <img id= "toggle-menu" src="https://cdn4.iconfinder.com/data/icons/tupix-1/30/list-512.png" width="30" height="30" class="d-inline-block align-top" alt="hamburger icon">
-        Watch List
-    </span>
-</nav>
-    
-    <header class="container d-flex">
-       <div>
-           <p>Filters: </p>
-        </div>
-    <div>
-        <button onclick="watchList.render(watchList.contents)">All</button>
-    </div>
-    <div>
-        <button onclick="watchList.filter('movie')">Movies</button>
-    </div>
-    <div>
-        <button onclick="watchList.filter('tv')">TV</button>
-    </div>
-    <div>
-        <button onclick="watchList.filter('book')">Games</button>
-    </div>
-    <div>
-        <button onclick="watchList.filter('game')">Books</button>
-    </div>
-    </header>
-    <div class="container">
-        <div id="watch-list" class="d-flex row"></div>  
-    </div>
-    <footer></footer>
-    </main>
+        <nav class="navbar navbar-light d-flex">
+            <div class="navbar-brand d-flex">
+                <div class="mr-3">
+                    <img id= "toggle-menu" src="https://cdn4.iconfinder.com/data/icons/tupix-1/30/list-512.png" width="40" height="40" class="d-inline-block align-top" alt="hamburger icon">
+                </div>
+                <div>
+                    <h3>Watch List</h3>
+                </div>    
+            </div>
+        </nav>
+        <aside id="menu" class="">
+            <h3 class="sub-head"><strong>Filter By:</strong></h3>
+            <ul id="filter-menu" class="menu-list">
+                <li class="ripple" onclick="performFilter('all')"><i class="fas fa-asterisk mr-2 w-30"></i><span>All</span></li>
+                <li class="ripple" onclick="performFilter('movie')"><i class="fas fa-film m-1 w-30"></i> <span>Movies</span> </li>
+                <li class="ripple" onclick="performFilter('tv')"><i class="fas fa-tv mr-1 w-30"></i> <span>TV </span></li>
+                <li class="ripple" onclick="performFilter('game')"><i class="fas fa-gamepad mr-1 w-30"></i><span> Games </span></li>
+                <li class="ripple" onclick="performFilter('book')"><i class="fas fa-book mr-1 w-30"></i> <span>Books</p> </li>
+            </ul>
+            <hr />
+            <h3 class="sub-head"><strong>Custom Categories:</strong></h3>
+            <ul id="category-list" class="menu-list">
+                <li>Summer Movies</li>
+                <li>100 Best Films Ever</li>
+                <li>School List</li>
+                <li class="add-new">Add New Collection \/</li>
+                <li id="add-new-input"><input type="text" placeholder="new collection" /></li>
+            </ul>
+            <hr />
+            <p><strong>My Watch History</strong></p>
+            <p><strong>About Watch List</strong></p>
+        </aside>
+        
+        <article class="container">
+            <div id="watch-list" class="d-flex row"></div>  
+        </article>
+        <footer></footer>
+        </main>
     <div id="add-button" class="icon"><span id="add-icon">+</span></div>
     <!-- bootstrap scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -69,5 +75,6 @@
     <!-- loading the menu scripts-->
     <script type="text/javascript" src="./assets/scripts/search.js"></script>
     <script type="text/javascript" src="./assets/scripts/moviecard.js"></script>
+    <script type="text/javascript" src="./assets/scripts/drawermenu.js"></script>
 </body>
 </html>

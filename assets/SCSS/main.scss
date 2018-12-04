@@ -1,12 +1,14 @@
+@import "constants.scss";
 @import "searchbar.scss";
 @import "moviecard.scss";
+@import "drawermenu.scss";
 
 .navbar{
-  background-color:  rgba(255,255,102,0.4);
+  background-color:  $movie-color;
 }
 
 .list-card{
-  box-shadow: 2px 2px 1px rgba(50,50,50,0.5), -2px -2px 1px rgba(50,50,50,0.5);
+  box-shadow: $shadow;
   border-radius: 15px;
 }
 
@@ -19,7 +21,7 @@ main .app{
 
 #add-button{
   position: absolute;
-  z-index: 10;
+  z-index: 45;
   top:5%;
   user-select: none;
   text-align: center;
@@ -54,7 +56,7 @@ main .app{
 }
 
 #Movie:hover{
-  background-color:rgba(255,255,102,0.4)
+  background-color:$movie-color;
 }
 
 #TV:hover{

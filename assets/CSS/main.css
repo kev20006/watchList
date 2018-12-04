@@ -37,9 +37,11 @@
 }
 
 .delete-button {
+  color: white;
+  font-size: 1.2rem;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5), -1px -1px 5px rgba(0, 0, 0, 0.5);
-  height: 1.5rem;
-  width: 1.5rem;
+  height: 2rem;
+  width: 2rem;
   margin: 0px;
   padding: 0px;
   border-radius: 50%;
@@ -49,6 +51,10 @@
   z-index: 25;
   top: -10px;
   right: -10px;
+}
+.delete-button > i {
+  cursor: default;
+  font-size: 1.4rem;
 }
 
 .collection-item {
@@ -84,12 +90,105 @@
   display: none;
 }
 
+#app {
+  overflow: hidden;
+}
+
+#menu {
+  padding-top: 20px;
+  z-index: 5;
+  position: absolute;
+  height: 100vh;
+  left: -200px;
+  width: 200px;
+  background-color: white;
+}
+#menu .sub-head {
+  font-size: 1.1rem;
+  padding-left: 10px;
+}
+
+.menu-list {
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+.menu-list li {
+  border-radius: 0 15px 15px 0;
+  padding-left: 20px;
+  width: 95%;
+  height: 30px;
+}
+.menu-list li .active {
+  background-color: #fcb653;
+}
+
+#filter-menu li:nth-child(1):hover {
+  background-color: #fcb653;
+}
+#filter-menu li:nth-child(1):active {
+  background-color: #e2a34a;
+}
+#filter-menu li:nth-child(1) .active {
+  background-color: #fcb653;
+}
+#filter-menu li:nth-child(2):hover {
+  background-color: #8BEF86;
+}
+#filter-menu li:nth-child(2):active {
+  background-color: #69EF62;
+}
+#filter-menu li:nth-child(2) .active {
+  background-color: #8BEF86;
+}
+#filter-menu li:nth-child(3):hover {
+  background-color: #FF7770;
+}
+#filter-menu li:nth-child(3):active {
+  background-color: #F2716A;
+}
+#filter-menu li:nth-child(3) .active {
+  background-color: #FF7770;
+}
+#filter-menu li:nth-child(4):hover {
+  background-color: #6BF9F9;
+}
+#filter-menu li:nth-child(4):active {
+  background-color: #43F2F2;
+}
+#filter-menu li:nth-child(4) .active {
+  background-color: #6BF9F9;
+}
+#filter-menu li:nth-child(5):hover {
+  background-color: #FF96FF;
+}
+#filter-menu li:nth-child(5):active {
+  background-color: #F26AF2;
+}
+#filter-menu li:nth-child(5) .active {
+  background-color: #FF96FF;
+}
+
+#add-new-input {
+  display: none;
+}
+#add-new-input input {
+  width: 80%;
+}
+
+#category-list li:hover {
+  background-color: #fcb653;
+}
+#category-list li:active {
+  background-color: #e2a34a;
+}
+
 .navbar {
-  background-color: rgba(255, 255, 102, 0.4);
+  background-color: #ffff99;
 }
 
 .list-card {
-  box-shadow: 2px 2px 1px rgba(50, 50, 50, 0.5), -2px -2px 1px rgba(50, 50, 50, 0.5);
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5), -1px -1px 5px rgba(0, 0, 0, 0.5);
   border-radius: 15px;
 }
 
@@ -102,7 +201,7 @@ main .app {
 
 #add-button {
   position: absolute;
-  z-index: 10;
+  z-index: 45;
   top: 5%;
   user-select: none;
   text-align: center;
@@ -135,7 +234,7 @@ main .app {
 }
 
 #Movie:hover {
-  background-color: rgba(255, 255, 102, 0.4);
+  background-color: #ffff99;
 }
 
 #TV:hover {

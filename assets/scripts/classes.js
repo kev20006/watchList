@@ -88,12 +88,16 @@ class movie extends watchItem {
         let newCardHeader = $(`<header class="card-header d-flex"></header>`);
         let headerContents = [
             $(`<div class="icon mt-1 text-center">${this.icon}</div>`),
-            $(`<h3 class="ml-3">${this.title}</h3>`),
-            $(`<div class="delete-button text-center fade-item ">x</div>`)
+            $(`<h3 class="ml-3">${this.title}</h3>`) 
         ]
+        let deleteButton = $(`<div class="delete-button text-center fade-item "><i class="fas fa-trash-alt"></i></div>`)
+        deleteButton.on("click", ()=>{
+            watchList.remove(this.id.split("-")[1]);
+        })
         headerContents.forEach(item =>{
             newCardHeader.append(item);
         })
+        newCardHeader.append(deleteButton);
         newCard.append(newCardHeader);
         let newCardMain = $(`<main></main>`);
         

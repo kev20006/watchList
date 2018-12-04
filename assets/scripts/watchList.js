@@ -72,8 +72,8 @@ let watchList = {
         console.log(filterList)
         if(filterList.length == 0){
             $("#watch-list").html(`<div>
-                <h5>Currently you have no ${type}s in your list</h5>
-                <p>Click the add button to the left to start adding some ${type}s</p>
+                <h5>Currently you have no ${type} in your list</h5>
+                <p>Click the add button to the right to start adding some ${type}s</p>
                 </div>
             `);
         }else{
