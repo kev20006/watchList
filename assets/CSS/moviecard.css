@@ -1,39 +1,49 @@
 /*************classes for colouring ************/
 .movie {
-  background-color: #8BEF86; }
+  background-color: #8BEF86;
+}
 
 .tv {
-  background-color: #FF7770; }
+  background-color: #FF7770;
+}
 
 .game {
-  background-color: #6BF9F9; }
+  background-color: #6BF9F9;
+}
 
 .book {
-  background-color: #FF96FF; }
+  background-color: #FF96FF;
+}
 
 .card {
   margin: 25px;
   width: 300px;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5), -1px -1px 5px rgba(0, 0, 0, 0.5); }
-  .card .icon {
-    font-size: 2em;
-    height: 50px;
-    width: 50px;
-    background-color: #ffffff;
-    border-radius: 50%; }
-  .card .card-content {
-    background-color: white; }
-  .card p {
-    margin-bottom: 0px; }
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5), -1px -1px 5px rgba(0, 0, 0, 0.5);
+}
+.card .icon {
+  font-size: 2em;
+  height: 50px;
+  width: 50px;
+  background-color: #ffffff;
+  border-radius: 50%;
+}
+.card .card-content {
+  background-color: white;
+}
+.card p {
+  margin-bottom: 0px;
+}
 
 .movie-thumb {
   height: 200px;
-  box-shadow: 2px 2px 150px black; }
+  box-shadow: 2px 2px 150px black;
+}
 
 .image-wrapper {
   overflow: hidden;
   background-color: #567DA7;
-  background-size: cover; }
+  background-size: cover;
+}
 
 .delete-button {
   color: white;
@@ -49,18 +59,21 @@
   position: absolute;
   z-index: 25;
   top: -10px;
-  right: -10px; }
-  .delete-button > i {
-    cursor: default;
-    font-size: 1.4rem; }
+  right: -10px;
+}
+.delete-button > i {
+  cursor: default;
+  font-size: 1.4rem;
+}
 
 .collection-item {
   margin-right: 2px;
   padding: 0px 0px;
-  background-color: #8BEF86; }
+}
 
 .media-note {
-  width: 100%; }
+  width: 100%;
+}
 
 .context-button {
   margin: 0 auto;
@@ -70,15 +83,19 @@
   height: 70px;
   padding-top: 2px;
   border-radius: 50%;
-  border: 2px solid black; }
+  border: 2px solid black;
+}
 
 .selected-content {
-  display: none; }
+  display: none;
+}
 
 .media-note {
-  border: none; }
+  border: none;
+}
 
 .fade-item {
-  display: none; }
+  display: none;
+}
 
 /*# sourceMappingURL=moviecard.css.map */

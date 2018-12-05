@@ -1,124 +1,155 @@
 #add {
+  position: absolute;
+  top: 7px;
+  right: 5%;
   z-index: -5;
   display: none;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5), -1px -1px 5px rgba(0, 0, 0, 0.5);
   z-index: 10;
+  display: flex;
+  background-color: #fcb653;
+}
+#add:hover {
+  background-color: #e2a34a;
+}
+#add:hover::before {
+  background: #111;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 0.5em;
+  color: #fff;
+  content: "click here to add a new item";
   display: block;
-  background-color: #e2a34a; }
-  #add:hover {
-    color: white;
-    background-color: white; }
-    #add:hover::before {
-      background: #111;
-      background: rgba(0, 0, 0, 0.8);
-      border-radius: .5em;
-      color: #fff;
-      content: "click here to add a new item";
-      display: block;
-      right: 50px;
-      padding: .3em 1em;
-      position: absolute;
-      text-shadow: 0 1px 0 #000;
-      white-space: nowrap;
-      z-index: 98; }
+  right: 50px;
+  padding: 0.3em 1em;
+  position: absolute;
+  text-shadow: 0 1px 0 #000;
+  white-space: nowrap;
+  z-index: 98;
+}
+#add i {
+  font-size: 1.5rem;
+}
 
 #movie {
+  position: absolute;
+  top: 7px;
+  right: 5%;
   z-index: -5;
   display: none;
-  background-color: #8BEF86; }
-  #movie:hover {
-    color: white;
-    background-color: white; }
-    #movie:hover::before {
-      background: #111;
-      background: rgba(0, 0, 0, 0.8);
-      border-radius: .5em;
-      color: #fff;
-      content: "New Movie";
-      display: block;
-      right: 50px;
-      padding: .3em 1em;
-      position: absolute;
-      text-shadow: 0 1px 0 #000;
-      white-space: nowrap;
-      z-index: 98; }
+  background-color: #8BEF86;
+}
+#movie:hover {
+  background-color: #69EF62;
+}
+#movie:hover::before {
+  background: #111;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 0.5em;
+  color: #fff;
+  content: "New Movie";
+  display: block;
+  right: 50px;
+  padding: 0.3em 1em;
+  position: absolute;
+  text-shadow: 0 1px 0 #000;
+  white-space: nowrap;
+  z-index: 98;
+}
+#movie i {
+  font-size: 1.5rem;
+}
 
 #tv {
+  position: absolute;
+  top: 7px;
+  right: 5%;
   z-index: -5;
   display: none;
-  background-color: #FF7770; }
-  #tv:hover {
-    color: white;
-    background-color: white; }
-    #tv:hover::before {
-      background: #111;
-      background: rgba(0, 0, 0, 0.8);
-      border-radius: .5em;
-      color: #fff;
-      content: "New Tv Show";
-      display: block;
-      right: 50px;
-      padding: .3em 1em;
-      position: absolute;
-      text-shadow: 0 1px 0 #000;
-      white-space: nowrap;
-      z-index: 98; }
+  background-color: #FF7770;
+}
+#tv:hover {
+  background-color: #F2716A;
+}
+#tv:hover::before {
+  background: #111;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 0.5em;
+  color: #fff;
+  content: "New Tv Show";
+  display: block;
+  right: 50px;
+  padding: 0.3em 1em;
+  position: absolute;
+  text-shadow: 0 1px 0 #000;
+  white-space: nowrap;
+  z-index: 98;
+}
+#tv i {
+  font-size: 1.5rem;
+}
 
 #game {
+  position: absolute;
+  top: 7px;
+  right: 5%;
   z-index: -5;
   display: none;
-  background-color: #6BF9F9; }
-  #game:hover {
-    color: white;
-    background-color: white; }
-    #game:hover::before {
-      background: #111;
-      background: rgba(0, 0, 0, 0.8);
-      border-radius: .5em;
-      color: #fff;
-      content: "New Game";
-      display: block;
-      right: 50px;
-      padding: .3em 1em;
-      position: absolute;
-      text-shadow: 0 1px 0 #000;
-      white-space: nowrap;
-      z-index: 98; }
+  background-color: #6BF9F9;
+}
+#game:hover {
+  background-color: #43F2F2;
+}
+#game:hover::before {
+  background: #111;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 0.5em;
+  color: #fff;
+  content: "New Game";
+  display: block;
+  right: 50px;
+  padding: 0.3em 1em;
+  position: absolute;
+  text-shadow: 0 1px 0 #000;
+  white-space: nowrap;
+  z-index: 98;
+}
+#game i {
+  font-size: 1.5rem;
+}
 
 #book {
+  position: absolute;
+  top: 7px;
+  right: 5%;
   z-index: -5;
   display: none;
-  background-color: #FF96FF; }
-  #book:hover {
-    color: white;
-    background-color: white; }
-    #book:hover::before {
-      background: #111;
-      background: rgba(0, 0, 0, 0.8);
-      border-radius: .5em;
-      color: #fff;
-      content: "New Book";
-      display: block;
-      right: 50px;
-      padding: .3em 1em;
-      position: absolute;
-      text-shadow: 0 1px 0 #000;
-      white-space: nowrap;
-      z-index: 98; }
+  background-color: #FF96FF;
+}
+#book:hover {
+  background-color: #F26AF2;
+}
+#book:hover::before {
+  background: #111;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 0.5em;
+  color: #fff;
+  content: "New Book";
+  display: block;
+  right: 50px;
+  padding: 0.3em 1em;
+  position: absolute;
+  text-shadow: 0 1px 0 #000;
+  white-space: nowrap;
+  z-index: 98;
+}
+#book i {
+  font-size: 1.5rem;
+}
 
 .nav-button {
-  position: absolute;
-  top: 15px;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5), -1px -1px 5px rgba(0, 0, 0, 0.5);
-  right: 5%;
   border-radius: 50%;
   width: 40px;
-  height: 40px; }
-  .nav-button span {
-    user-select: none;
-    color: black;
-    cursor: default;
-    margin: 0 auto;
-    position: absolute;
-    top: 0; }
+  height: 40px;
+}
 
 /*# sourceMappingURL=navbuttons.css.map */

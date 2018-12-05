@@ -5,7 +5,7 @@ $(document).on("click", (e)=>{
     let startPos = 60;
     ["#movie", "#tv","#game","#book"].forEach((element)=>{
       $(`${element}`).animate({
-        display: "toggle",
+        display: 'toggle',
         top: startPos,
         "z-index": 4
       }, 500,()=>{
@@ -19,7 +19,7 @@ $(document).on("click", (e)=>{
           ["#movie", "#tv","#game","#book"].forEach((element)=>{
             $(`${element}`).animate({
             display: "toggle",
-            top: 15,
+            top: 7,
             "z-index": -1
         }, 500,()=>{
             $(`${element}`).hide();

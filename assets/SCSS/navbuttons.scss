@@ -1,7 +1,7 @@
 @import "constants.scss";
 
 $colorlist:(
-  add: $default-color-click,
+  add: $default-color,
   movie: $movie-color,
   tv: $tv-color,
   game: $game-color,
@@ -21,16 +21,19 @@ $zpos: -5;
 
 @each $type in $typelist{
   ##{$type}{
+    position:absolute;
+    top:7px;
+    right: 5%;
     z-index: $zpos;
     display: none;
     @if $type == add {
+      box-shadow: $shadow;
       z-index:10;
-      display:block;
+      display:flex;
     }
-    background-color: map-get($colorlist,$type);
+    background-color: nth(map-get($colorlist,$type),1);
     &:hover{
-      color: white;
-      background-color: white;
+      background-color: nth(map-get($colorlist,$type),2);
       &::before{
         background: #111;
         background: rgba(0,0,0,.8);
@@ -38,8 +41,7 @@ $zpos: -5;
         color: #fff;
         content: map-get($toolTips,$type);
         display: block;
-        right: 50px;
-            
+        right: 50px;  
         padding: .3em 1em;
         position: absolute;
         text-shadow: 0 1px 0 #000;
@@ -47,25 +49,16 @@ $zpos: -5;
         z-index: 98;
         }
     }
+    i{
+      font-size:1.5rem;
+    }
   }
 }
 
 .nav-button{
-  position:absolute;
-  top:15px;
-  box-shadow: $shadow;
-  right: 5%;
   border-radius:50%;
   width:40px;
   height:40px;
-  span{
-    user-select: none;
-    color:black;
-    cursor: default;
-    margin:0 auto;
-    position: absolute;
-    top:0;
-  }
 }
 
 

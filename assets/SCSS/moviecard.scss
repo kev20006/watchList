@@ -3,10 +3,10 @@
 /*************classes for colouring ************/
 
 $colors: (
-  movie: $movie-color,
-  tv: $tv-color,
-  game: $game-color,
-  book: $book-color
+  movie: nth($movie-color,1),
+  tv: nth($tv-color,1),
+  game: nth($game-color,1),
+  book: nth($book-color,1)
 );
 
 $types-list: movie, tv, game, book;
@@ -73,7 +73,6 @@ $types-list: movie, tv, game, book;
 .collection-item{
   margin-right:2px;
   padding:0px 0px;
-  background-color: $movie-color;
 }
 
 .media-note{

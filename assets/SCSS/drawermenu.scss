@@ -19,12 +19,12 @@
 
 #menu{
   padding-top:20px;
-  z-index:5;
+  z-index:2000;
   position:absolute;
   height:100vh;
   left: -200px;
   width:200px;
-  border-right:1px solid black;
+  border-right:4px solid nth($default-color,1);
   background-color: white;
   .sub-head{
     font-size: 1.1rem;
@@ -44,11 +44,11 @@
 }
 
 #filter-menu li{
-  @include add-color(1, $default-color, $default-color-click);
-  @include add-color(2, $movie-color, $movie-color-click);
-  @include add-color(3, $tv-color, $tv-color-click);
-  @include add-color(4, $game-color, $game-color-click);
-  @include add-color(5, $book-color, $book-color-click);
+  @include add-color(1, nth($default-color,1), nth($default-color,2));
+  @include add-color(2, nth($movie-color,1), nth($movie-color,2));
+  @include add-color(3, nth($tv-color,1), nth($tv-color,2));
+  @include add-color(4, nth($game-color,1), nth($game-color,2));
+  @include add-color(5, nth($book-color,1), nth($book-color,2));
 }
 
 #add-new-input{

@@ -6,7 +6,7 @@
 @import "errorstyles";
 
 .navbar{
-  background-color:  $default-color;
+  background-color:  nth($default-color,2);
   box-shadow: $shadow;
 }
 
@@ -34,20 +34,6 @@ main .app{
   padding-left:15px;
 }
 
-#Movie:hover{
-  background-color:$movie-color;
-}
-
-#TV:hover{
-  background-color: $tv-color;
-}
-#Book:hover{
-  background-color: $book-color;
-}
-
-#Game:hover{
-   background-color: $game-color;
-}
 
 
 
