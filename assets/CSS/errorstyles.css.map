@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAEA,WAAW;EACP,UAAU,EAAC,KAAK;EAChB,KAAK,EAAC,OAAO;EACb,cAAE;IACE,SAAS,EAAC,IAAI;IACd,KAAK,EAAC,OAAO",
+"sources": ["../SCSS/errorstyles.scss"],
+"names": [],
+"file": "errorstyles.css"
+}

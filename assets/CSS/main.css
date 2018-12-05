@@ -277,6 +277,13 @@
     position: absolute;
     top: 0; }
 
+.no-results {
+  margin-top: 150px;
+  color: #dddddd; }
+  .no-results h1 {
+    font-size: 5rem;
+    color: #dddddd; }
+
 .navbar {
   background-color: #fcb653;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5), -1px -1px 5px rgba(0, 0, 0, 0.5); }
