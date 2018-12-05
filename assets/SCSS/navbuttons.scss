@@ -1,0 +1,72 @@
+@import "constants.scss";
+
+$colorlist:(
+  add: $default-color-click,
+  movie: $movie-color,
+  tv: $tv-color,
+  game: $game-color,
+  book: $book-color
+);
+
+$toolTips:(
+  add: "click here to add a new item",
+  movie: "New Movie",
+  tv: "New Tv Show",
+  game: "New Game",
+  book: "New Book"
+);
+
+$typelist: add, movie, tv, game, book;
+$zpos: -5;
+
+@each $type in $typelist{
+  ##{$type}{
+    z-index: $zpos;
+    display: none;
+    @if $type == add {
+      z-index:10;
+      display:block;
+    }
+    background-color: map-get($colorlist,$type);
+    &:hover{
+      color: white;
+      background-color: white;
+      &::before{
+        background: #111;
+        background: rgba(0,0,0,.8);
+        border-radius: .5em;
+        color: #fff;
+        content: map-get($toolTips,$type);
+        display: block;
+        right: 50px;
+            
+        padding: .3em 1em;
+        position: absolute;
+        text-shadow: 0 1px 0 #000;
+        white-space: nowrap;
+        z-index: 98;
+        }
+    }
+  }
+}
+
+.nav-button{
+  position:absolute;
+  top:15px;
+  box-shadow: $shadow;
+  right: 5%;
+  border-radius:50%;
+  width:40px;
+  height:40px;
+  span{
+    user-select: none;
+    color:black;
+    cursor: default;
+    margin:0 auto;
+    position: absolute;
+    top:0;
+  }
+}
+
+
+

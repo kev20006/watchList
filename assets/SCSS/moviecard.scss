@@ -1,7 +1,24 @@
+@import "constants.scss";
+
+/*************classes for colouring ************/
+
+$colors: (
+  movie: $movie-color,
+  tv: $tv-color,
+  game: $game-color,
+  book: $book-color
+);
+
+$types-list: movie, tv, game, book;
+@each $type in $types-list {
+    .#{$type} { 
+        background-color: map-get($colors, $type);
+    }
+}
+
 
 
 .card{
-  background-color: $movie-color;
   margin: 25px;
   width: 300px;
   box-shadow: $shadow;

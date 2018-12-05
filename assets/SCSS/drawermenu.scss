@@ -1,3 +1,4 @@
+@import "constants.scss";
 @mixin add-color($child, $color, $color2) {
   &:nth-child(#{$child}) {
     &:hover{
@@ -23,6 +24,7 @@
   height:100vh;
   left: -200px;
   width:200px;
+  border-right:1px solid black;
   background-color: white;
   .sub-head{
     font-size: 1.1rem;
@@ -39,17 +41,14 @@
   padding-left:20px;
   width: 95%;
   height: 30px;
-  .active{
-      background-color:#fcb653;
-    }
 }
 
 #filter-menu li{
-  @include add-color(1, #fcb653, #e2a34a);
-  @include add-color(2, #8BEF86, #69EF62);
-  @include add-color(3, #FF7770, #F2716A);
-  @include add-color(4, #6BF9F9, #43F2F2);
-  @include add-color(5, #FF96FF, #F26AF2);
+  @include add-color(1, $default-color, $default-color-click);
+  @include add-color(2, $movie-color, $movie-color-click);
+  @include add-color(3, $tv-color, $tv-color-click);
+  @include add-color(4, $game-color, $game-color-click);
+  @include add-color(5, $book-color, $book-color-click);
 }
 
 #add-new-input{

@@ -84,7 +84,7 @@ class movie extends watchItem {
         this.updateCollections = this.updateCollections.bind(this);
     }
     movieCard(){
-        let newCard = $(`<article id=${this.id} class="card"></article>`);
+        let newCard = $(`<article id=${this.id} class="card movie"></article>`);
         let newCardHeader = $(`<header class="card-header d-flex"></header>`);
         let headerContents = [
             $(`<div class="icon mt-1 text-center">${this.icon}</div>`),

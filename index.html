@@ -19,7 +19,7 @@
 </head>
 <body>
     <main id="app">
-        <nav class="navbar navbar-light d-flex">
+        <nav class="navbar fixed-top d-flex">
             <div class="navbar-brand d-flex">
                 <div class="mr-3">
                     <img id= "toggle-menu" src="https://cdn4.iconfinder.com/data/icons/tupix-1/30/list-512.png" width="40" height="40" class="d-inline-block align-top" alt="hamburger icon">
@@ -27,6 +27,15 @@
                 <div>
                     <h3>Watch List</h3>
                 </div>    
+            </div>
+            <div class="d-flex">
+                <div id="add" class="icon nav-button ml-2"><span>+</span></div>
+                <div id="movie" class="icon nav-button ml-2"><i class="fas fa-film m-1 w-30"></i></div>
+                <div id="tv" class="icon nav-button ml-2"><i class="fas fa-tv mr-1 w-30"></i></div>
+                <div id="game" class="icon nav-button ml-2"><i class="fas fa-gamepad mr-1 w-30"></i></div>
+                <div id="book" class="icon nav-button ml-2"><i class="fas fa-book mr-1 w-30"></i></div>
+                <!-- <div id="graphs" class="icon nav-button ml-2"><span>G</span></div> -->
+                <!--<div id="help" class="icon nav-button ml-2"><span>?</span></div> -->
             </div>
         </nav>
         <aside id="menu" class="">
@@ -56,8 +65,7 @@
             <div id="watch-list" class="d-flex row"></div>  
         </article>
         <footer></footer>
-        </main>
-    <div id="add-button" class="icon"><span id="add-icon">+</span></div>
+    </main>
     <!-- bootstrap scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>

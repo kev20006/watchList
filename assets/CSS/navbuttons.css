@@ -1,0 +1,124 @@
+#add {
+  z-index: -5;
+  display: none;
+  z-index: 10;
+  display: block;
+  background-color: #e2a34a; }
+  #add:hover {
+    color: white;
+    background-color: white; }
+    #add:hover::before {
+      background: #111;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: .5em;
+      color: #fff;
+      content: "click here to add a new item";
+      display: block;
+      right: 50px;
+      padding: .3em 1em;
+      position: absolute;
+      text-shadow: 0 1px 0 #000;
+      white-space: nowrap;
+      z-index: 98; }
+
+#movie {
+  z-index: -5;
+  display: none;
+  background-color: #8BEF86; }
+  #movie:hover {
+    color: white;
+    background-color: white; }
+    #movie:hover::before {
+      background: #111;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: .5em;
+      color: #fff;
+      content: "New Movie";
+      display: block;
+      right: 50px;
+      padding: .3em 1em;
+      position: absolute;
+      text-shadow: 0 1px 0 #000;
+      white-space: nowrap;
+      z-index: 98; }
+
+#tv {
+  z-index: -5;
+  display: none;
+  background-color: #FF7770; }
+  #tv:hover {
+    color: white;
+    background-color: white; }
+    #tv:hover::before {
+      background: #111;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: .5em;
+      color: #fff;
+      content: "New Tv Show";
+      display: block;
+      right: 50px;
+      padding: .3em 1em;
+      position: absolute;
+      text-shadow: 0 1px 0 #000;
+      white-space: nowrap;
+      z-index: 98; }
+
+#game {
+  z-index: -5;
+  display: none;
+  background-color: #6BF9F9; }
+  #game:hover {
+    color: white;
+    background-color: white; }
+    #game:hover::before {
+      background: #111;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: .5em;
+      color: #fff;
+      content: "New Game";
+      display: block;
+      right: 50px;
+      padding: .3em 1em;
+      position: absolute;
+      text-shadow: 0 1px 0 #000;
+      white-space: nowrap;
+      z-index: 98; }
+
+#book {
+  z-index: -5;
+  display: none;
+  background-color: #FF96FF; }
+  #book:hover {
+    color: white;
+    background-color: white; }
+    #book:hover::before {
+      background: #111;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: .5em;
+      color: #fff;
+      content: "New Book";
+      display: block;
+      right: 50px;
+      padding: .3em 1em;
+      position: absolute;
+      text-shadow: 0 1px 0 #000;
+      white-space: nowrap;
+      z-index: 98; }
+
+.nav-button {
+  position: absolute;
+  top: 15px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5), -1px -1px 5px rgba(0, 0, 0, 0.5);
+  right: 5%;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px; }
+  .nav-button span {
+    user-select: none;
+    color: black;
+    cursor: default;
+    margin: 0 auto;
+    position: absolute;
+    top: 0; }
+
+/*# sourceMappingURL=navbuttons.css.map */
