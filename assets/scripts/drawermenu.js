@@ -44,5 +44,5 @@ function performFilter(type){
 }
 
 $("#category-list .add-new").on("click", () => {
-    $("#add-new-input").slideToggle("slow");
+    makePopUp("manageFilters")
 })

@@ -2,8 +2,9 @@
 @import "searchbar.scss";
 @import "drawermenu.scss";
 @import "moviecard.scss";
-@import "navbuttons";
-@import "errorstyles";
+@import "navbuttons.scss";
+@import "errorstyles.scss";
+@import "popup.scss";
 
 .navbar{
   background-color:  nth($default-color,2);

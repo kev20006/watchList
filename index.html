@@ -18,6 +18,10 @@
     
 </head>
 <body>
+    <main class="obscure justify-content-center">
+        <div id="add-or-edit-container" class="active">
+        </div>
+    </main>
     <main id="app">
         <nav class="navbar fixed-top d-flex py-0">
             <div class="navbar-brand d-flex">
@@ -57,8 +61,8 @@
                 <li id="add-new-input"><input type="text" placeholder="new collection" /></li>
             </ul>
             <hr />
-            <p><strong>My Watch History</strong></p>
-            <p><strong>About Watch List</strong></p>
+            <p class="sub-head"><strong>My Watch History</strong></p>
+            <p class="sub-head"><strong>About Watch List</strong></p>
         </aside>
         
         <article class="container">
@@ -69,6 +73,8 @@
     <!-- bootstrap scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+        crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" 
     integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
@@ -76,13 +82,13 @@
     
     <script type="text/javascript" src="./assets/scripts/classes.js"></script>
     <script type="text/javascript" src="./assets/scripts/menu.js"></script>
-    <!-- loading the tmdb api -->
-    <!-- commenting out for new build - <script type="text/javascript" src="./assets/scripts/getMovies.js"></script> -->
     <!-- create the watch list -->
     <script type="text/javascript" src="./assets/scripts/watchList.js"></script>
     <!-- loading the menu scripts-->
+    <script type="text/javascript" src="./assets/scripts/popup.js"></script>
     <script type="text/javascript" src="./assets/scripts/search.js"></script>
     <script type="text/javascript" src="./assets/scripts/moviecard.js"></script>
     <script type="text/javascript" src="./assets/scripts/drawermenu.js"></script>
+    
 </body>
 </html>
