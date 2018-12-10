@@ -370,9 +370,17 @@
 }
 .obscure #add-or-edit-container {
   position: relative;
-  top: 200px;
+  top: 50px;
+  width: 300px;
+  height: 500px;
   background-color: white;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+@media screen and (max-width: 400) {
+  .obscure #add-or-edit-container {
+    top: 40px;
+    width: 100vw;
+  }
 }
 .obscure #add-or-edit-container #add-collection {
   padding: 0;
@@ -382,16 +390,6 @@
 .obscure #add-or-edit-container #add-new-label {
   pointer-events: none;
   position: absolute;
-}
-
-.small {
-  height: 100px;
-  width: 100px;
-}
-
-.active {
-  width: 400px;
-  height: 500px;
 }
 
 .navbar {

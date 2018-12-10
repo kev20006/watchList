@@ -18,10 +18,6 @@
     
 </head>
 <body>
-    <main class="obscure justify-content-center">
-        <div id="add-or-edit-container" class="active">
-        </div>
-    </main>
     <main id="app">
         <nav class="navbar fixed-top d-flex py-0">
             <div class="navbar-brand d-flex">
@@ -39,7 +35,7 @@
                 <div id="game" class="icon nav-button ml-2 d-flex d-none justify-content-center"><i class="fas fa-gamepad align-self-center"></i></div>
                 <div id="book" class="icon nav-button ml-2 d-flex d-none justify-content-center"><i class="fas fa-book align-self-center"></i></div>
                 <!-- <div id="graphs" class="icon nav-button ml-2"><span>G</span></div> -->
-                <!--<div id="help" class="icon nav-button ml-2"><span>?</span></div> -->
+                <!-- <div id="help" class="icon nav-button ml-2"><span>?</span></div> -->
             </div>
         </nav>
         <aside id="menu" class="">
@@ -54,11 +50,6 @@
             <hr />
             <h3 class="sub-head"><strong>Custom Categories:</strong></h3>
             <ul id="category-list" class="menu-list">
-                <li>Summer Movies</li>
-                <li>100 Best Films Ever</li>
-                <li>School List</li>
-                <li class="add-new">Add New Collection \/</li>
-                <li id="add-new-input"><input type="text" placeholder="new collection" /></li>
             </ul>
             <hr />
             <p class="sub-head"><strong>My Watch History</strong></p>
@@ -70,6 +61,13 @@
         </article>
         <footer></footer>
     </main>
+
+    <!-- Modal -->
+    <main class="obscure justify-content-center">
+        <div id="add-or-edit-container" class="active">
+        </div>
+    </main>
+    <!-- End Modal -->
     <!-- bootstrap scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
@@ -79,7 +77,6 @@
     integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
     <!-- loading the search scripts -->
-    
     <script type="text/javascript" src="./assets/scripts/classes.js"></script>
     <script type="text/javascript" src="./assets/scripts/menu.js"></script>
     <!-- create the watch list -->

@@ -1,5 +1,8 @@
 "use strict"
 
+
+
+
 let watchListDOM = document.getElementById("watch-list")
 
 function miscItem(element){
@@ -32,18 +35,33 @@ function movieItem(element) {
 
 
 let watchList = {
-
+    /** Load Data From Local Storage**/
     contents: [],
-
+    collections: [],
+    load: ()=>{
+        if (window.localStorage.getItem('watchListData')) {
+            let prevData = JSON.parse(window.localStorage.getItem('watchListData'));
+            if (prevData.contents){
+                watchList.contents = prevData.contents;
+            }
+            if (prevData.collections){
+                watchList.collections = prevData.collections;
+            }
+            watchList.render(watchList.contents);
+            watchList.renderCollections();
+        }
+    }, 
     //test objects will only have an id and a title and a type of other
     add: (obj)=>{
         watchList.contents.push(obj);
         console.log(watchList.contents);
         watchList.render(watchList.contents);
+        window.localStorage.setItem('watchListData', JSON.stringify({ contents: watchList.contents }));
     },
     remove: (id)=>{
         watchList.contents.splice(id, 1);
         watchList.render(watchList.contents);
+        window.localStorage.setItem('watchListData', JSON.stringify({ contents: watchList.contents}));
     },
     render: (list)=>{
         if (list.length >= 1) {
@@ -86,9 +104,32 @@ let watchList = {
         }else{
             watchList.render(filterList)
         }
-        
+    },
+    addCollection: (name)=>{
+        watchList.collections.push(name);
+        watchList.renderCollections();
+        window.localStorage.setItem('watchListData', JSON.stringify({ collections: watchList.collections }));
+    },
+    removeCollection: (id) =>{
+        console.log(id)
+        watchList.collections.splice(id, 1);
+        watchList.renderCollections();
+        window.localStorage.setItem('watchListData', JSON.stringify({ collections: watchList.collections }));
+    },
+    renderCollections: ()=>{
+        $("#category-list").html("");
+        if(watchList.collections.length != 0){
+            watchList.collections.forEach(element =>{
+                $("#category-list").append(`<li>${element}</li>`)
+            }) 
+        }
+        let addNew = $("<li class='add-new'>Edit Collections</li>")
+        addNew.on("click", () =>{
+            makePopUp("manageFilters")
+        });
+        $("#category-list").append(addNew)
     }
 };
-
+watchList.load();
 watchList.render(watchList.contents);
-
+watchList.renderCollections();
