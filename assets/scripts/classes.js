@@ -55,19 +55,34 @@ class watchItem {
         let add = $(`<input type="button" value="add to list"/>`);
         let back = $(`<input type="button" value="back"/>`);
         add.on("click", () => {
-            minimizeMenu();
+            closePopUp();
             watchList.add(this);
         });
         back.on("click", () => {
             $("#results").html("")
             searches[this.type]($("#search").val());
         });
+       
         imgWrapper.append(`<img src=${this.thumb} class="result-thumb" alt=${this.title} />`);
         textWrapper.append(`<p class="result-title">${this.title}</p>`, `<p>${this.shortDescription}</p>`);
         textAndImageWrapper.append(imgWrapper, textWrapper)
         buttonWrapper.append(add, back);
-        wrapper.append(textAndImageWrapper, buttonWrapper);
+        wrapper.append(textAndImageWrapper, collectionWrapper, buttonWrapper);
         return wrapper
+    }
+
+    updateCollections(value) {
+        let htmlString = ""
+        if (value) {
+            this.collection.push(value)
+        }
+        if (!this.collection.length == 0) {
+            this.collection.forEach(element => {
+                htmlString += `<span class="collection-item"><small>${element}</small></span>`
+            })
+        }
+        htmlString += `<span class="collection-item"><small>add new collection</small></span>`
+        $(`#${this.id} .collection-tags`).html(htmlString);
     }
 
 }
@@ -141,19 +156,6 @@ class movie extends watchItem {
         newCardFooter.append(footerContents);
         newCard.append(newCardFooter);
         return newCard; 
-    }
-    updateCollections(value){
-        let htmlString = ""
-        if (value){
-            this.collection.push(value)
-        }
-        if (!this.collection.length == 0) {
-           this.collection.forEach(element =>{
-               htmlString += `<span class="collection-item"><small>${element}</small></span>`
-           })
-        }
-        htmlString += `<span class="collection-item"><small>add new collection</small></span>`
-        $(`#${this.id} .collection-tags`).html(htmlString);
     }
     
 }

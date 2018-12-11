@@ -1,5 +1,8 @@
-
-
+function closePopUp(){
+    $(".obscure").fadeOut(200, () => {
+        $(this).css("display", "none");
+    });
+}
 
 function makePopUp(type){
     $("#add-or-edit-container").html("")
@@ -8,13 +11,14 @@ function makePopUp(type){
     if (type === "manageFilters"){
         manageFilters()
     }
+    else{
+        addNewMenu(type)
+    }
 }
 
 $(document).on("click", (e) => {
     if ($(e.target).hasClass("obscure")) {
-        $(".obscure").fadeOut(200, () => {
-            $(this).css("display", "none");
-        });
+       closePopUp()
     }
 })
 
@@ -54,3 +58,28 @@ function manageFilters(){
     }
   
 }
+
+function addNewMenu(type){
+    $("#add-or-edit-container").html("")
+    let searchBox = $(`<div id="search-box" class="row d-flex mx-0 justify-content-center"></div>`);
+    let searchBar = $(`<input type="text" placeholder="${type} Title"></input>`);
+    searchBar.on("input", ()=>{
+        searches[type](searchBar[0].value);
+    })
+    let toggleSearch = $(`<div class="toggle-search"><i class="fas fa-search"></i></div>`) ; 
+    toggleSearch.on("click", ()=>{
+        $("#search-box .toggle-search").toggleClass("on").toggleClass("off")
+    }) 
+   searchBox.append(searchBar) 
+    let results = $(`<div id="results">
+                        <div class="mt-5 text-center">
+                        <h1><i class="fas fa-search"></i></h1>
+                        <p>Please type above to search for media</p>
+                        </div>
+                    </div>`)
+
+   $("#add-or-edit-container").append(searchBox, results)     
+
+}
+
+   

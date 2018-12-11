@@ -6,6 +6,10 @@
 @import "errorstyles.scss";
 @import "popup.scss";
 
+
+#watch-list{
+  margin-top: 50px;
+}
 .navbar{
   background-color:  nth($default-color,2);
   box-shadow: $shadow;
@@ -19,7 +23,7 @@
 main .app{
   background-color:#eeeeee;
   font-family:sans-serif;
-  height:100vh;
+  min-height:100vh;
   width:100vw;
 }
 

@@ -3,7 +3,7 @@
   position:absolute;
   top: 0;
   z-index: 5000;
-  height: 100vh;
+  min-height: 100vh;
   width:100vw;
   background-color:rgba(0,0,0,0.5);
   #add-or-edit-container{
@@ -28,5 +28,52 @@
     }
   }
 }
+
+#background{
+  position: absolute;
+  width:100vw;
+  height:100vh;
+  background-color:
+    #444444;
+}
+
+
+/*******  Popup search menu styles ******/
+#add-or-edit-container{
+  #search-box{
+    margin-top:5px;
+    width:100%;
+    font-size:1.5rem;
+    textarea{
+      border: none;
+      margin: 0 auto;
+      font-size:1.5rem;
+      border-bottom:1px solid black;
+    }
+    .toggle-search{
+      .on{color: black;}
+      .off{color: #aaaaaa;}
+      i{
+        pointer-events: none;
+      }
+    }
+    
+  }
+  .img-box{
+    margin-top: 5px;
+    width:100%;
+  }
+  #note-box{
+    margin-top:5px;
+    width:100%;
+    textarea{
+      width:80%; 
+      border: none;
+      margin: 0 auto;
+      border-bottom:1px solid black;
+    }
+  }
+}
+
 
 

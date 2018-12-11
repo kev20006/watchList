@@ -3,7 +3,7 @@
   position: absolute;
   top: 0;
   z-index: 5000;
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   background-color: rgba(0, 0, 0, 0.5);
 }
@@ -29,6 +29,49 @@
 .obscure #add-or-edit-container #add-new-label {
   pointer-events: none;
   position: absolute;
+}
+
+#background {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: #444444;
+}
+
+/*******  Popup search menu styles ******/
+#add-or-edit-container #search-box {
+  margin-top: 5px;
+  width: 100%;
+  font-size: 1.5rem;
+}
+#add-or-edit-container #search-box textarea {
+  border: none;
+  margin: 0 auto;
+  font-size: 1.5rem;
+  border-bottom: 1px solid black;
+}
+#add-or-edit-container #search-box .toggle-search .on {
+  color: black;
+}
+#add-or-edit-container #search-box .toggle-search .off {
+  color: #aaaaaa;
+}
+#add-or-edit-container #search-box .toggle-search i {
+  pointer-events: none;
+}
+#add-or-edit-container .img-box {
+  margin-top: 5px;
+  width: 100%;
+}
+#add-or-edit-container #note-box {
+  margin-top: 5px;
+  width: 100%;
+}
+#add-or-edit-container #note-box textarea {
+  width: 80%;
+  border: none;
+  margin: 0 auto;
+  border-bottom: 1px solid black;
 }
 
 /*# sourceMappingURL=popup.css.map */

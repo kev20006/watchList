@@ -42,7 +42,9 @@ let watchList = {
         if (window.localStorage.getItem('watchListData')) {
             let prevData = JSON.parse(window.localStorage.getItem('watchListData'));
             if (prevData.contents){
-                watchList.contents = prevData.contents;
+                prevData.contents.forEach((item)=>{
+                    watchList.add(new movie(item.title, item.thumb, item.longDescription, item.year, item.genre, item.cast));
+                });
             }
             if (prevData.collections){
                 watchList.collections = prevData.collections;

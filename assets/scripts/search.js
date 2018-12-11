@@ -4,6 +4,7 @@ let movieGenres = ""
 let searches = {
     keys: ["405219586381645a0c87c4c5dc9211d9"],
     movie: (terms) =>{
+        console.log(`searching for ${terms}`)
         let url = `https://api.themoviedb.org/3/search/movie?api_key=${searches.keys[0]}&language=en-US&query=${terms}`;
         $.getJSON(url, (data)=>{
             let resultsMobile = data.results.slice(0,5)
