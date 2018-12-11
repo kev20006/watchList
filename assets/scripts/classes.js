@@ -67,7 +67,7 @@ class watchItem {
         textWrapper.append(`<p class="result-title">${this.title}</p>`, `<p>${this.shortDescription}</p>`);
         textAndImageWrapper.append(imgWrapper, textWrapper)
         buttonWrapper.append(add, back);
-        wrapper.append(textAndImageWrapper, collectionWrapper, buttonWrapper);
+        wrapper.append(textAndImageWrapper, buttonWrapper);
         return wrapper
     }
 
