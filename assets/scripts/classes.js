@@ -46,12 +46,37 @@ class watchItem {
     }
 
     itemPreview() {
-
+        alert("preview inc.");
         let wrapper = $(`<div class="my-2 mx-1"></div>`);
         let textAndImageWrapper = $(`<div class="row d-flex mx-3"></div>`)
         let imgWrapper = $(`<div class="col"></div>`);
         let textWrapper = $(`<div></div>`);
         let buttonWrapper = $(`<div class="row mx-3"></div>`);
+        let collectionWrapper = $(`<div class="row mx-0 d-flex"></div>`);
+        let collectionList = $('<div class="collection-list"></div>')
+        let addCollection = $(`<span><small><input type="text" placeholder="add new collection"></input></small></span>`)
+            .on("keydown", (e)=>{
+                if (e.which === 13 && $(e.target).val().length > 0){
+                    let newCollectionName = $(e.target).val()
+                    if (!this.collection.includes(newCollectionName)){
+                        let htmlString = ``
+                        this.collection.push(newCollectionName)
+                        this.collection.forEach((element)=>{
+                            htmlString +=`<span class="collection-item"><small>${element}</small><span class="delete button"> x </span></span>`;
+                        })
+                        console.log(htmlString)
+                        console.log($($(e.target).parent()))
+                        $(e.target).closest("span").siblings().html(htmlString);
+                    }
+                    if (!watchList.collections.includes(newCollectionName)){
+                        watchList.collections.push(newCollectionName);
+                        watchList.renderCollections();
+                    }
+                    $(e.target).val("");
+                }
+                
+            });
+        collectionWrapper.append(addCollection, collectionList);
         let add = $(`<input type="button" value="add to list"/>`);
         let back = $(`<input type="button" value="back"/>`);
         add.on("click", () => {
@@ -59,15 +84,16 @@ class watchItem {
             watchList.add(this);
         });
         back.on("click", () => {
+            let searchTerm = $("#search-box input").val()
             $("#results").html("")
-            searches[this.type]($("#search").val());
+            searches[this.type](searchTerm);
         });
        
         imgWrapper.append(`<img src=${this.thumb} class="result-thumb" alt=${this.title} />`);
         textWrapper.append(`<p class="result-title">${this.title}</p>`, `<p>${this.shortDescription}</p>`);
         textAndImageWrapper.append(imgWrapper, textWrapper)
         buttonWrapper.append(add, back);
-        wrapper.append(textAndImageWrapper, buttonWrapper);
+        wrapper.append(textAndImageWrapper, collectionWrapper, buttonWrapper);
         return wrapper
     }
 
@@ -115,7 +141,10 @@ class movie extends watchItem {
         newCardHeader.append(deleteButton);
         newCard.append(newCardHeader);
         let newCardMain = $(`<main></main>`);
-        
+        let collectionTagString = ""
+        this.collection.forEach((element)=>{
+            collectionTagString += `<span class="collection-item"><small>${element}</small></span>`
+        })
         let imageWrapper = $(`<div class="image-wrapper d-flex justify-content-center">`);
         imageWrapper.css("background-image", `url(${this.thumb});`);
         imageWrapper.html(`<img class="movie-thumb" src="${this.thumb}" alt="${this.title}" />`)
@@ -133,8 +162,7 @@ class movie extends watchItem {
                     <!-- end of Collapseable Content -->
                     <!-- User Generated Card Info -->
                     <p><strong>Collections:</strong></p>
-                    <p class="collection-tags">
-                    </p>
+                    ${collectionTagString}
                     <p><strong>Note:</strong></p>
                     <input type="text" class="media-note" value="${this.note}"></input>
                     <!-- end of User Generated Card Info -->
