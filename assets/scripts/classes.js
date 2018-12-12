@@ -147,7 +147,7 @@ class movie extends watchItem {
         })
         let imageWrapper = $(`<div class="image-wrapper d-flex justify-content-center">`);
         imageWrapper.css("background-image", `url(${this.thumb});`);
-        imageWrapper.html(`<img class="movie-thumb" src="${this.thumb}" alt="${this.title}" />`)
+        imageWrapper.html(`<img class="movie-thumb" src="${this.thumb}" alt="${this.title}" />`);
         let mainContents = $(   `
                 <div class="row card-content mx-0 py-3">
                     <div class="col">
