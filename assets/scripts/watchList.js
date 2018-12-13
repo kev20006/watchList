@@ -1,39 +1,5 @@
 "use strict"
 
-
-
-
-let watchListDOM = document.getElementById("watch-list")
-
-function miscItem(element){
-    let newItem = document.createElement("div");
-    newItem.setAttribute("id", element.id);
-    newItem.innerHTML = `
-                    <h3>${element.title}</h3>
-                    <p>${element.type}</p>`;
-    return newItem;
-}
-
-function movieItem(element) {
-    console.log(element)
-    let newItem = $("<div></div>")
-        .attr("class", "col-6 col-md-4 col-lg-3 mx-2 list-card")
-        .attr("id", element.id);
-    let deleteButton = $("<button></button>").text("delete")
-    deleteButton.on("click", ()=>{
-        console.log(element.id)
-        watchList.remove(element.id)
-    });
-    
-    newItem.html(`<h3>${element.title}</h3>
-                <img src=${element.image} alt=${element.title}>
-                <p>${element.description.split(".")[0]}</p>`)   
-        .append(deleteButton)        
-                
-    return newItem;
-}
-
-
 let watchList = {
     /** Load Data From Local Storage**/
     contents: [],
@@ -43,9 +9,11 @@ let watchList = {
             let prevData = JSON.parse(window.localStorage.getItem('watchListData'));
             if (prevData.contents){
                 prevData.contents.forEach((item)=>{
-                    watchList.add(new movie(item.title, item.thumb, item.longDescription, item.year, item.genre, item.cast));
+                    console.log(item)
+                    watchList.add(new movie(item.title, item.thumb, item.collection, item.longDescription, item.year, item.genre, item.note, item.cast));
                 });
             }
+            console.log(prevData)
             if (prevData.collections){
                 watchList.collections = prevData.collections;
             }
@@ -53,17 +21,15 @@ let watchList = {
             watchList.renderCollections();
         }
     }, 
-    //test objects will only have an id and a title and a type of other
     add: (obj)=>{
         watchList.contents.push(obj);
-        console.log(watchList.contents);
         watchList.render(watchList.contents);
-        window.localStorage.setItem('watchListData', JSON.stringify({ contents: watchList.contents }));
+        window.localStorage.setItem('watchListData', JSON.stringify({ collections: watchList.collections, contents: watchList.contents }));
     },
     remove: (id)=>{
         watchList.contents.splice(id, 1);
         watchList.render(watchList.contents);
-        window.localStorage.setItem('watchListData', JSON.stringify({ contents: watchList.contents}));
+        window.localStorage.setItem('watchListData', JSON.stringify({ collections: watchList.collections, contents: watchList.contents}));
     },
     render: (list)=>{
         if (list.length >= 1) {
@@ -87,7 +53,6 @@ let watchList = {
     },
     filter: (type)=>{
         let filterList = watchList.contents.filter((element) =>{
-            console.log(element)
             return element.type == type
         })
         let icons = {
@@ -110,13 +75,12 @@ let watchList = {
     addCollection: (name)=>{
         watchList.collections.push(name);
         watchList.renderCollections();
-        window.localStorage.setItem('watchListData', JSON.stringify({ collections: watchList.collections }));
+        window.localStorage.setItem('watchListData', JSON.stringify({ collections: watchList.collections, collections: watchList.collections }));
     },
     removeCollection: (id) =>{
-        console.log(id)
         watchList.collections.splice(id, 1);
         watchList.renderCollections();
-        window.localStorage.setItem('watchListData', JSON.stringify({ collections: watchList.collections }));
+        window.localStorage.setItem('watchListData', JSON.stringify({ collections: watchList.collections, collections: watchList.collections }));
     },
     renderCollections: ()=>{
         $("#category-list").html("");

@@ -2,21 +2,23 @@
 let movieGenres = ""
 
 let searches = {
-    keys: ["405219586381645a0c87c4c5dc9211d9"],
+    keys: ["405219586381645a0c87c4c5dc9211d9", "cClARfDJOoiKBziNEIAa4A"],
     movie: (terms) =>{
         let url = `https://api.themoviedb.org/3/search/movie?api_key=${searches.keys[0]}&language=en-US&query=${terms}`;
         $.getJSON(url, (data)=>{
             let resultsMobile = data.results.slice(0,5)
             $(`#results`).html("")
             resultsMobile.forEach((element)=>{
+               console.log(element)
                let searchResult = new movie(
                    element.title,
                    `https://image.tmdb.org/t/p/w92${element.poster_path}`,
+                   [],
                    element.overview,
                    element.release_date.split("-")[0],
                    "genre",
+                   "",
                    ["bob"])
-                   console.log(searchResult)
                $(`#results`).append(searchResult.searchItem);
            })
         })
@@ -27,17 +29,18 @@ let searches = {
     tv: (terms)=>{
         let url = `https://api.themoviedb.org/3/search/tv?api_key=${searches.keys[0]}&language=en-US&query=${terms}`;
         $.getJSON(url, (data) => {
-            console.log(data.results)
             let resultsMobile = data.results.slice(0, 5)
             $(`#results`).html("")
             resultsMobile.forEach((element) => {
-                let searchItem = createListItem(
-                    `https://image.tmdb.org/t/p/w92${element.poster_path}`,
-                    element.name,
-                    element.first_air_date.split("-")[0],
-                    element.overview,
-                    "tv")
-                $(`#results`).append(searchItem);
+                let searchResult = new watchItem(
+                   element.name,
+                   `https://image.tmdb.org/t/p/w92${element.poster_path}`,
+                   [],
+                   element.overview,
+                   element.first_air_date.split("-")[0],
+                   "genre",
+                   "")
+                $(`#results`).append(searchResult.searchItem);
             })
         })
             .fail(function () {
@@ -52,15 +55,16 @@ let searches = {
             console.log(resultsMobile)
             $(`#results`).html("")
             resultsMobile.forEach((element) => {
-                console.log(element)
-                let searchItem = createListItem(
-                    element.volumeInfo.imageLinks.smallThumbnail,
+                let searchResult = new watchItem(
                     element.volumeInfo.title,
-                    element.volumeInfo.publishedDate,
+                    element.volumeInfo.imageLinks.smallThumbnail,
+                    [],
                     element.volumeInfo.description,
-                    "book")
-                
-                $(`#results`).append(searchItem);
+                    element.volumeInfo.publishedDate,
+                    "genre",
+                    ""
+                    )
+                $(`#results`).append(searchResult.searchItem);
             })
         })
         .fail(function () {
@@ -70,12 +74,10 @@ let searches = {
     game: (terms)=>{
         let url = `https://IGDB-PROXY--kev20006.repl.co/games/${terms}`;
         $.getJSON(url, (data) => {
-            console.log(data)
             let resultsMobile = data.slice(0, 5)
             console.log(resultsMobile)
             $(`#results`).html("")
             resultsMobile.forEach((element) => {
-                console.log(element)
                 let imgUrl;
                 if ("cover" in element){
                     imgUrl = `https://images.igdb.com/igdb/image/upload/t_cover_small/${element.cover.cloudinary_id}.jpg`
@@ -83,14 +85,16 @@ let searches = {
                     imgUrl = `http://webmaster.ypsa.org/wp-content/uploads/2012/08/no_thumb.jpg`
                 }
                 let date = new Date(element.first_release_date)
-                let searchItem = createListItem(
-                    imgUrl,
+                let searchResult = new watchItem(
                     element.name,
-                    date.getFullYear(),
+                    imgUrl,
+                    [],
                     element.summary,
-                    "game")
+                    date.getFullYear(),
+                    "genre",
+                    "")
 
-                $(`#results`).append(searchItem);
+                $(`#results`).append(searchResult.searchItem);
             })
         })
             .fail(function () {

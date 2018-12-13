@@ -2,7 +2,6 @@ var menuActive = false;
 
 
 $(document).on("click", (e) => {
-    console.log($(e.target).attr("id"));
     if ($(e.target).attr("id") == "toggle-menu") {
         if (menuActive == false) {
             menuActive = true;
@@ -40,7 +39,6 @@ function performFilter(type){
     $("#menu").animate({
             left: "-=200",
         }, 500)
-
 }
 
 $("#category-list .add-new").on("click", () => {

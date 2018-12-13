@@ -32,16 +32,14 @@ function manageFilters(){
         manageFilters()
     })
     $("#add-or-edit-container").append(title, collectionInput, button)
-    console.log(watchList.collections)
+
     if (watchList.collections.length > 0){
-        console.log("I'm getting here")
         let index=0;
         watchList.collections.forEach(element =>{
             let i = (function (i) {return i})(index)
             let wrapper = $(`<div class="d-flex"></div>`)
             let input = $(`<input type="text" value=${element}></input>`)
                 .on("input",(e)=>{
-                    console.log(e)
                     watchList.collections[i] = e.target.value
                     watchList.renderCollections()
                 })
@@ -64,7 +62,7 @@ function addNewMenu(type){
     let searchBox = $(`<div id="search-box" class="row d-flex mx-0 justify-content-center"></div>`);
     let searchBar = $(`<input type="text" placeholder="${type} Title"></input>`);
     searchBar.on("input", ()=>{
-        searches[type](searchBar[0].value);
+        searches[type](searchBar.val());
     })
     let toggleSearch = $(`<div class="toggle-search"><i class="fas fa-search"></i></div>`) ; 
     toggleSearch.on("click", ()=>{
@@ -77,7 +75,6 @@ function addNewMenu(type){
                         <p>Please type above to search for media</p>
                         </div>
                     </div>`)
-
    $("#add-or-edit-container").append(searchBox, results)     
 
 }

@@ -1,20 +1,31 @@
 'use strict';
 
 class watchItem {
-    constructor(title, thumb, longDescription, year, genre) {
+    constructor(title, thumb, collection, longDescription, year, genre, note) {
         this.title = title;
         this.thumb = thumb;
-        this.longDescription = longDescription;
-        if (longDescription.length <= 200) {
-            this.shortDescription = longDescription.substring(0, longDescription.length);
-        } else {
-            this.shortDescription = `${longDescription.substring(0, 200)}...`;
+        if(longDescription == undefined){
+            this.longDescription = "no description given";
+            this.shortDescription = "no description given";
+        }
+        else{
+            if (longDescription.length <= 200) {
+                this.shortDescription = longDescription.substring(0, longDescription.length);
+            } else {
+                this.shortDescription = `${longDescription.substring(0, 200)}...`;
+            }
         }
         this.year = year;
         this.genre = genre;
         this.active = false;
-        this.note = "";
-        this.collection = [];
+        this.note = note;
+        if (collection.length == 0){
+            this.collection = [];
+        }else{
+            this.collection = collection;
+        }
+        this.searchItem = this.searchItem.bind(this);
+        this.itemPreview = this.itemPreview.bind(this);
     }
     set setCollection(args) {
         this.collection = [...args]
@@ -64,22 +75,21 @@ class watchItem {
                         this.collection.forEach((element)=>{
                             htmlString +=`<span class="collection-item"><small>${element}</small><span class="delete button"> x </span></span>`;
                         })
-                        console.log(htmlString)
-                        console.log($($(e.target).parent()))
                         $(e.target).closest("span").siblings().html(htmlString);
                     }
                     if (!watchList.collections.includes(newCollectionName)){
-                        watchList.collections.push(newCollectionName);
-                        watchList.renderCollections();
+                        watchList.addCollection(newCollectionName);
                     }
                     $(e.target).val("");
                 }
                 
             });
         collectionWrapper.append(addCollection, collectionList);
+        let note = "<textarea></textarea>"
         let add = $(`<input type="button" value="add to list"/>`);
         let back = $(`<input type="button" value="back"/>`);
-        add.on("click", () => {
+        add.on("click", (e) => {
+            this.note = $(e.target).siblings("textarea").val()
             closePopUp();
             watchList.add(this);
         });
@@ -92,7 +102,7 @@ class watchItem {
         imgWrapper.append(`<img src=${this.thumb} class="result-thumb" alt=${this.title} />`);
         textWrapper.append(`<p class="result-title">${this.title}</p>`, `<p>${this.shortDescription}</p>`);
         textAndImageWrapper.append(imgWrapper, textWrapper)
-        buttonWrapper.append(add, back);
+        buttonWrapper.append(note, add, back);
         wrapper.append(textAndImageWrapper, collectionWrapper, buttonWrapper);
         return wrapper
     }
@@ -114,8 +124,8 @@ class watchItem {
 }
 
 class movie extends watchItem {
-    constructor(title, thumb, longDescription, year, genre, cast) {
-        super(title, thumb, longDescription, year, genre)
+    constructor(title, thumb, collection, longDescription, year, genre, note, cast) {
+        super(title, thumb, collection, longDescription, year, genre, note)
         this.cast = cast
         this.type = "movie";
         this.icon = `<div class="icon-bg"><i class="fas fa-film m-1"></i></div>`;
