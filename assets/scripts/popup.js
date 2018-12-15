@@ -28,7 +28,7 @@ function manageFilters(){
     let collectionInput = $(`<input id="collection-input" type="text"></input>`)
     let button = $(`<input type="button">add</input>`)
     button.on("click", ()=>{
-        watchList.addCollection($("#collection-input")[0].value)
+        watchList.addCollection($("#collection-input").val())
         manageFilters()
     })
     $("#add-or-edit-container").append(title, collectionInput, button)

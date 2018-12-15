@@ -7,13 +7,28 @@ let watchList = {
     load: ()=>{
         if (window.localStorage.getItem('watchListData')) {
             let prevData = JSON.parse(window.localStorage.getItem('watchListData'));
+            console.log("local storage")
+            console.log(prevData)
             if (prevData.contents){
+                console.log("findingContents")
                 prevData.contents.forEach((item)=>{
                     console.log(item)
-                    watchList.add(new movie(item.title, item.thumb, item.collection, item.longDescription, item.year, item.genre, item.note, item.cast));
+                    switch (item.type){
+                        case "movie":
+                            watchList.add(new movie(item.title, item.thumb, item.collection, item.longDescription, item.year, item.genre, item.note, item.cast));
+                            break;
+                        case "tv":
+                            watchList.add(new tv(item.title, item.thumb, item.collection, item.longDescription, item.year, item.genre, item.note, item.cast));
+                            break;
+                        case "book":
+                            watchList.add(new book(item.title, item.thumb, item.collection, item.longDescription, item.year, item.genre, item.note, item.cast));
+                            break;
+                        case "game":
+                            watchList.add(new game(item.title, item.thumb, item.collection, item.longDescription, item.year, item.genre, item.note, item.cast));
+                            break;
+                    }
                 });
             }
-            console.log(prevData)
             if (prevData.collections){
                 watchList.collections = prevData.collections;
             }
@@ -24,12 +39,12 @@ let watchList = {
     add: (obj)=>{
         watchList.contents.push(obj);
         watchList.render(watchList.contents);
-        window.localStorage.setItem('watchListData', JSON.stringify({ collections: watchList.collections, contents: watchList.contents }));
+        watchList.updateLocalStorage();
     },
     remove: (id)=>{
         watchList.contents.splice(id, 1);
         watchList.render(watchList.contents);
-        window.localStorage.setItem('watchListData', JSON.stringify({ collections: watchList.collections, contents: watchList.contents}));
+        watchList.updateLocalStorage();
     },
     render: (list)=>{
         if (list.length >= 1) {
@@ -37,7 +52,8 @@ let watchList = {
             $("#watch-list").html(""); 
             list.forEach((element) => {
                 element.id = "card-"+index;
-                $("#watch-list").append(element.movieCard());
+                console.log("element")
+                $("#watch-list").append(element.card());
                 element.updateCollections();
                 index++;
             })
@@ -75,12 +91,12 @@ let watchList = {
     addCollection: (name)=>{
         watchList.collections.push(name);
         watchList.renderCollections();
-        window.localStorage.setItem('watchListData', JSON.stringify({ collections: watchList.collections, collections: watchList.collections }));
+        watchList.updateLocalStorage();
     },
     removeCollection: (id) =>{
         watchList.collections.splice(id, 1);
         watchList.renderCollections();
-        window.localStorage.setItem('watchListData', JSON.stringify({ collections: watchList.collections, collections: watchList.collections }));
+        watchList.updateLocalStorage();
     },
     renderCollections: ()=>{
         $("#category-list").html("");
@@ -94,8 +110,12 @@ let watchList = {
             makePopUp("manageFilters")
         });
         $("#category-list").append(addNew)
+    },
+    updateLocalStorage: ()=>{
+        window.localStorage.setItem('watchListData', JSON.stringify({ collections: watchList.collections, contents: watchList.contents }));
     }
 };
+
 watchList.load();
 watchList.render(watchList.contents);
 watchList.renderCollections();

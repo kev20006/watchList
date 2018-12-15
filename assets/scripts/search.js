@@ -32,14 +32,15 @@ let searches = {
             let resultsMobile = data.results.slice(0, 5)
             $(`#results`).html("")
             resultsMobile.forEach((element) => {
-                let searchResult = new watchItem(
+                let searchResult = new tv(
                    element.name,
                    `https://image.tmdb.org/t/p/w92${element.poster_path}`,
                    [],
                    element.overview,
                    element.first_air_date.split("-")[0],
                    "genre",
-                   "")
+                   "",
+                   ["placeholder"])
                 $(`#results`).append(searchResult.searchItem);
             })
         })
@@ -55,7 +56,7 @@ let searches = {
             console.log(resultsMobile)
             $(`#results`).html("")
             resultsMobile.forEach((element) => {
-                let searchResult = new watchItem(
+                let searchResult = new book(
                     element.volumeInfo.title,
                     element.volumeInfo.imageLinks.smallThumbnail,
                     [],
@@ -85,7 +86,7 @@ let searches = {
                     imgUrl = `http://webmaster.ypsa.org/wp-content/uploads/2012/08/no_thumb.jpg`
                 }
                 let date = new Date(element.first_release_date)
-                let searchResult = new watchItem(
+                let searchResult = new game(
                     element.name,
                     imgUrl,
                     [],
