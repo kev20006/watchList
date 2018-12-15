@@ -32,6 +32,7 @@ let watchList = {
             if (prevData.collections){
                 watchList.collections = prevData.collections;
             }
+            watchList.updateLocalStorage();
             watchList.render(watchList.contents);
             watchList.renderCollections();
         }
