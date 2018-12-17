@@ -9,10 +9,13 @@ function makePopUp(type){
     $(".obscure").fadeIn(300)
     $(".obscure").css("display", "flex");
     if (type === "manageFilters"){
-        manageFilters()
+        manageFilters();
+    }
+    if (type === "help"){
+        displayHelp();
     }
     else{
-        addNewMenu(type)
+        addNewMenu(type);
     }
 }
 
@@ -62,14 +65,14 @@ function addNewMenu(type){
     let searchBox = $(`<div id="search-box" class="row d-flex mx-0 justify-content-center"></div>`);
     let searchBar = $(`<input type="text" placeholder="${type} Title"></input>`);
     searchBar.on("input", ()=>{
-        searches[type](searchBar.val());
+        searches[type](searchBar.val(),1);
     })
     let toggleSearch = $(`<div class="toggle-search"><i class="fas fa-search"></i></div>`) ; 
     toggleSearch.on("click", ()=>{
         $("#search-box .toggle-search").toggleClass("on").toggleClass("off")
     }) 
    searchBox.append(searchBar) 
-    let results = $(`<div id="results">
+    let results = $(`<div id="results" data-page='1'>
                         <div class="mt-5 text-center">
                         <h1><i class="fas fa-search"></i></h1>
                         <p>Please type above to search for media</p>
@@ -79,4 +82,15 @@ function addNewMenu(type){
 
 }
 
+function displayHelp(){
+    $("#add-or-edit-container").html(`
+        <h5>Welcome to Watch List</h5>
+        <p>Has anybody ever recommended a great Movie to you, and then when you sat down to watch it, you couldn't remember what it was called?</p>
+        <p>Have you ever been mid-way through series and you forgot what episode you were on? <strong>[not implemented yet]</strong></p>
+        <p>WatchList allows you to keep track of any Movie, TV, Book or Game recommendations that you have received. It uses The TMBD, TGDB and Google Books API's
+            to search for and store media that you want to remember.
+            </p>
+        <p>In the near future it will also make recommendations when you finish a list item, it will also provide some analytics to see your usage history</p>
+        <p><small><strong>watch list uses a small amount of local storage, you have been warned</strong></small></p>`)
+}
    

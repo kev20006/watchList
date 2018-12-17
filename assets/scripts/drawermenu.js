@@ -7,13 +7,13 @@ $(document).on("click", (e) => {
             menuActive = true;
             $("#menu").animate(
                 {
-                    left: "+=200",
+                    left: "+=210",
                 }, 500);
         } else {
             menuActive = false;
             $("#menu").animate(
                 {
-                    left: "-=200",
+                    left: "-=210",
                 }, 500)
         }
     }
@@ -22,22 +22,22 @@ $(document).on("click", (e) => {
             menuActive = false;
             $("#menu").animate(
                 {
-                    left: "-=200",
+                    left: "-=210",
                 }, 500)
         }
     }
 })
 
-function performFilter(type){
-    if (type=="all"){
+function performFilter(filterBy, value){
+    if (value =="all"){
         watchList.render(watchList.contents)
     }
     else{
-        watchList.filter(type)
+        watchList.filter(filterBy, value)
     }
     menuActive = false;
     $("#menu").animate({
-            left: "-=200",
+            left: "-=210",
         }, 500)
 }
 

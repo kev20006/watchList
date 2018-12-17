@@ -18,11 +18,12 @@
 }
 
 #menu{
+  box-shadow: $shadow;
   padding-top:20px;
   z-index:2000;
   position:fixed;
   height:100vh;
-  left: -200px;
+  left: -210px;
   width:200px;
   border-right:4px solid nth($default-color,1);
   background-color: white;

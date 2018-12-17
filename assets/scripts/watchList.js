@@ -68,23 +68,41 @@ let watchList = {
         }
         
     },
-    filter: (type)=>{
-        let filterList = watchList.contents.filter((element) =>{
-            return element.type == type
-        })
+    filter: (filterBy, value)=>{
+        
+        
+        let filterList = {} 
+        if(filterBy == "type"){
+            filterList = watchList.contents.filter((element) => {
+                return element[filterBy] == value;
+            })
+        }else{
+            filterList = watchList.contents.filter((element) => {
+                return element.collection.includes(value);
+            })
+        }
         let icons = {
             movie:`<i class="fas fa-film"></i>`,
             tv:`<i class="fas fa-tv"></i>`,
-            book:`<i class="fas fa-gamepad"></i>`,
-            game:`<i class="fas fa-book"></i>`
+            book:`<i class="fas fa-book"></i>`,
+            game:`<i class="fas fa-gamepad"></i>`
         }
         if(filterList.length == 0){
-            $("#watch-list").html(`<div class="no-results text-center">
-                <h1>${icons[type]}</h1>
-                <h5>Currently you have no ${type} in your list</h5>
-                <p>Click the add button to the right to start adding some ${type}s</p>
+            let htmlString = ""
+            if (filterBy == "type"){
+               htmlString = `<div class="no-results text-center">
+                <h1>${icons[value]}</h1>
+                <h5>Currently you have no ${value} in your list</h5>
+                <p>Click the add button to the right to start adding some ${value}s</p>
                 </div>
-            `);
+            `
+            }else{
+                htmlString = `
+                <div class="no-results text-center">
+                <h5>Collection: ${value}, no longer has any contents</h5>
+                `
+            }  
+            $("#watch-list").html(htmlString);
         }else{
             watchList.render(filterList)
         }
@@ -103,7 +121,11 @@ let watchList = {
         $("#category-list").html("");
         if(watchList.collections.length != 0){
             watchList.collections.forEach(element =>{
-                $("#category-list").append(`<li>${element}</li>`)
+                let collectionItem = $(`<li>${element}</li>`)
+                    .on("click",()=>{
+                        performFilter("collection", element);
+                    })
+                $("#category-list").append(collectionItem);
             }) 
         }
         let addNew = $("<li class='add-new'>Edit Collections</li>")
@@ -120,3 +142,6 @@ let watchList = {
 watchList.load();
 watchList.render(watchList.contents);
 watchList.renderCollections();
+if (watchList.contents.length == 0){
+    makePopUp('help')
+}

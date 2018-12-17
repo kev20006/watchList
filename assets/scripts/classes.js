@@ -9,6 +9,7 @@ class watchItem {
             this.shortDescription = "no description given";
         }
         else{
+            this.longDescription = longDescription;
             if (longDescription.length <= 200) {
                 this.shortDescription = longDescription.substring(0, longDescription.length);
             } else {
@@ -47,8 +48,8 @@ class watchItem {
         let wrapper = $(`<div class="d-flex my-2 mx-1"></div>`);
         let imgWrapper = $(`<div></div>`);
         let textWrapper = $(`<div></div>`);
-        imgWrapper.append(`<img src=${this.thumb} class="result-thumb" alt=${this.title} height="50px" />`);
-        textWrapper.append(`<p class="result-title">${this.title} - ${this.year}</p>`);
+        imgWrapper.append(`<img src=${this.thumb} class="result-thumb" alt=${this.title.substring(0, 50)} height="50px" />`);
+        textWrapper.append(`<p class="result-title">${this.title.substring(0, 40)} - ${this.year}</p>`);
         wrapper.on("click", () => {
             $(`#results`).html(this.itemPreview());
         })
@@ -95,11 +96,11 @@ class watchItem {
         back.on("click", () => {
             let searchTerm = $("#search-box input").val()
             $("#results").html("")
-            searches[this.type](searchTerm);
+            searches[this.type](searchTerm, $("#results").attr("data-page"));
         });
        
         imgWrapper.append(`<img src=${this.thumb} class="result-thumb" alt=${this.title} />`);
-        textWrapper.append(`<p class="result-title">${this.title}</p>`, `<p>${this.shortDescription}</p>`);
+        textWrapper.append(`<p class="result-title">${this.title.substring(0, 50)}</p>`, `<p>${this.shortDescription}</p>`);
         textAndImageWrapper.append(imgWrapper, textWrapper)
         buttonWrapper.append(note, add, back);
         wrapper.append(textAndImageWrapper, collectionWrapper, buttonWrapper);

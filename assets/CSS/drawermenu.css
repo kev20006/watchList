@@ -3,11 +3,12 @@
 }
 
 #menu {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5), -1px -1px 5px rgba(0, 0, 0, 0.5);
   padding-top: 20px;
   z-index: 2000;
   position: fixed;
   height: 100vh;
-  left: -200px;
+  left: -210px;
   width: 200px;
   border-right: 4px solid #fcb653;
   background-color: white;
