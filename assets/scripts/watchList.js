@@ -49,6 +49,8 @@ let watchList = {
     },
     render: (list)=>{
         if (list.length >= 1) {
+            $("#watch-list").removeClass("d-flex")
+                            .addClass("card-columns");
             let index = 0;
             $("#watch-list").html(""); 
             list.forEach((element) => {
@@ -59,10 +61,12 @@ let watchList = {
                 index++;
             })
         }else{
+            $("#watch-list").addClass("d-flex")
+                .removeClass("card-columns");
             $("#watch-list").html(`<div class="no-results text-center">
                 <h1><i class="fas fa-asterisk"></i></h1>
                 <h5>Currently you have no items in your list</h5>
-                <p >Click the add button to the left to start adding movies, tv shows and games to your to watch list</p> 
+                <p >Click the add button to the right to start adding movies, tv shows and games to your to watch list</p> 
                 </div>
             `);
         }
@@ -88,6 +92,8 @@ let watchList = {
             game:`<i class="fas fa-gamepad"></i>`
         }
         if(filterList.length == 0){
+            $("#watch-list").addClass("d-flex")
+                            .removeClass("card-columns");
             let htmlString = ""
             if (filterBy == "type"){
                htmlString = `<div class="no-results text-center">
@@ -100,6 +106,7 @@ let watchList = {
                 htmlString = `
                 <div class="no-results text-center">
                 <h5>Collection: ${value}, no longer has any contents</h5>
+                </div>
                 `
             }  
             $("#watch-list").html(htmlString);

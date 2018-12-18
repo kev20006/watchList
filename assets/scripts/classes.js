@@ -139,26 +139,26 @@ class movie extends watchItem {
         let newCardHeader = $(`<header class="card-header d-flex"></header>`);
         let headerContents = [
             $(`<div class="icon mt-1 text-center">${this.icon}</div>`),
-            $(`<h3 class="ml-3">${this.title}</h3>`) 
+            $(`<h5 class="ml-3">${this.title}</h5>`)
         ]
         let deleteButton = $(`<div class="delete-button text-center fade-item "><i class="fas fa-trash-alt"></i></div>`)
-        deleteButton.on("click", ()=>{
+        deleteButton.on("click", () => {
             watchList.remove(this.id.split("-")[1]);
         })
-        headerContents.forEach(item =>{
+        headerContents.forEach(item => {
             newCardHeader.append(item);
         })
         newCardHeader.append(deleteButton);
         newCard.append(newCardHeader);
         let newCardMain = $(`<main></main>`);
         let collectionTagString = ""
-        this.collection.forEach((element)=>{
+        this.collection.forEach((element) => {
             collectionTagString += `<span class="collection-item"><small>${element}</small></span>`
         })
         let imageWrapper = $(`<div class="image-wrapper d-flex justify-content-center">`);
         imageWrapper.css("background-image", `url(${this.thumb});`);
         imageWrapper.html(`<img class="movie-thumb" src="${this.thumb}" alt="${this.title}" />`);
-        let mainContents = $(   `
+        let mainContents = $(`
                 <div class="row card-content mx-0 py-3">
                     <div class="col">
                     <!-- collapseable Content -->
@@ -181,7 +181,7 @@ class movie extends watchItem {
         imageWrapper.css("background-image", `url(${this.thumb})`)
         newCardMain.append(imageWrapper, mainContents)
         newCard.append(newCardMain)
-        
+
         let newCardFooter = $(`<footer class="card-footer p-3 row mx-0"></footer>`);
         let footerContents = $(`
             <div class="selected-content col-6 text-center">
@@ -193,7 +193,7 @@ class movie extends watchItem {
         `);
         newCardFooter.append(footerContents);
         newCard.append(newCardFooter);
-        return newCard; 
+        return newCard;
     }
     
 }
@@ -216,7 +216,7 @@ class tv extends watchItem{
         let newCardHeader = $(`<header class="card-header d-flex"></header>`);
         let headerContents = [
             $(`<div class="icon mt-1 text-center">${this.icon}</div>`),
-            $(`<h3 class="ml-3">${this.title}</h3>`)
+            $(`<h5 class="ml-3">${this.title}</h5>`)
         ]
         let deleteButton = $(`<div class="delete-button text-center fade-item "><i class="fas fa-trash-alt"></i></div>`)
         deleteButton.on("click", () => {
@@ -290,7 +290,7 @@ class book extends watchItem {
         let newCardHeader = $(`<header class="card-header d-flex"></header>`);
         let headerContents = [
             $(`<div class="icon mt-1 text-center">${this.icon}</div>`),
-            $(`<h3 class="ml-3">${this.title}</h3>`)
+            $(`<h5 class="ml-3">${this.title}</h5>`)
         ]
         let deleteButton = $(`<div class="delete-button text-center fade-item "><i class="fas fa-trash-alt"></i></div>`)
         deleteButton.on("click", () => {
@@ -364,7 +364,7 @@ class game extends watchItem {
         let newCardHeader = $(`<header class="card-header d-flex"></header>`);
         let headerContents = [
             $(`<div class="icon mt-1 text-center">${this.icon}</div>`),
-            $(`<h3 class="ml-3">${this.title}</h3>`)
+            $(`<h5 class="ml-3">${this.title}</h5>`)
         ]
         let deleteButton = $(`<div class="delete-button text-center fade-item "><i class="fas fa-trash-alt"></i></div>`)
         deleteButton.on("click", () => {

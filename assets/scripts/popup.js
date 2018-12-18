@@ -5,16 +5,19 @@ function closePopUp(){
 }
 
 function makePopUp(type){
+    console.log(type)
     $("#add-or-edit-container").html("")
     $(".obscure").fadeIn(300)
     $(".obscure").css("display", "flex");
-    if (type === "manageFilters"){
+    if (type == "manageFilters"){
+        console.log("i'm here")
         manageFilters();
     }
-    if (type === "help"){
+    else if (type === "help"){
         displayHelp();
     }
     else{
+        console.log("i've gone here instead")
         addNewMenu(type);
     }
 }
