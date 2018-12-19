@@ -20,33 +20,65 @@ $types-list: movie, tv, game, book;
 
 .card{
   margin: 25px;
-  width: 300px;
   box-shadow: $shadow;
-  .icon{
-    font-size:2em;
-    height:50px;
-    width: 50px;
-    background-color: #ffffff;
-    border-radius: 50%;
-  }
-  .card-content{
-    background-color:white;
-  }
-  p {
-    margin-bottom:0px;
-  }
-}
-
-.movie-thumb{
-  height:200px;
-  box-shadow: 2px 2px 150px black;
-}
-
-.image-wrapper{
+  height:450px;
+  width:80%;
+  max-width:330px;
+  padding:10px;
   overflow:hidden;
-  background-color: #567DA7;
-  background-size: cover;
+  .card-inner{
+    height:100%;
+    width:100%;
+    .card-bg{
+     background-image: url(https://image.tmdb.org/t/p/w600_and_h900_bestv2/dCtFvscYcXQKTNvyyaQr2g2UacJ.jpg);
+     background-size:cover;
+     z-index:5;
+     height:100%;
+     width:100%;
+    }
+    .card-icon{
+      top:0%;
+      left: 90%;
+      position: absolute;
+    }
+    .card-info{
+      border-top: 4px solid orange;
+      left:0;
+      width:100%;
+      z-index: 20;
+      position: absolute;
+      bottom: -100%;
+      background-color:white;
+      transition: bottom 1s;
+      .year{
+        font-size:0.7em
+      }
+      .collection-tag{
+        background-color: #ddd;
+        border-radius: 5px;
+        padding: 0px 5px;
+        transition: background-color 1s;
+        &:hover{
+          background-color: orange;
+        }
+      }
+      .btn-more-info{
+        background-color: orange;
+        width:100%;
+        &:hover{
+          background-color: #ffc04d;
+        }
+      }
+    }
+    &:hover .card-info{
+      bottom:-0px;
+    }
+  }
+  
 }
+
+
+
 
 .delete-button{
   
@@ -69,40 +101,6 @@ $types-list: movie, tv, game, book;
     font-size:1.4rem;
   }
 }
-
-.collection-item{
-  margin-right:2px;
-  padding:0px 0px;
-}
-
-.media-note{
-  width:100%;
-}
-
-.context-button{
-  margin:0 auto;
-  font-size:2em;
-  padding:10px;
-  width:100px;
-  height: 70px;
-  padding-top: 2px;
-  border-radius:50%;
-  border: 2px solid black;
-}
-
-.selected-content{
-  display: none;
-}
-
-.media-note{
-  border:none;
-}
-
-.fade-item{
-  display:none;
-}
-
-
 
 
 

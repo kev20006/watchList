@@ -15,16 +15,16 @@ let watchList = {
                     console.log(item)
                     switch (item.type){
                         case "movie":
-                            watchList.add(new movie(item.title, item.thumb, item.collection, item.longDescription, item.year, item.genre, item.note, item.cast));
+                            watchList.add(new movie(item.title, item.thumb, item.lrgImage, item.collection, item.longDescription, item.year, item.genre, item.note, item.cast));
                             break;
                         case "tv":
-                            watchList.add(new tv(item.title, item.thumb, item.collection, item.longDescription, item.year, item.genre, item.note, item.cast));
+                            watchList.add(new tv(item.title, item.thumb, item.lrgImage, item.collection, item.longDescription, item.year, item.genre, item.note, item.cast));
                             break;
                         case "book":
-                            watchList.add(new book(item.title, item.thumb, item.collection, item.longDescription, item.year, item.genre, item.note, item.cast));
+                            watchList.add(new book(item.title, item.thumb, item.lrgImage, item.collection, item.longDescription, item.year, item.genre, item.note, item.cast));
                             break;
                         case "game":
-                            watchList.add(new game(item.title, item.thumb, item.collection, item.longDescription, item.year, item.genre, item.note, item.cast));
+                            watchList.add(new game(item.title, item.thumb, item.lrgImage, item.collection, item.longDescription, item.year, item.genre, item.note, item.cast));
                             break;
                     }
                 });
@@ -49,8 +49,6 @@ let watchList = {
     },
     render: (list)=>{
         if (list.length >= 1) {
-            $("#watch-list").removeClass("d-flex")
-                            .addClass("card-columns");
             let index = 0;
             $("#watch-list").html(""); 
             list.forEach((element) => {
@@ -61,8 +59,6 @@ let watchList = {
                 index++;
             })
         }else{
-            $("#watch-list").addClass("d-flex")
-                .removeClass("card-columns");
             $("#watch-list").html(`<div class="no-results text-center">
                 <h1><i class="fas fa-asterisk"></i></h1>
                 <h5>Currently you have no items in your list</h5>
@@ -92,8 +88,6 @@ let watchList = {
             game:`<i class="fas fa-gamepad"></i>`
         }
         if(filterList.length == 0){
-            $("#watch-list").addClass("d-flex")
-                            .removeClass("card-columns");
             let htmlString = ""
             if (filterBy == "type"){
                htmlString = `<div class="no-results text-center">

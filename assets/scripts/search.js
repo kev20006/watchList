@@ -25,6 +25,7 @@ let searches = {
                     let searchResult = new movie(
                         element.title,
                         `https://image.tmdb.org/t/p/w92${element.poster_path}`,
+                        `https://image.tmdb.org/t/p/w600_and_h900_bestv2${element.poster_path}`,
                         [],
                         element.overview,
                         element.release_date.split("-")[0],
@@ -64,6 +65,7 @@ let searches = {
                     let searchResult = new tv(
                         element.name,
                         `https://image.tmdb.org/t/p/w92${element.poster_path}`,
+                        `https://image.tmdb.org/t/p/w92${element.poster_path}`,
                         [],
                         element.overview,
                         element.first_air_date.split("-")[0],
@@ -100,6 +102,7 @@ let searches = {
                     }
                     let searchResult = new book(
                         element.volumeInfo.title,
+                        image,
                         image,
                         [],
                         element.volumeInfo.description,
@@ -138,6 +141,7 @@ let searches = {
                     let date = new Date(element.first_release_date)
                     let searchResult = new game(
                         element.name,
+                        imgUrl,
                         imgUrl,
                         [],
                         element.summary,
