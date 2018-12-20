@@ -69,6 +69,13 @@
 .card .card-inner .card-info .btn-more-info:hover {
   background-color: #ffc04d;
 }
+.card .card-inner .card-info .btn-actions {
+  width: 30%;
+  background-color: orange;
+}
+.card .card-inner .card-info .btn-actions:hover {
+  background-color: #ffc04d;
+}
 .card .card-inner:hover .card-info {
   bottom: 0px;
 }

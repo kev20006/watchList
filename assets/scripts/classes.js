@@ -14,7 +14,7 @@ class watchItem {
             if (longDescription.length <= 200) {
                 this.shortDescription = longDescription.substring(0, longDescription.length);
             } else {
-                this.shortDescription = `${longDescription.substring(0, 200)}...`;
+                this.shortDescription = `${longDescription.substring(0, 150)}...`;
             }
         }
         this.year = year;
@@ -148,6 +148,11 @@ class movie extends watchItem {
         let directedBy = $(
             ` <p class="text-right"><strong>Directed By: </strong>Chris Columbus</p><hr>`
         );
+        let shortDescription = $(`
+                                    <p><strong>Description</strong></p>
+                                    <p><small>${this.shortDescription}</small></p>
+                                    <hr>
+                                `)
         let collectionsSubHeading = $(`<p><strong>Collections:</strong></p>`);
         let collectionsArea = $(`<div class="d-flex flex-wrap"></div>`);
         if (this.collection.length >= 1) {
@@ -166,7 +171,15 @@ class movie extends watchItem {
         let findOutMore = $(
             `<hr><div class="btn btn-more-info text-center"> find out more</div>`
         );
-        cardInfo.append(cardTitle, directedBy, collectionsSubHeading, collectionsArea, findOutMore)
+        let buttonWrapper = $('<div class="d-flex justify-content-around"></div>');
+        let deleteButton = $(`<div class="btn btn-action text-center"><i class="fas fa-trash-alt"></i></div>`);
+        let thumbUpButton = $(`<div class="btn btn-action text-center"><i class="fas fa-thumbs-up"></i></div>`);
+        let thumbDownButton = $(`<div class="btn btn-action text-center"><i class="fas fa-thumbs-up"></i></div>`);
+        deleteButton.on("click", () => {
+            watchList.remove(this.id.split("-")[1]);
+        })
+        buttonWrapper.append(thumbDownButton, deleteButton, thumbUpButton)
+        cardInfo.append(cardTitle, directedBy, shortDescription, collectionsSubHeading, collectionsArea, findOutMore, buttonWrapper)
         cardInner.append(cardInfo)
         newCard.append(cardInner);
         return newCard;

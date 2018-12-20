@@ -140,6 +140,7 @@
   position: absolute;
 }
 .card .card-inner .card-info {
+  border-top: 4px solid orange;
   left: 0;
   width: 100%;
   z-index: 20;
@@ -165,6 +166,13 @@
   width: 100%;
 }
 .card .card-inner .card-info .btn-more-info:hover {
+  background-color: #ffc04d;
+}
+.card .card-inner .card-info .btn-actions {
+  width: 30%;
+  background-color: orange;
+}
+.card .card-inner .card-info .btn-actions:hover {
   background-color: #ffc04d;
 }
 .card .card-inner:hover .card-info {

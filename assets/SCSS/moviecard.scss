@@ -69,6 +69,13 @@ $types-list: movie, tv, game, book;
           background-color: #ffc04d;
         }
       }
+      .btn-actions{
+        width:30%;
+        background-color: orange;
+         &:hover{
+          background-color: #ffc04d;
+        }
+      }
     }
     &:hover .card-info{
       bottom:-0px;
