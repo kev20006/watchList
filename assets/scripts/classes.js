@@ -59,53 +59,85 @@ class watchItem {
     }
 
     itemPreview() {
-        let wrapper = $(`<div class="my-2 mx-1"></div>`);
-        let textAndImageWrapper = $(`<div class="row d-flex mx-3"></div>`)
-        let imgWrapper = $(`<div class="col"></div>`);
-        let textWrapper = $(`<div></div>`);
-        let buttonWrapper = $(`<div class="row mx-3"></div>`);
-        let collectionWrapper = $(`<div class="row mx-0 d-flex"></div>`);
-        let collectionList = $('<div class="collection-list"></div>')
-        let addCollection = $(`<span><small><input type="text" placeholder="add new collection"></input></small></span>`)
-            .on("keydown", (e)=>{
-                if (e.which === 13 && $(e.target).val().length > 0){
-                    let newCollectionName = $(e.target).val()
-                    if (!this.collection.includes(newCollectionName)){
-                        let htmlString = ``
-                        this.collection.push(newCollectionName)
-                        this.collection.forEach((element)=>{
-                            htmlString +=`<span class="collection-item"><small>${element}</small><span class="delete button"> x </span></span>`;
-                        })
-                        $(e.target).closest("span").siblings().html(htmlString);
-                    }
-                    if (!watchList.collections.includes(newCollectionName)){
-                        watchList.addCollection(newCollectionName);
-                    }
-                    $(e.target).val("");
-                }
-                
+        let wrapper = $(`<div class="row mx-0"></div>`);
+        let previewHeader = $(`<header class="col-12"></header>`);
+        let titleContainer = $(`<div class="row mx-0 p-2"></div>`);
+        let titleContent = $(`<h3><strong>${this.title}</strong> <small class="ml-3">(${this.year})</small></h3>`);
+        let genreContainer = $(`<div class="row mx-0 p-2 mb-0"></div>`)
+        //placeholder for genres - this will need to iterate
+        let genresContent = $(`<p><strong>Genres:</strong><span class="ml-2">Family,</span><span class="ml-2">Fantasy,</span><span class="ml-2">Adventure</span> </p>`)
+        titleContainer.append(titleContent);
+        genreContainer.append(genresContent);
+        previewHeader.append(titleContainer, genreContainer);
+        wrapper.append(previewHeader, $(`<hr>`));
+        let previewBody = $(`<main class="row mx-0"></main>`);
+        let imageWrapper = $(`<div class="col-12 col-sm-3 d-flex justify-content-center"></div>`);
+        //style this image properly using scss please
+        imageWrapper.append(` <img class="p-2 pl-2" style="width:180px; height: 270px" src=${this.lrgImage} alt=${this.title} />`)
+        previewBody.append(imageWrapper);
+        let previewMainContentContainer = $(`<div class="content col-12 col-sm-9"></div>`);
+        let controlsContainer = $(`<div class="controls d-flex justify-content-around flex-wrap"></div>`)
+            .append(`<div class="rating">75%</div>`);
+        let addBtn = $(`<div class="btn-add-to-list">(A)</div>`)
+            .on("click", (e) => {
+                this.note = $(e.target).siblings("textarea").val()
+                closePopUp();
+                watchList.add(this);
             });
-        collectionWrapper.append(addCollection, collectionList);
-        let note = "<textarea></textarea>"
-        let add = $(`<input type="button" value="add to list"/>`);
-        let back = $(`<input type="button" value="back"/>`);
-        add.on("click", (e) => {
-            this.note = $(e.target).siblings("textarea").val()
-            closePopUp();
-            watchList.add(this);
-        });
-        back.on("click", () => {
-            let searchTerm = $("#search-box input").val()
-            $("#results").html("")
-            searches[this.type](searchTerm, $("#results").attr("data-page"));
-        });
-       
-        imgWrapper.append(`<img src=${this.thumb} class="result-thumb" alt=${this.title} />`);
-        textWrapper.append(`<p class="result-title">${this.title.substring(0, 50)}</p>`, `<p>${this.shortDescription}</p>`);
-        textAndImageWrapper.append(imgWrapper, textWrapper)
-        buttonWrapper.append(note, add, back);
-        wrapper.append(textAndImageWrapper, collectionWrapper, buttonWrapper);
+        let likeBtn = $(`<div class="btn-thumbs-up">(Y)</div>`);
+        let dislikeBtn = $(`<div class="btn-thumbs-dowm">(N)</div>`);
+        let deleteBtn = $(`<div class="btn-delete">(D)</div>`);
+        let backBtn = $(`<div class="btn-back"> -> </div>`)
+            .on("click", () => {
+                let searchTerm = $("#search-box input").val()
+                $("#results").html("")
+                searches[this.type](searchTerm, $("#results").attr("data-page"));
+            });
+
+        controlsContainer.append(addBtn, likeBtn, dislikeBtn, deleteBtn, backBtn)
+        let previewDescription = $(`
+            <p><strong>Overview:</strong></p>
+        <p>${this.longDescription}</p>
+        <p><strong>Tags:</strong></p>
+        `)
+        let tagsContainer = $(`<div class=" d-flex flex-wrap preview-tags"></div>`)
+            .focus("input", () => {
+                $(".preview-tags input").attr("placeholder", "")
+                if ($(".preview-tags input").val().length <= 1) {
+                    $(".preview-tags input").css("width", "20px")
+                }
+            })
+            .focusout("input", () => {
+                $(".preview-tags input").attr("placeholder", "add new");
+                $(".preview-tags input").val("");
+                $(".preview-tags input").css("width", "80px");
+            })
+
+            .on('keydown', "input", (e) => {
+                if ($(".add-tag").val().length >= 1) {
+                    $(".add-tag").css("width", `${20 + ($(".add-tag").val().length * 9)}px`)
+                }
+                if (e.keyCode == 13) {
+                    movietags.push($(".add-tag").val());
+                    console.log(movietags)
+                    let newInput = $(`<input type="text" placeholder="add new"></input>`)
+                        .addClass("add-tag")
+                    let newSpan = $(`<span class="tag"></span>`)
+                        .append(newInput);
+                    $(".preview-tags")
+                        .html("")
+                        .append(newSpan)
+                        .append(renderTags())
+                }
+            })
+            .append(`<span class="tag"><input class="add-tag" type="text" placeholder="add new"></input></span>`);
+        
+        previewMainContentContainer.append(controlsContainer, previewDescription, tagsContainer)
+        previewBody.append(previewMainContentContainer)
+        
+        wrapper.append(previewBody);
         return wrapper
+        
     }
 
     updateCollections(value) {
@@ -122,6 +154,15 @@ class watchItem {
         $(`#${this.id} .collection-tags`).html(htmlString);
     }
 
+}
+
+//helper function that doesn't work
+function renderTags() {
+    htmlString = ""
+    movietags.forEach((element) => {
+        htmlString += `<span class="tag">${element}</span>`;
+    })
+    return htmlString;
 }
 
 class movie extends watchItem {
@@ -141,7 +182,7 @@ class movie extends watchItem {
         let cardImage = $(`<div class="card-bg"></div>`);
         cardImage.css("background-image", `url("${this.lrgImage}")`);
         cardInner.append(cardImage);
-        let cardInfo = $(`<div class="card-info p-2"></div>`);
+        let cardInfo = $(`<div class="card-info p-2 scrollbar-ripe-malinka"></div>`);
         let cardTitle = $(
             `<h5 class="text-left">${this.title}<span class="year"> - ${this.year} </span></h5>`
         );

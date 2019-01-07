@@ -141,13 +141,16 @@
 }
 .card .card-inner .card-info {
   border-top: 4px solid orange;
-  left: 0;
+  height: 450px;
   width: 100%;
+  left: 0;
   z-index: 20;
   position: absolute;
-  bottom: -100%;
+  bottom: -110%;
   background-color: white;
   transition: bottom 1s;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 .card .card-inner .card-info .year {
   font-size: 0.7em;
@@ -169,7 +172,7 @@
   background-color: #ffc04d;
 }
 .card .card-inner .card-info .btn-actions {
-  width: 30%;
+  width: 31%;
   background-color: orange;
 }
 .card .card-inner .card-info .btn-actions:hover {
@@ -437,6 +440,49 @@
   border: none;
   margin: 0 auto;
   border-bottom: 1px solid black;
+}
+
+.preview {
+  margin: 50px auto;
+  width: 90vw;
+  box-shadow: 2px 2px 2px #000;
+}
+.preview hr {
+  width: 99%;
+  border-top: 4px solid orange;
+}
+.preview img {
+  margin: 0 auto;
+}
+.preview .controls {
+  margin-bottom: 10px;
+}
+.preview .controls div {
+  width: 50px;
+  height: 50px;
+  border: 1px solid;
+  border-radius: 50%;
+  text-align: center;
+  padding-top: 10px;
+}
+.preview .tag {
+  padding: 0px 5px;
+  border-radius: 40px;
+  background-color: orange;
+  margin-left: 5px;
+}
+.preview .add-tag {
+  color: black;
+  border: none;
+  background: none;
+  padding: 0px 5px;
+  width: 85px;
+}
+.preview .add-tag::placeholder {
+  color: black;
+}
+.preview .add-tag:focus {
+  outline: 0;
 }
 
 #watch-list {

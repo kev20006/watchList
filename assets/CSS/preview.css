@@ -1,0 +1,44 @@
+.preview {
+  margin: 50px auto;
+  width: 90vw;
+  box-shadow: 2px 2px 2px #000;
+}
+.preview hr {
+  width: 99%;
+  border-top: 4px solid orange;
+}
+.preview img {
+  margin: 0 auto;
+}
+.preview .controls {
+  margin-bottom: 10px;
+}
+.preview .controls div {
+  width: 50px;
+  height: 50px;
+  border: 1px solid;
+  border-radius: 50%;
+  text-align: center;
+  padding-top: 10px;
+}
+.preview .tag {
+  padding: 0px 5px;
+  border-radius: 40px;
+  background-color: orange;
+  margin-left: 5px;
+}
+.preview .add-tag {
+  color: black;
+  border: none;
+  background: none;
+  padding: 0px 5px;
+  width: 85px;
+}
+.preview .add-tag::placeholder {
+  color: black;
+}
+.preview .add-tag:focus {
+  outline: 0;
+}
+
+/*# sourceMappingURL=preview.css.map */

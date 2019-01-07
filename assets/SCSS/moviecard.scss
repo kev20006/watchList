@@ -43,13 +43,16 @@ $types-list: movie, tv, game, book;
     }
     .card-info{
       border-top: 4px solid orange;
-      left:0;
+      height:450px;
       width:100%;
+      left:0;
       z-index: 20;
       position: absolute;
-      bottom: -100%;
+      bottom: -110%;
       background-color:white;
       transition: bottom 1s;
+      overflow-y: scroll;
+      overflow-x: hidden;
       .year{
         font-size:0.7em
       }
@@ -70,7 +73,7 @@ $types-list: movie, tv, game, book;
         }
       }
       .btn-actions{
-        width:30%;
+        width:31%;
         background-color: orange;
          &:hover{
           background-color: #ffc04d;
