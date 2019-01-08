@@ -1,11 +1,9 @@
 .preview {
-  margin: 50px auto;
-  width: 90vw;
-  box-shadow: 2px 2px 2px #000;
+  margin: 0 auto;
 }
 .preview hr {
   width: 99%;
-  border-top: 4px solid orange;
+  border-top: 4px solid #fcb653;
 }
 .preview img {
   margin: 0 auto;

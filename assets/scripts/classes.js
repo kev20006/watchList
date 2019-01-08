@@ -1,7 +1,8 @@
 'use strict';
 
 class watchItem {
-    constructor(title, thumb, lrgImage, collection, longDescription, year, genre, note) {
+    constructor(dbid, title, thumb, lrgImage, collection, longDescription, year, genre, note) {
+        this.dbid = dbid;
         this.title = title;
         this.thumb = thumb;
         this.lrgImage = lrgImage;
@@ -28,6 +29,7 @@ class watchItem {
         }
         this.searchItem = this.searchItem.bind(this);
         this.itemPreview = this.itemPreview.bind(this);
+        this.updateCollections = this.updateCollections.bind(this); 
     }
     set setCollection(args) {
         this.collection = [...args]
@@ -52,14 +54,16 @@ class watchItem {
         imgWrapper.append(`<img src=${this.thumb} class="result-thumb" alt=${this.title.substring(0, 50)} height="50px" />`);
         textWrapper.append(`<p class="result-title">${this.title.substring(0, 40)} - ${this.year}</p>`);
         wrapper.on("click", () => {
-            $(`#results`).html(this.itemPreview());
+            $("#results").html(this.itemPreview("search"));
         })
         wrapper.append(imgWrapper, textWrapper);
         return wrapper
     }
 
-    itemPreview() {
-        let wrapper = $(`<div class="row mx-0"></div>`);
+    itemPreview(location) {
+        
+        let pageNumber = $("#results").attr("data-page")
+        let wrapper = $(`<div class="row mx-0 preview"></div>`);
         let previewHeader = $(`<header class="col-12"></header>`);
         let titleContainer = $(`<div class="row mx-0 p-2"></div>`);
         let titleContent = $(`<h3><strong>${this.title}</strong> <small class="ml-3">(${this.year})</small></h3>`);
@@ -71,30 +75,44 @@ class watchItem {
         previewHeader.append(titleContainer, genreContainer);
         wrapper.append(previewHeader, $(`<hr>`));
         let previewBody = $(`<main class="row mx-0"></main>`);
-        let imageWrapper = $(`<div class="col-12 col-sm-3 d-flex justify-content-center"></div>`);
+        let imageWrapper = $(`<div class="col-12 col-sm-4 d-flex justify-content-center"></div>`);
         //style this image properly using scss please
         imageWrapper.append(` <img class="p-2 pl-2" style="width:180px; height: 270px" src=${this.lrgImage} alt=${this.title} />`)
         previewBody.append(imageWrapper);
-        let previewMainContentContainer = $(`<div class="content col-12 col-sm-9"></div>`);
+        let previewMainContentContainer = $(`<div class="content col-12 col-sm-8"></div>`);
         let controlsContainer = $(`<div class="controls d-flex justify-content-around flex-wrap"></div>`)
             .append(`<div class="rating">75%</div>`);
-        let addBtn = $(`<div class="btn-add-to-list">(A)</div>`)
+        let addBtn = $(`<div class="btn-add-to-list"><i class="fas fa-plus-circle"></i></div>`)
             .on("click", (e) => {
                 this.note = $(e.target).siblings("textarea").val()
                 closePopUp();
                 watchList.add(this);
             });
-        let likeBtn = $(`<div class="btn-thumbs-up">(Y)</div>`);
-        let dislikeBtn = $(`<div class="btn-thumbs-dowm">(N)</div>`);
-        let deleteBtn = $(`<div class="btn-delete">(D)</div>`);
+        let likeBtn = $(`<div class="btn-thumbs-up"><i class="fas fa-thumbs-up"></i></div>`);
+        let dislikeBtn = $(`<div class="btn-thumbs-dowm"><i class="fas fa-thumbs-down"></i></div>`);
+        let deleteBtn = $(`<div class="btn-delete"><i class="fas fa-trash-alt"></i></div>`)
+            .on("click", () => {
+                watchList.remove(this.id.split("-")[1])
+                closePopUp();;
+            });
         let backBtn = $(`<div class="btn-back"> -> </div>`)
             .on("click", () => {
-                let searchTerm = $("#search-box input").val()
-                $("#results").html("")
-                searches[this.type](searchTerm, $("#results").attr("data-page"));
-            });
+                if(location == "search"){
+                    $("#results").html("")
+                    console.log($("search-box input").val())
+                    searches[this.type]($("#search-box input").val(), pageNumber);
+                }else{
+                    closePopUp();
+                }
+                
 
-        controlsContainer.append(addBtn, likeBtn, dislikeBtn, deleteBtn, backBtn)
+            });
+        if (location == "search"){
+            controlsContainer.append(addBtn, backBtn);
+        }else{
+            controlsContainer.append(likeBtn, dislikeBtn, deleteBtn, backBtn);
+        }
+        
         let previewDescription = $(`
             <p><strong>Overview:</strong></p>
         <p>${this.longDescription}</p>
@@ -118,8 +136,7 @@ class watchItem {
                     $(".add-tag").css("width", `${20 + ($(".add-tag").val().length * 9)}px`)
                 }
                 if (e.keyCode == 13) {
-                    movietags.push($(".add-tag").val());
-                    console.log(movietags)
+                    this.collection.push($(".add-tag").val());
                     let newInput = $(`<input type="text" placeholder="add new"></input>`)
                         .addClass("add-tag")
                     let newSpan = $(`<span class="tag"></span>`)
@@ -127,14 +144,13 @@ class watchItem {
                     $(".preview-tags")
                         .html("")
                         .append(newSpan)
-                        .append(renderTags())
+                        .append(this.updateCollections)
                 }
             })
-            .append(`<span class="tag"><input class="add-tag" type="text" placeholder="add new"></input></span>`);
+            .append(`<span class="collection-item"><input class="add-tag" type="text" placeholder="add new"></input></span>`);
         
         previewMainContentContainer.append(controlsContainer, previewDescription, tagsContainer)
         previewBody.append(previewMainContentContainer)
-        
         wrapper.append(previewBody);
         return wrapper
         
@@ -150,7 +166,6 @@ class watchItem {
                 htmlString += `<span class="collection-item"><small>${element}</small></span>`
             })
         }
-        htmlString += `<span class="collection-item"><small>add new collection</small></span>`
         $(`#${this.id} .collection-tags`).html(htmlString);
     }
 
@@ -210,16 +225,21 @@ class movie extends watchItem {
             );
         }
         let findOutMore = $(
-            `<hr><div class="btn btn-more-info text-center"> find out more</div>`
+            `<hr><div class="btn btn-more-info text-center">find out more</div>`
         );
+
+        findOutMore.on("click", ()=>{
+            makePopUp(this.type);
+            $("#results").html(this.itemPreview("list"));
+        })
         let buttonWrapper = $('<div class="d-flex justify-content-around"></div>');
         let deleteButton = $(`<div class="btn btn-action text-center"><i class="fas fa-trash-alt"></i></div>`);
         let thumbUpButton = $(`<div class="btn btn-action text-center"><i class="fas fa-thumbs-up"></i></div>`);
-        let thumbDownButton = $(`<div class="btn btn-action text-center"><i class="fas fa-thumbs-up"></i></div>`);
+        let thumbDownButton = $(`<div class="btn btn-action text-center"><i class="fas fa-thumbs-down"></i></div>`);
         deleteButton.on("click", () => {
             watchList.remove(this.id.split("-")[1]);
         })
-        buttonWrapper.append(thumbDownButton, deleteButton, thumbUpButton)
+        buttonWrapper.append(thumbUpButton, deleteButton, thumbDownButton)
         cardInfo.append(cardTitle, directedBy, shortDescription, collectionsSubHeading, collectionsArea, findOutMore, buttonWrapper)
         cardInner.append(cardInfo)
         newCard.append(cardInner);

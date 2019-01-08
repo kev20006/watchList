@@ -14,15 +14,17 @@ let searches = {
         $.getJSON(url, (data)=>{
             let resultsMobile =[]
             if (page % 2 != 0) {
-                resultsMobile = data.results.slice(0, 4)
+                resultsMobile = data.results.slice(0, 9)
             } else {
-                resultsMobile = data.results.slice(5, 9)
+                resultsMobile = data.results.slice(10, 19)
             }
             $(`#results`).html("")
+            console.log(data.results.length)
             if (resultsMobile.length >= 0) {
                 resultsMobile.forEach((element) => {
                     console.log(element)
                     let searchResult = new movie(
+                        element.id,
                         element.title,
                         `https://image.tmdb.org/t/p/w92${element.poster_path}`,
                         `https://image.tmdb.org/t/p/w600_and_h900_bestv2${element.poster_path}`,

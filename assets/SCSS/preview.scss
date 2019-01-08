@@ -1,11 +1,11 @@
+@import "constants.scss";
+
 .preview{
   hr{
     width:99%;
-    border-top: 4px solid orange ;
+    border-top: 4px solid nth($default-color,1);
   }
-  margin:50px auto;
-  width: 90vw;
-  box-shadow: 2px 2px 2px #000;
+  margin:0 auto;
   img{
     margin:0 auto;
   }

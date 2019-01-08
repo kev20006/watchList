@@ -68,7 +68,16 @@ function addNewMenu(type){
     let searchBox = $(`<div id="search-box" class="row d-flex mx-0 justify-content-center"></div>`);
     let searchBar = $(`<input type="text" placeholder="${type} Title"></input>`);
     searchBar.on("input", ()=>{
-        searches[type](searchBar.val(),1);
+        if (searchBar.val().length == 0){
+            $("#results").html(`
+                            <div class="mt-5 text-center">
+                                <h1><i class="fas fa-search"></i></h1>
+                                <p>Please type above to search for media</p>
+                            </div>`);
+        }else{
+            searches[type](searchBar.val(), 1);
+        }
+        
     })
     let toggleSearch = $(`<div class="toggle-search"><i class="fas fa-search"></i></div>`) ; 
     toggleSearch.on("click", ()=>{
