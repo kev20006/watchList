@@ -56,15 +56,6 @@ $types-list: movie, tv, game, book;
       .year{
         font-size:0.7em
       }
-      .collection-tag{
-        background-color: #ddd;
-        border-radius: 5px;
-        padding: 0px 5px;
-        transition: background-color 1s;
-        &:hover{
-          background-color: orange;
-        }
-      }
       .btn-more-info{
         background-color: orange;
         width:100%;

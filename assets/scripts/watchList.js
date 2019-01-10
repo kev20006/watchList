@@ -3,19 +3,16 @@
 let watchList = {
     /** Load Data From Local Storage**/
     contents: [],
-    collections: [],
+    collections: {},
     load: ()=>{
         if (window.localStorage.getItem('watchListData')) {
             let prevData = JSON.parse(window.localStorage.getItem('watchListData'));
-            console.log("local storage")
             console.log(prevData)
-            if (prevData.contents){
-                console.log("findingContents")
-                prevData.contents.forEach((item)=>{
-                    console.log(item)
+            if (prevData.list.contents){
+                prevData.list.contents.forEach((item)=>{
                     switch (item.type){
                         case "movie":
-                            watchList.add(new movie(item.title, item.thumb, item.lrgImage, item.collection, item.longDescription, item.year, item.genre, item.note, item.cast));
+                            watchList.add(new movie(item.dbid, item.title, item.thumb, item.lrgImage, item.longDescription, item.year, item.genre, item.note, item.cast));
                             break;
                         case "tv":
                             watchList.add(new tv(item.title, item.thumb, item.lrgImage, item.collection, item.longDescription, item.year, item.genre, item.note, item.cast));
@@ -29,8 +26,8 @@ let watchList = {
                     }
                 });
             }
-            if (prevData.collections){
-                watchList.collections = prevData.collections;
+            if (prevData.list.collections){
+                watchList.collections = prevData.list.collections;
             }
             watchList.updateLocalStorage();
             watchList.render(watchList.contents);
@@ -40,6 +37,7 @@ let watchList = {
     add: (obj)=>{
         watchList.contents.push(obj);
         watchList.render(watchList.contents);
+        console.log("adding")
         watchList.updateLocalStorage();
     },
     remove: (id)=>{
@@ -53,7 +51,6 @@ let watchList = {
             $("#watch-list").html(""); 
             list.forEach((element) => {
                 element.id = "card-"+index;
-                console.log("element")
                 $("#watch-list").append(element.card());
                 element.updateCollections();
                 index++;
@@ -69,8 +66,6 @@ let watchList = {
         
     },
     filter: (filterBy, value)=>{
-        
-        
         let filterList = {} 
         if(filterBy == "type"){
             filterList = watchList.contents.filter((element) => {
@@ -108,21 +103,32 @@ let watchList = {
             watchList.render(filterList)
         }
     },
-    addCollection: (name)=>{
-        watchList.collections.push(name);
+    addCollection: (name, id)=>{
+        console.log("adding: " + name)
+        if (!Object.keys(watchList.collections).includes(name)){
+            if(!id){
+                watchList.collections[name] = [];
+            }else{
+                watchList.collections[name] = [id];
+            }
+        }else{
+            watchList.collections[name].push(id);
+        }
+        
         watchList.renderCollections();
         watchList.updateLocalStorage();
     },
-    removeCollection: (id) =>{
-        watchList.collections.splice(id, 1);
+    removeCollection: (key) =>{
+        delete watchList.collections[key]
         watchList.renderCollections();
         watchList.updateLocalStorage();
     },
     renderCollections: ()=>{
+        //update collection list in drawer menu
         $("#category-list").html("");
-        if(watchList.collections.length != 0){
-            watchList.collections.forEach(element =>{
-                let collectionItem = $(`<li>${element}</li>`)
+        if (Object.keys(watchList.collections).length != 0){
+            Object.entries(watchList.collections).forEach(element =>{
+                let collectionItem = $(`<li>${element[0]}</li>`)
                     .on("click",()=>{
                         performFilter("collection", element);
                     })
@@ -134,9 +140,16 @@ let watchList = {
             makePopUp("manageFilters")
         });
         $("#category-list").append(addNew)
+        watchList.contents.forEach(element=>{
+            console.log(element)
+            element.updateCardTags();
+        })
     },
     updateLocalStorage: ()=>{
-        window.localStorage.setItem('watchListData', JSON.stringify({ collections: watchList.collections, contents: watchList.contents }));
+        console.log(watchList.collections)
+        console.log(window.localStorage.getItem('watchListData'));
+        window.localStorage.setItem('watchListData', JSON.stringify({ list: watchList}));
+        console.log(window.localStorage.getItem('watchListData'));
     }
 };
 

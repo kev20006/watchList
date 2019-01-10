@@ -6,7 +6,6 @@ let searches = {
     //paginate movies
     movie: (terms,page) =>{
         let searchPage = Math.ceil(page/2)
-        console.log(`${page} and ${searchPage}`)
         let url = `https://api.themoviedb.org/3/search/movie?api_key=${searches.keys[0]}&language=en-US&query=${terms}&page=${searchPage}`;
         $(`#results`).html(`
             <img src="./assets/images/loading.gif" alt="loader">
@@ -19,16 +18,13 @@ let searches = {
                 resultsMobile = data.results.slice(10, 19)
             }
             $(`#results`).html("")
-            console.log(data.results.length)
             if (resultsMobile.length >= 0) {
                 resultsMobile.forEach((element) => {
-                    console.log(element)
                     let searchResult = new movie(
                         element.id,
                         element.title,
                         `https://image.tmdb.org/t/p/w92${element.poster_path}`,
                         `https://image.tmdb.org/t/p/w600_and_h900_bestv2${element.poster_path}`,
-                        [],
                         element.overview,
                         element.release_date.split("-")[0],
                         "genre",
@@ -96,7 +92,6 @@ let searches = {
             if (data.items.length !=0){
                 data.items.forEach((element) => {
                     let image = ""
-                    console.log(element)
                     if (!element.volumeInfo.imageLinks){
                         image = `http://webmaster.ypsa.org/wp-content/uploads/2012/08/no_thumb.jpg`;
                     }else{
@@ -188,7 +183,6 @@ function paginationControls(page, terms, type){
     let next = $(`<div class="btn">next</div>`)
         .on("click", () => {
             let newPage = ((p) => { return p + incr })(page);
-            console.log(newPage)
             $("#results").attr("data-page", newPage)
             searches[type](terms, newPage)
         });

@@ -5,19 +5,16 @@ function closePopUp(){
 }
 
 function makePopUp(type){
-    console.log(type)
     $("#add-or-edit-container").html("")
     $(".obscure").fadeIn(300)
     $(".obscure").css("display", "flex");
     if (type == "manageFilters"){
-        console.log("i'm here")
         manageFilters();
     }
     else if (type === "help"){
         displayHelp();
     }
     else{
-        console.log("i've gone here instead")
         addNewMenu(type);
     }
 }
@@ -39,19 +36,21 @@ function manageFilters(){
     })
     $("#add-or-edit-container").append(title, collectionInput, button)
 
-    if (watchList.collections.length > 0){
+    if (Object.keys(watchList.collections).length > 0){
         let index=0;
-        watchList.collections.forEach(element =>{
+        Object.keys(watchList.collections).forEach(element =>{
             let i = (function (i) {return i})(index)
             let wrapper = $(`<div class="d-flex"></div>`)
             let input = $(`<input type="text" value=${element}></input>`)
                 .on("input",(e)=>{
-                    watchList.collections[i] = e.target.value
-                    watchList.renderCollections()
+                    watchList.collections[e.target.value] =  watchList.collections[element]
+                    delete watchList.collections[element] 
+                    watchList.renderCollections();
+                    watchList.updateLocalStorage();
                 })
             let deleteButton = $(`<input type="button" value="d"></input>`)
                 .on("click", ()=>{
-                    watchList.removeCollection(i)
+                    watchList.removeCollection(element)
                     watchList.renderCollections()
                     manageFilters()
                 })

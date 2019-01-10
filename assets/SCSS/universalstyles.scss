@@ -1,0 +1,10 @@
+@import "constants.scss";
+@import "mixins.scss";
+
+.collection-tag{
+        background-color: #ddd;
+        border-radius: 5px;
+        padding: 0px 5px;
+        transition: background-color 1s;
+        @include collections-add-color(nth($default-color,1), nth($default-color,2));
+      }

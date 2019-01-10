@@ -1,17 +1,5 @@
 @import "constants.scss";
-@mixin add-color($child, $color, $color2) {
-  &:nth-child(#{$child}) {
-    &:hover{
-    background-color: $color;
-    }
-    &:active{
-    background-color: $color2;
-    }
-    .active{
-      background-color:$color;
-    }
-  }
-}
+@import "mixins.scss";
 
 #app{
   overflow: hidden;

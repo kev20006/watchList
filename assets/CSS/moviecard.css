@@ -56,15 +56,6 @@
 .card .card-inner .card-info .year {
   font-size: 0.7em;
 }
-.card .card-inner .card-info .collection-tag {
-  background-color: #ddd;
-  border-radius: 5px;
-  padding: 0px 5px;
-  transition: background-color 1s;
-}
-.card .card-inner .card-info .collection-tag:hover {
-  background-color: orange;
-}
 .card .card-inner .card-info .btn-more-info {
   background-color: orange;
   width: 100%;

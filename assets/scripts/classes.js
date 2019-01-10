@@ -1,7 +1,7 @@
 'use strict';
 
 class watchItem {
-    constructor(dbid, title, thumb, lrgImage, collection, longDescription, year, genre, note) {
+    constructor(dbid, title, thumb, lrgImage, longDescription, year, genre, note) {
         this.dbid = dbid;
         this.title = title;
         this.thumb = thumb;
@@ -20,16 +20,11 @@ class watchItem {
         }
         this.year = year;
         this.genre = genre;
-        this.active = false;
         this.note = note;
-        if (collection.length == 0){
-            this.collection = [];
-        }else{
-            this.collection = collection;
-        }
         this.searchItem = this.searchItem.bind(this);
         this.itemPreview = this.itemPreview.bind(this);
-        this.updateCollections = this.updateCollections.bind(this); 
+        this.updateCollections = this.updateCollections.bind(this);
+        this.updateCardTags = this.updateCardTags.bind(this); 
     }
     set setCollection(args) {
         this.collection = [...args]
@@ -61,7 +56,6 @@ class watchItem {
     }
 
     itemPreview(location) {
-        
         let pageNumber = $("#results").attr("data-page")
         let wrapper = $(`<div class="row mx-0 preview"></div>`);
         let previewHeader = $(`<header class="col-12"></header>`);
@@ -99,7 +93,6 @@ class watchItem {
             .on("click", () => {
                 if(location == "search"){
                     $("#results").html("")
-                    console.log($("search-box input").val())
                     searches[this.type]($("#search-box input").val(), pageNumber);
                 }else{
                     closePopUp();
@@ -115,40 +108,33 @@ class watchItem {
         
         let previewDescription = $(`
             <p><strong>Overview:</strong></p>
-        <p>${this.longDescription}</p>
-        <p><strong>Tags:</strong></p>
-        `)
-        let tagsContainer = $(`<div class=" d-flex flex-wrap preview-tags"></div>`)
-            .focus("input", () => {
-                $(".preview-tags input").attr("placeholder", "")
-                if ($(".preview-tags input").val().length <= 1) {
-                    $(".preview-tags input").css("width", "20px")
-                }
-            })
-            .focusout("input", () => {
-                $(".preview-tags input").attr("placeholder", "add new");
-                $(".preview-tags input").val("");
-                $(".preview-tags input").css("width", "80px");
-            })
-
+            <p>${this.longDescription}</p>
+            <p><strong>Tags:</strong></p>
+            `)
+        
+        
+        let tagsContainer = $(`<div class=" d-flex flex-wrap preview-tags"></div>`)    
             .on('keydown', "input", (e) => {
                 if ($(".add-tag").val().length >= 1) {
                     $(".add-tag").css("width", `${20 + ($(".add-tag").val().length * 9)}px`)
                 }
                 if (e.keyCode == 13) {
-                    this.collection.push($(".add-tag").val());
+                    watchList.addCollection($(".add-tag").val(),this.dbid);
                     let newInput = $(`<input type="text" placeholder="add new"></input>`)
                         .addClass("add-tag")
-                    let newSpan = $(`<span class="tag"></span>`)
+                    let newSpan = $(`<span class="collection-tag"></span>`)
                         .append(newInput);
                     $(".preview-tags")
                         .html("")
                         .append(newSpan)
-                        .append(this.updateCollections)
+                        .append(this.updateCollections())
+                    this.updateCardTags()
+                    watchList.updateLocalStorage();
                 }
             })
-            .append(`<span class="collection-item"><input class="add-tag" type="text" placeholder="add new"></input></span>`);
+            .append(`<span class="ml-2 collection-tag"><input class="add-tag" type="text" placeholder="add new"></input></span>`, this.updateCollections());
         
+            
         previewMainContentContainer.append(controlsContainer, previewDescription, tagsContainer)
         previewBody.append(previewMainContentContainer)
         wrapper.append(previewBody);
@@ -161,28 +147,27 @@ class watchItem {
         if (value) {
             this.collection.push(value)
         }
-        if (!this.collection.length == 0) {
-            this.collection.forEach(element => {
-                htmlString += `<span class="collection-item"><small>${element}</small></span>`
-            })
+        Object.entries(watchList.collections).forEach(element => {
+            if (element[1].includes(this.dbid)) {
+                htmlString += `<span class="ml-2 collection-tag">${element[0]}</span>`
+            }
+        });
+        return htmlString;
+    }
+
+    updateCardTags(){
+        let collectionHTMLstring = this.updateCollections()
+        if (collectionHTMLstring.length <= 0) {
+            collectionHTMLstring = `<span class="collection-tag mr-1 mb-1">no collections</span>`;
         }
-        $(`#${this.id} .collection-tags`).html(htmlString);
+        $(`#collections-${this.id}`).html(collectionHTMLstring);
     }
 
 }
 
-//helper function that doesn't work
-function renderTags() {
-    htmlString = ""
-    movietags.forEach((element) => {
-        htmlString += `<span class="tag">${element}</span>`;
-    })
-    return htmlString;
-}
-
 class movie extends watchItem {
-    constructor(title, thumb, lrgImage, collection, longDescription, year, genre, note, cast) {
-        super(title, thumb, lrgImage, collection, longDescription, year, genre, note)
+    constructor(dbid, title, thumb, lrgImage, longDescription, year, genre, note, cast) {
+        super(dbid, title, thumb, lrgImage, longDescription, year, genre, note)
         this.cast = cast
         this.type = "movie";
         this.icon = `<div class="icon-bg"><i class="fas fa-film m-1"></i></div>`;
@@ -210,20 +195,9 @@ class movie extends watchItem {
                                     <hr>
                                 `)
         let collectionsSubHeading = $(`<p><strong>Collections:</strong></p>`);
-        let collectionsArea = $(`<div class="d-flex flex-wrap"></div>`);
-        if (this.collection.length >= 1) {
-            console.log(this)
-            console.log(this.collection)
-            this.collection.forEach(element => {
-                collectionsArea.append(
-                    `<span class="collection-tag mr-1 mb-1"> ${element} </span>`
-                );
-            });
-        } else {
-            collectionsArea.append(
-                `<span class="collection-tag mr-1 mb-1">no collections</span>`
-            );
-        }
+        let collectionsArea = $(`<div id="collections-${this.id}" class="d-flex flex-wrap"></div>`);
+        let collectionHTMLstring = this.updateCollections()
+        
         let findOutMore = $(
             `<hr><div class="btn btn-more-info text-center">find out more</div>`
         );
@@ -251,8 +225,8 @@ class movie extends watchItem {
 
 //carbon copy of Movie at the moment, will modify shortly
 class tv extends watchItem{
-    constructor(title, thumb, lrgImage, collection, longDescription, year, genre, note, cast) {
-        super(title, thumb, lrgImage, collection, longDescription, year, genre, note)
+    constructor(title, thumb, lrgImage, longDescription, year, genre, note, cast) {
+        super(title, thumb, lrgImage, longDescription, year, genre, note)
         this.cast = cast
         this.type = "tv";
         this.icon = `<div class="icon-bg"><i class="fas fa-tv m-1"></i></div>`;
@@ -325,8 +299,8 @@ class tv extends watchItem{
 }
 
 class book extends watchItem {
-    constructor(title, thumb, lrgImage, collection, longDescription, year, genre, note, cast) {
-        super(title, thumb, lrgImage, collection, longDescription, year, genre, note)
+    constructor(title, thumb, lrgImage, longDescription, year, genre, note, cast) {
+        super(title, thumb, lrgImage, longDescription, year, genre, note)
         this.cast = cast
         this.type = "book";
         this.icon = `<div class="icon-bg"><i class="fas fa-book m-1"></i></div>`;
@@ -399,8 +373,8 @@ class book extends watchItem {
 }
 
 class game extends watchItem {
-    constructor(title, thumb, lrgImage, collection, longDescription, year, genre, note, cast) {
-        super(title, thumb, lrgImage, collection, longDescription, year, genre, note)
+    constructor(title, thumb, lrgImage, longDescription, year, genre, note, cast) {
+        super(title, thumb, lrgImage, longDescription, year, genre, note)
         this.cast = cast
         this.type = "game";
         this.icon = `<div class="icon-bg"><i class="fas fa-gamepad m-1"></i></div>`;
