@@ -61,9 +61,9 @@ class watchItem {
         let previewHeader = $(`<header class="col-12"></header>`);
         let titleContainer = $(`<div class="row mx-0 p-2"></div>`);
         let titleContent = $(`<h3><strong>${this.title}</strong> <small class="ml-3">(${this.year})</small></h3>`);
-        let genreContainer = $(`<div class="row mx-0 p-2 mb-0"></div>`)
+        let genreContainer = $(`<div class="genres row mx-0 p-2 mb-0"></div>`)
         //placeholder for genres - this will need to iterate
-        let genresContent = $(`<p><strong>Genres:</strong><span class="ml-2">Family,</span><span class="ml-2">Fantasy,</span><span class="ml-2">Adventure</span> </p>`)
+        let genresContent = $(``)
         titleContainer.append(titleContent);
         genreContainer.append(genresContent);
         previewHeader.append(titleContainer, genreContainer);
@@ -75,7 +75,7 @@ class watchItem {
         previewBody.append(imageWrapper);
         let previewMainContentContainer = $(`<div class="content col-12 col-sm-8"></div>`);
         let controlsContainer = $(`<div class="controls d-flex justify-content-around flex-wrap"></div>`)
-            .append(`<div class="rating">75%</div>`);
+            .append(`<div class="rating"></div>`);
         let addBtn = $(`<div class="btn-add-to-list"><i class="fas fa-plus-circle"></i></div>`)
             .on("click", (e) => {
                 this.note = $(e.target).siblings("textarea").val()
@@ -166,16 +166,50 @@ class watchItem {
 }
 
 class movie extends watchItem {
-    constructor(dbid, title, thumb, lrgImage, longDescription, year, genre, note, cast) {
+    constructor(dbid, title, thumb, lrgImage, longDescription, year, genre, note) {
         super(dbid, title, thumb, lrgImage, longDescription, year, genre, note)
-        this.cast = cast
         this.type = "movie";
         this.icon = `<div class="icon-bg"><i class="fas fa-film m-1"></i></div>`;
         this.searchItem = this.searchItem.bind(this);
         this.itemPreview = this.itemPreview.bind(this);
         this.card = this.card.bind(this);
         this.updateCollections = this.updateCollections.bind(this);
+        this.getMovieDetails = this.getMovieDetails.bind(this);
+        this.getMovieDetails();
     }
+
+    getMovieDetails(){
+        let key = "405219586381645a0c87c4c5dc9211d9";
+        let url = `https://api.themoviedb.org/3/movie/${this.dbid}?api_key=${key}&language=en-US&append_to_response=credits`;
+        $.getJSON(url, (data) => {
+            console.log(`retrieving movie: ${this.dbid}`)
+            console.log(data)
+            this.director = "None Acknowledged"
+            data.credits.crew.forEach(element =>{
+                if (element.job == "Director"){
+                    this.director = element.name
+                }
+            })
+            watchList.render(watchList.contents)
+            this.genres = data.genres
+            this.rating = data.vote_average * 10
+        })
+    }
+
+    itemPreview(location){
+        let preview = super.itemPreview(location);
+        console.log("I'm doing this...")
+        let genresContainer = $(`<p></p>`)
+        genresContainer.append(`<strong>Genres:</strong>`);
+        this.genres.forEach(element=>{
+            console.log(element.name)
+            genresContainer.append(`<span class="ml-2">${element.name}</span>`)
+        })
+        genresContainer.appendTo(preview.find(".genres"));
+        $(`<strong>${this.rating}%</strong>`).appendTo(preview.find(".rating"));
+        return preview
+    }
+
     card(){
         let newCard = $(`<article id=${this.id} class="card"></article>`);
         let cardInner = $(`<div class="card-inner"></div>`);
@@ -187,7 +221,7 @@ class movie extends watchItem {
             `<h5 class="text-left">${this.title}<span class="year"> - ${this.year} </span></h5>`
         );
         let directedBy = $(
-            ` <p class="text-right"><strong>Directed By: </strong>Chris Columbus</p><hr>`
+            ` <p class="text-right"><strong>Directed By: </strong>${this.director}</p><hr>`
         );
         let shortDescription = $(`
                                     <p><strong>Description</strong></p>

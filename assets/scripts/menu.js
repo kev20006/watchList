@@ -1,3 +1,9 @@
+["movie", "tv", "game", "book"].forEach((element) => {
+  $(`#${element}`).on("click", () => {
+    makePopUp(`${element}`)
+  })
+})
+
 
 let addMenuVis = false;
 $(document).on("click", (e)=>{
@@ -11,9 +17,6 @@ $(document).on("click", (e)=>{
       }, 500,()=>{
           $(`#${element}`).show();
           addMenuVis = true;
-        $(`#${element}`).on("click", () => {
-          makePopUp(`${element}`)
-        })
       });
       startPos += 50;
     })

@@ -7,7 +7,6 @@ let watchList = {
     load: ()=>{
         if (window.localStorage.getItem('watchListData')) {
             let prevData = JSON.parse(window.localStorage.getItem('watchListData'));
-            console.log(prevData)
             if (prevData.list.contents){
                 prevData.list.contents.forEach((item)=>{
                     switch (item.type){
@@ -37,7 +36,6 @@ let watchList = {
     add: (obj)=>{
         watchList.contents.push(obj);
         watchList.render(watchList.contents);
-        console.log("adding")
         watchList.updateLocalStorage();
     },
     remove: (id)=>{
@@ -63,6 +61,7 @@ let watchList = {
                 </div>
             `);
         }
+        watchList.renderCollections();
         
     },
     filter: (filterBy, value)=>{
@@ -73,7 +72,7 @@ let watchList = {
             })
         }else{
             filterList = watchList.contents.filter((element) => {
-                return element.collection.includes(value);
+                if (watchList.collections[value].includes(element.dbid)) return true;
             })
         }
         let icons = {
@@ -94,7 +93,7 @@ let watchList = {
             }else{
                 htmlString = `
                 <div class="no-results text-center">
-                <h5>Collection: ${value}, no longer has any contents</h5>
+                <h5>Collection: ${value.key}, no longer has any contents</h5>
                 </div>
                 `
             }  
@@ -104,7 +103,6 @@ let watchList = {
         }
     },
     addCollection: (name, id)=>{
-        console.log("adding: " + name)
         if (!Object.keys(watchList.collections).includes(name)){
             if(!id){
                 watchList.collections[name] = [];
@@ -130,7 +128,7 @@ let watchList = {
             Object.entries(watchList.collections).forEach(element =>{
                 let collectionItem = $(`<li>${element[0]}</li>`)
                     .on("click",()=>{
-                        performFilter("collection", element);
+                        performFilter("collection", element[0]);
                     })
                 $("#category-list").append(collectionItem);
             }) 
@@ -141,21 +139,16 @@ let watchList = {
         });
         $("#category-list").append(addNew)
         watchList.contents.forEach(element=>{
-            console.log(element)
             element.updateCardTags();
         })
     },
     updateLocalStorage: ()=>{
-        console.log(watchList.collections)
-        console.log(window.localStorage.getItem('watchListData'));
         window.localStorage.setItem('watchListData', JSON.stringify({ list: watchList}));
-        console.log(window.localStorage.getItem('watchListData'));
     }
 };
 
 watchList.load();
 watchList.render(watchList.contents);
-watchList.renderCollections();
 if (watchList.contents.length == 0){
     makePopUp('help')
 }
