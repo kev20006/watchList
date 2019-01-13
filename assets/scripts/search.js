@@ -28,8 +28,8 @@ let searches = {
                         element.overview,
                         element.release_date.split("-")[0],
                         "genre",
-                        "",
-                        ["bob"])
+                        ""
+                        )
                     $(`#results`).append(searchResult.searchItem);
                 })
             }else{
@@ -60,16 +60,17 @@ let searches = {
             $(`#results`).html("")
             if(resultsMobile.length != 0){
                 resultsMobile.forEach((element) => {
+                    console.log(element)
                     let searchResult = new tv(
+                        element.id,
                         element.name,
                         `https://image.tmdb.org/t/p/w92${element.poster_path}`,
-                        `https://image.tmdb.org/t/p/w92${element.poster_path}`,
-                        [],
+                        `https://image.tmdb.org/t/p/w600_and_h900_bestv2${element.poster_path}`,
                         element.overview,
                         element.first_air_date.split("-")[0],
                         "genre",
-                        "",
-                        ["placeholder"])
+                        ""
+                        )
                     $(`#results`).append(searchResult.searchItem);
                 })
             }else{
@@ -91,17 +92,21 @@ let searches = {
             $(`#results`).html("")
             if (data.items.length !=0){
                 data.items.forEach((element) => {
+                    console.log(element)
                     let image = ""
+                    let largerImage;
                     if (!element.volumeInfo.imageLinks){
                         image = `http://webmaster.ypsa.org/wp-content/uploads/2012/08/no_thumb.jpg`;
+                        largerImage = `http://webmaster.ypsa.org/wp-content/uploads/2012/08/no_thumb.jpg`;
                     }else{
                         image = element.volumeInfo.imageLinks.smallThumbnail;
+                        largerImage = element.volumeInfo.imageLinks.thumbnail
                     }
                     let searchResult = new book(
+                        element.id,
                         element.volumeInfo.title,
                         image,
                         image,
-                        [],
                         element.volumeInfo.description,
                         element.volumeInfo.publishedDate,
                         "genre",
@@ -129,18 +134,22 @@ let searches = {
             $(`#results`).html("")
             if (data.length != 0) { 
                 data.forEach((element) => {
+                    console.log(element)
                     let imgUrl;
+                    let bigImg;
                     if ("cover" in element) {
                         imgUrl = `https://images.igdb.com/igdb/image/upload/t_cover_small/${element.cover.cloudinary_id}.jpg`
+                        bigImg = `https://images.igdb.com/igdb/image/upload/t_cover_big/${element.cover.cloudinary_id}.jpg`
                     } else {
-                        imgUrl = `http://webmaster.ypsa.org/wp-content/uploads/2012/08/no_thumb.jpg`
+                        imgUrl = `http://webmaster.ypsa.org/wp-content/uploads/2012/08/no_thumb.jpg`;
+                        bigImg = `http://webmaster.ypsa.org/wp-content/uploads/2012/08/no_thumb.jpg`;
                     }
                     let date = new Date(element.first_release_date)
                     let searchResult = new game(
+                        element.id,
                         element.name,
                         imgUrl,
-                        imgUrl,
-                        [],
+                        bigImg,
                         element.summary,
                         date.getFullYear(),
                         "genre",
@@ -158,14 +167,6 @@ let searches = {
             });
     }
 }
-
-
-
-let genres = `https://api.themoviedb.org/3/genre/movie/list?api_key=${searches.keys[0]}&language=en-US`;
-
-$.getJSON(genres, (data)=>{
-    movieGenres =  data.genres;
-})
 
 function paginationControls(page, terms, type){
     let incr = 1

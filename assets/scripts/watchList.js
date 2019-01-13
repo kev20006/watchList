@@ -14,13 +14,13 @@ let watchList = {
                             watchList.add(new movie(item.dbid, item.title, item.thumb, item.lrgImage, item.longDescription, item.year, item.genre, item.note, item.cast));
                             break;
                         case "tv":
-                            watchList.add(new tv(item.title, item.thumb, item.lrgImage, item.collection, item.longDescription, item.year, item.genre, item.note, item.cast));
+                            watchList.add(new tv(item.dbid, item.title, item.thumb, item.lrgImage, item.longDescription, item.year, item.genre, item.note, item.cast));
                             break;
                         case "book":
-                            watchList.add(new book(item.title, item.thumb, item.lrgImage, item.collection, item.longDescription, item.year, item.genre, item.note, item.cast));
+                            watchList.add(new book(item.dbid, item.title, item.thumb, item.lrgImage, item.longDescription, item.year, item.genre, item.note, item.cast));
                             break;
                         case "game":
-                            watchList.add(new game(item.title, item.thumb, item.lrgImage, item.collection, item.longDescription, item.year, item.genre, item.note, item.cast));
+                            watchList.add(new game(item.dbid, item.title, item.thumb, item.lrgImage, item.longDescription, item.year, item.genre, item.note, item.cast));
                             break;
                     }
                 });

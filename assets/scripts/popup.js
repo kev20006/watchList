@@ -15,12 +15,7 @@ function makePopUp(type){
         displayHelp();
     }
     else{
-        if (type!= "movie"){
-            alert("only movies now i'm afraid :(")
-            $(".obscure").css("display", "none");
-        }else{
-            addNewMenu(type);
-        }
+        addNewMenu(type);
     }
 }
 
