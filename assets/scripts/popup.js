@@ -1,4 +1,5 @@
 function closePopUp(){
+    $("#search-box").removeClass("d-none").addClass("d-flex");
     $(".obscure").fadeOut(200, () => {
         $(this).css("display", "none");
     });
@@ -27,7 +28,7 @@ $(document).on("click", (e) => {
 
 function manageFilters(){
     $("#add-or-edit-container").html("")
-    let title = $(`<h3 class="sub - head">Manage Collections</h3><hr>`)
+    let title = $(`<h3 class="sub-head">Manage Collections</h3><hr>`)
     let collectionInput = $(`<input id="collection-input" type="text"></input>`)
     let button = $(`<input type="button">add</input>`)
     button.on("click", ()=>{
@@ -64,7 +65,7 @@ function manageFilters(){
 
 function addNewMenu(type){
     $("#add-or-edit-container").html("")
-    let searchBox = $(`<div id="search-box" class="row d-flex mx-0 justify-content-center"></div>`);
+    let searchBox = $(`<div id="search-box" class="row d-flex mx-0 justify-content-center add-tag"></div>`);
     let searchBar = $(`<input type="text" placeholder="${type} Title"></input>`);
     searchBar.on("input", ()=>{
         if (searchBar.val().length == 0){
@@ -78,10 +79,6 @@ function addNewMenu(type){
         }
         
     })
-    let toggleSearch = $(`<div class="toggle-search"><i class="fas fa-search"></i></div>`) ; 
-    toggleSearch.on("click", ()=>{
-        $("#search-box .toggle-search").toggleClass("on").toggleClass("off")
-    }) 
    searchBox.append(searchBar) 
     let results = $(`<div id="results" data-page='1'>
                         <div class="mt-5 text-center">

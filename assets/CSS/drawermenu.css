@@ -83,10 +83,10 @@
   width: 80%;
 }
 
-#category-list li:hover {
+.category-list li:hover {
   background-color: #fcb653;
 }
-#category-list li:active {
+.category-list li:active {
   background-color: #e2a34a;
 }
 

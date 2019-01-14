@@ -50,6 +50,7 @@ class watchItem {
         textWrapper.append(`<p class="result-title">${this.title.substring(0, 40)} - ${this.year}</p>`);
         wrapper.on("click", () => {
             $("#results").html(this.itemPreview("search"));
+            $("#search-box").addClass("d-none").removeClass("d-flex");
         })
         wrapper.append(imgWrapper, textWrapper);
         return wrapper
@@ -91,6 +92,7 @@ class watchItem {
             });
         let backBtn = $(`<div class="btn-back"> -> </div>`)
             .on("click", () => {
+                $("#search-box").removeClass("d-none").addClass("d-flex");
                 if(location == "search"){
                     $("#results").html("")
                     searches[this.type]($("#search-box input").val(), pageNumber);
@@ -100,7 +102,7 @@ class watchItem {
                 
 
             });
-        if (location == "search"){
+        if (location == "search" || location == "recommendation"){
             controlsContainer.append(addBtn, backBtn);
         }else{
             controlsContainer.append(likeBtn, dislikeBtn, deleteBtn, backBtn);
@@ -142,7 +144,7 @@ class watchItem {
         
     }
 
-    card() {
+    card(recommendation) {
         let newCard = $(`<article id=${this.id} class="card"></article>`);
         let cardInner = $(`<div class="card-inner"></div>`);
         let cardImage = $(`<div class="card-bg"></div>`);
@@ -151,9 +153,6 @@ class watchItem {
         let cardInfo = $(`<div class="card-info p-2 scrollbar-ripe-malinka"></div>`);
         let cardTitle = $(
             `<h5 class="text-left">${this.title}<span class="year"> - ${this.year} </span></h5>`
-        );
-        let directedBy = $(
-            ` <p class="text-right"><strong>Directed By: </strong>${this.director}</p><hr>`
         );
         let shortDescription = $(`
                                     <p><strong>Description</strong></p>
@@ -165,12 +164,19 @@ class watchItem {
         let collectionHTMLstring = this.updateCollections()
 
         let findOutMore = $(
-            `<hr><div class="btn btn-more-info text-center">find out more</div>`
+            `<hr><div class="btn btn-more-info text-center">more info</div>`
         );
 
         findOutMore.on("click", () => {
             makePopUp(this.type);
-            $("#results").html(this.itemPreview("list"));
+            if(!recommendation){
+                $("#search-box").addClass("d-none").removeClass("d-flex");
+                $("#results").html(this.itemPreview("list"));
+            }else{
+                $("#search-box").addClass("d-none").removeClass("d-flex");
+                $("#results").html(this.itemPreview("recommendation"));
+            }
+            
         })
         let buttonWrapper = $('<div class="d-flex justify-content-around"></div>');
         let deleteButton = $(`<div class="btn btn-action text-center"><i class="fas fa-trash-alt"></i></div>`);
@@ -180,7 +186,7 @@ class watchItem {
             watchList.remove(this.id.split("-")[1]);
         })
         buttonWrapper.append(thumbUpButton, deleteButton, thumbDownButton)
-        cardInfo.append(cardTitle, directedBy, shortDescription, collectionsSubHeading, collectionsArea, findOutMore, buttonWrapper)
+        cardInfo.append(cardTitle, shortDescription, collectionsSubHeading, collectionsArea, findOutMore, buttonWrapper)
         cardInner.append(cardInfo)
         newCard.append(cardInner);
         return newCard;
@@ -234,10 +240,10 @@ class movie extends watchItem {
                     this.director = element.name
                 }
             })
-            watchList.render(watchList.contents)
             this.genres = data.genres
             this.rating = data.vote_average * 10
         })
+        
     }
 
     itemPreview(location){
@@ -257,7 +263,7 @@ class movie extends watchItem {
 }
 
 
-//carbon copy of Movie at the moment, will modify shortly
+
 class tv extends watchItem{
     constructor(dbid, title, thumb, lrgImage, longDescription, year, genre, note) {
         super(dbid, title, thumb, lrgImage, longDescription, year, genre, note)

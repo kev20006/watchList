@@ -1,7 +1,6 @@
 @import "constants.scss";
 @import "mixins";
 @import "universalstyles.scss";
-@import "searchbar.scss";
 @import "drawermenu.scss";
 @import "moviecard.scss";
 @import "navbuttons.scss";
@@ -11,8 +10,8 @@
 
 
 
-#watch-list{
-  margin-top: 50px;
+#view-title{
+  margin-top: 55px;
 }
 .navbar{
   background-color:  nth($default-color,2);

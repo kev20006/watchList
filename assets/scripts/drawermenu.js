@@ -3,7 +3,7 @@ var menuActive = false;
 
 $(document).on("click", (e) => {
     if ($(e.target).attr("id") == "toggle-menu") {
-        if (menuActive == false) {
+        if (!menuActive) {
             menuActive = true;
             $("#menu").animate(
                 {
@@ -11,19 +11,12 @@ $(document).on("click", (e) => {
                 }, 500);
         } else {
             menuActive = false;
-            $("#menu").animate(
-                {
-                    left: "-=210",
-                }, 500)
+            closeDrawerMenu()
         }
     }
     else if (menuActive) {
         if (e.target.closest("aside") == null) {
-            menuActive = false;
-            $("#menu").animate(
-                {
-                    left: "-=210",
-                }, 500)
+            closeDrawerMenu()
         }
     }
 })
@@ -36,11 +29,16 @@ function performFilter(filterBy, value){
         watchList.filter(filterBy, value)
     }
     menuActive = false;
-    $("#menu").animate({
-            left: "-=210",
-        }, 500)
+    closeDrawerMenu()
 }
 
 $("#category-list .add-new").on("click", () => {
     makePopUp("manageFilters")
 })
+
+function closeDrawerMenu(){
+    menuActive = false;
+    $("#menu").animate({
+        left: "-=210",
+    }, 500)
+}

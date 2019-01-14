@@ -11,13 +11,6 @@
   background-color: #e2a34a;
 }
 
-#search {
-  margin: 0 auto;
-  width: 60%;
-  padding-top: 1%;
-  padding-bottom: 1%;
-}
-
 #app {
   overflow: hidden;
 }
@@ -103,10 +96,10 @@
   width: 80%;
 }
 
-#category-list li:hover {
+.category-list li:hover {
   background-color: #fcb653;
 }
-#category-list li:active {
+.category-list li:active {
   background-color: #e2a34a;
 }
 
@@ -455,8 +448,8 @@
   outline: 0;
 }
 
-#watch-list {
-  margin-top: 50px;
+#view-title {
+  margin-top: 55px;
 }
 
 .navbar {

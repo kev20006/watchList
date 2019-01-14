@@ -53,9 +53,9 @@ let searches = {
         $.getJSON(url, (data) => {
             let resultsMobile = []
             if (page % 2 != 0) {
-                resultsMobile = data.results.slice(0, 4)
+                resultsMobile = data.results.slice(0, 9)
             } else {
-                resultsMobile = data.results.slice(5, 9)
+                resultsMobile = data.results.slice(10, 19)
             }
             $(`#results`).html("")
             if(resultsMobile.length != 0){
@@ -87,7 +87,7 @@ let searches = {
         $(`#results`).html(`
             <img src="./assets/images/loading.gif" alt="loader">
             <p>loading books....</p>`);
-        let url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${terms}&startIndex=${page}&maxResults=5`;
+        let url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${terms}&startIndex=${page}&maxResults=10`;
         $.getJSON(url, (data) => {
             $(`#results`).html("")
             if (data.items.length !=0){
@@ -180,7 +180,7 @@ function paginationControls(page, terms, type){
                 searches[type](terms, newPage)
             }
         });
-    let custom = $(`<div class="btn">add new</div>`);
+    let custom = $(`<div class="btn"></div>`);
     let next = $(`<div class="btn">next</div>`)
         .on("click", () => {
             let newPage = ((p) => { return p + incr })(page);
