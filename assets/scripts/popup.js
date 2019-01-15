@@ -65,7 +65,7 @@ function manageFilters(){
 
 function addNewMenu(type){
     $("#add-or-edit-container").html("")
-    let searchBox = $(`<div id="search-box" class="row d-flex mx-0 justify-content-center add-tag"></div>`);
+    let searchBox = $(`<div id="search-box" class="row d-flex mx-0 justify-content-center"></div>`);
     let searchBar = $(`<input type="text" placeholder="${type} Title"></input>`);
     searchBar.on("input", ()=>{
         if (searchBar.val().length == 0){

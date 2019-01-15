@@ -2,9 +2,29 @@
 @import "mixins.scss";
 
 .collection-tag{
-        background-color: #ddd;
-        border-radius: 5px;
-        padding: 0px 5px;
-        transition: background-color 1s;
-        @include collections-add-color(nth($default-color,1), nth($default-color,2));
-      }
+  background-color: #ddd;
+  border-radius: 5px;
+  padding: 0px 5px;
+  transition: background-color 1s;
+  @include collections-add-color(nth($default-color,1), nth($default-color,2));
+}
+
+.owl-nav { 
+  display: flex;
+  font-size:2.5rem;
+  justify-content: center;
+}
+
+.owl-dots{
+  display:flex;
+  justify-content: center;
+  .owl-dot{
+    width:20px !important;
+    height:20px !important;
+  }
+  span{
+    width:10px !important;
+    height:10px !important;
+    background-color:black;
+  }
+} 

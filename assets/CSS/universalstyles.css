@@ -11,4 +11,24 @@
   background-color: #e2a34a;
 }
 
+.owl-nav {
+  display: flex;
+  font-size: 2.5rem;
+  justify-content: center;
+}
+
+.owl-dots {
+  display: flex;
+  justify-content: center;
+}
+.owl-dots .owl-dot {
+  width: 20px !important;
+  height: 20px !important;
+}
+.owl-dots span {
+  width: 10px !important;
+  height: 10px !important;
+  background-color: black;
+}
+
 /*# sourceMappingURL=universalstyles.css.map */

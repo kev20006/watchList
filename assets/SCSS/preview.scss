@@ -35,4 +35,37 @@
     &::placeholder { color: black;}
     &:focus {outline:0;}
   }
+  .desc-box{
+    max-height:200px;
+    overflow-y: scroll;
+  }
+  .actor-thumb{
+
+    margin: 0 auto;
+    
+    .img-container{
+      border:2px solid white;
+      box-shadow: $shadow;
+      width:120px;
+      height: 150px;
+      overflow: hidden;
+      border-radius: 5px;
+      img{
+        position:relative;
+        bottom:10px;
+        width:100%;
+      }
+    }
+  }
+  .notes-area{
+    width: 100%;
+    margin-top: 15px;
+    background-color: rgb(221, 221, 221);
+    border-radius: 5px;
+    border: none;
+    border-bottom: 4px solid rgb(252, 182, 83);
+    margin-bottom: 0px;
+    height: 131px;
+  }
+
 }

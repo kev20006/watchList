@@ -110,8 +110,7 @@ class watchItem {
         
         let previewDescription = $(`
             <p><strong>Overview:</strong></p>
-            <p>${this.longDescription}</p>
-            <p><strong>Tags:</strong></p>
+            <p class="desc-box">${this.longDescription}</p>
             `)
         
         
@@ -121,6 +120,7 @@ class watchItem {
                     $(".add-tag").css("width", `${20 + ($(".add-tag").val().length * 9)}px`)
                 }
                 if (e.keyCode == 13) {
+                    console.log($(".add-tag"))
                     watchList.addCollection($(".add-tag").val(),this.dbid);
                     let newInput = $(`<input type="text" placeholder="add new"></input>`)
                         .addClass("add-tag")
@@ -136,8 +136,8 @@ class watchItem {
             })
             .append(`<span class="ml-2 collection-tag"><input class="add-tag" type="text" placeholder="add new"></input></span>`, this.updateCollections());
         
-            
-        previewMainContentContainer.append(controlsContainer, previewDescription, tagsContainer)
+        let noteArea = $(`<textarea id="notes" class="notes-area" rows="5">Any Additional notes about this ${this.type}</textarea>`);     
+        previewMainContentContainer.append(controlsContainer, previewDescription, `<hr><p><strong>collections</strong></p>`, tagsContainer, noteArea)
         previewBody.append(previewMainContentContainer)
         wrapper.append(previewBody);
         return wrapper
@@ -161,7 +161,6 @@ class watchItem {
                                 `)
         let collectionsSubHeading = $(`<p><strong>Collections:</strong></p>`);
         let collectionsArea = $(`<div id="collections-${this.id}" class="d-flex flex-wrap"></div>`);
-        let collectionHTMLstring = this.updateCollections()
 
         let findOutMore = $(
             `<hr><div class="btn btn-more-info text-center">more info</div>`
@@ -232,7 +231,6 @@ class movie extends watchItem {
         let key = "405219586381645a0c87c4c5dc9211d9";
         let url = `https://api.themoviedb.org/3/movie/${this.dbid}?api_key=${key}&language=en-US&append_to_response=credits`;
         $.getJSON(url, (data) => {
-            console.log(`retrieving movie: ${this.dbid}`)
             console.log(data)
             this.director = "None Acknowledged"
             data.credits.crew.forEach(element =>{
@@ -242,13 +240,16 @@ class movie extends watchItem {
             })
             this.genres = data.genres
             this.rating = data.vote_average * 10
+            this.cast = []
+            for (let i=0; i <= 3; i++){
+                this.cast.push(data.credits.cast[i])
+            }     
         })
         
     }
 
     itemPreview(location){
         let preview = super.itemPreview(location);
-        console.log("I'm doing this...")
         let genresContainer = $(`<p></p>`)
         genresContainer.append(`<strong>Genres:</strong>`);
         this.genres.forEach(element=>{
@@ -257,6 +258,23 @@ class movie extends watchItem {
         })
         genresContainer.appendTo(preview.find(".genres"));
         $(`<strong>${this.rating}%</strong>`).appendTo(preview.find(".rating"));
+        
+        preview.append("<hr>")
+        console.log(this.cast)
+        let castSection = $("<section></section>").append(`<div class="row mx-0 px-1"><p><strong>Top Billed Cast</strong></div>`)
+        let castContainer = $(`<div class="row mx-0 px-1"></div>`)
+        this.cast.forEach(element =>{
+            castContainer.append($(
+            `<div class="col-6 col-md-3 actor-thumb">
+                <div class="img-container">
+                    <img src="https://image.tmdb.org/t/p/w185${element.profile_path}" alt="${element.name}">
+                </div>
+                <p><small>${element.name}</small></p>
+            </div>`)
+            )
+        })
+        castSection.append(castContainer)
+        preview.append(castSection);
         return preview
     }
     

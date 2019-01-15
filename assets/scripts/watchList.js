@@ -50,7 +50,7 @@ let watchList = {
             list.forEach((element) => {
                 element.id = "card-"+index;
                 $("#watch-list").append(element.card());
-                element.updateCollections();
+                element.updateCardTags();
                 index++;
             })
         }else{
