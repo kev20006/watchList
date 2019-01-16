@@ -1,9 +1,18 @@
 "use strict"
 
 let watchList = {
-    /** Load Data From Local Storage**/
+/** Initialise for first use **/
+    analytics:{
+        movie:{
+            likes: 0,
+            dislikes: 0,
+            genres:{},
+            lastFive:[]
+        }
+    },
     contents: [],
     collections: {},
+/** Load Data From Local Storage**/
     load: ()=>{
         if (window.localStorage.getItem('watchListData')) {
             let prevData = JSON.parse(window.localStorage.getItem('watchListData'));
@@ -40,7 +49,11 @@ let watchList = {
             }
             if (prevData.list.collections){
                 watchList.collections = prevData.list.collections;
+            } 
+            if (prevData.list.analytics) {
+                watchList.analytics = prevData.list.analytics;
             }
+            
             watchList.updateLocalStorage();
             watchList.render(watchList.contents);
             watchList.renderCollections();
@@ -157,7 +170,46 @@ let watchList = {
     },
     updateLocalStorage: ()=>{
         window.localStorage.setItem('watchListData', JSON.stringify({ list: watchList}));
+    },
+    addLike:(type, id, title, genres)=>{
+        console.log(type)
+        watchList.analytics[type].likes ++
+        genres.forEach(element=>{
+            console.log(element)
+            if (watchList.analytics[type].genres[element.name]) {
+                watchList.analytics[type].genres[element.name] += 1
+            } else {
+                watchList.analytics[type].genres[element.name] = 1
+            }
+        })
+        watchList.analytics[type].lastFive.push({
+            id: id,
+            title: title,
+        })
+        watchList.updateLocalStorage();
+    },
+
+    addDislike:(type)=>{
+        watchList.analytics[type].dislikes++
+        watchList.updateLocalStorage();
+    },
+
+    resetAll:() =>{
+        watchList.analytics = {
+            movie: {
+                likes: 0,
+                dislikes: 0,
+                genres: { },
+                lastFive: []
+            }
+        };
+        watchList.contents = [];
+        watchList.collections= {}
+        watchList.render(watchList.contents);
+        watchList.renderCollections(); 
+        watchList.updateLocalStorage();
     }
+
 };
 
 watchList.load();

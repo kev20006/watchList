@@ -83,12 +83,22 @@ class watchItem {
                 closePopUp();
                 watchList.add(this);
             });
-        let likeBtn = $(`<div class="btn-thumbs-up"><i class="fas fa-thumbs-up"></i></div>`);
-        let dislikeBtn = $(`<div class="btn-thumbs-dowm"><i class="fas fa-thumbs-down"></i></div>`);
+        let likeBtn = $(`<div class="btn-thumbs-up"><i class="fas fa-thumbs-up"></i></div>`)
+            .on("click",()=>{
+                watchList.addLike(this.type, this.dbid, this.title, this.genre)
+                watchList.remove(this.id.split("-")[1])
+                closePopUp();
+            });
+        let dislikeBtn = $(`<div class="btn-thumbs-dowm"><i class="fas fa-thumbs-down"></i></div>`)
+            .on("click", () => {
+                watchList.addDislike(this.type)
+                watchList.remove(this.id.split("-")[1])
+                closePopUp();
+            });
         let deleteBtn = $(`<div class="btn-delete"><i class="fas fa-trash-alt"></i></div>`)
             .on("click", () => {
-                watchList.remove(this.id.split("-")[1])
-                closePopUp();;
+                watchList.remove(this.id.split("-")[1]);
+                closePopUp();
             });
         let backBtn = $(`<div class="btn-back"> -> </div>`)
             .on("click", () => {
@@ -179,8 +189,16 @@ class watchItem {
         })
         let buttonWrapper = $('<div class="d-flex justify-content-around"></div>');
         let deleteButton = $(`<div class="btn btn-action text-center"><i class="fas fa-trash-alt"></i></div>`);
-        let thumbUpButton = $(`<div class="btn btn-action text-center"><i class="fas fa-thumbs-up"></i></div>`);
-        let thumbDownButton = $(`<div class="btn btn-action text-center"><i class="fas fa-thumbs-down"></i></div>`);
+        let thumbUpButton = $(`<div class="btn btn-action text-center"><i class="fas fa-thumbs-up"></i></div>`)
+        .on("click", () => {
+            watchList.addLike(this.type, this.dbid, this.title, this.genre)
+            watchList.remove(this.id.split("-")[1])
+        });
+        let thumbDownButton = $(`<div class="btn btn-action text-center"><i class="fas fa-thumbs-down"></i></div>`)
+            .on("click", () => {
+                watchList.addDislike(this.type)
+                watchList.remove(this.id.split("-")[1]);
+            });
         deleteButton.on("click", () => {
             watchList.remove(this.id.split("-")[1]);
         })
