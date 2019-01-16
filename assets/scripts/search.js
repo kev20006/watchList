@@ -11,37 +11,65 @@ let searches = {
             <img src="./assets/images/loading.gif" alt="loader">
             <p>loading movie....</p>`);
         $.getJSON(url, (data)=>{
-            let resultsMobile =[]
+            let results =[]
             if (page % 2 != 0) {
-                resultsMobile = data.results.slice(0, 9)
+                results = data.results.slice(0, 9)
             } else {
-                resultsMobile = data.results.slice(10, 19)
+                results = data.results.slice(10, 19)
             }
             $(`#results`).html("")
-            if (resultsMobile.length >= 0) {
-                resultsMobile.forEach((element) => {
-                    let searchResult = new movie(
-                        element.id,
-                        element.title,
-                        `https://image.tmdb.org/t/p/w92${element.poster_path}`,
-                        `https://image.tmdb.org/t/p/w600_and_h900_bestv2${element.poster_path}`,
-                        element.overview,
-                        element.release_date.split("-")[0],
-                        "genre",
-                        ""
+            if (results.length >= 0) {
+                let resultCount = 0
+                results.forEach((element) => {
+                    let movieurl = `https://api.themoviedb.org/3/movie/${element.id}?api_key=${searches.keys[0]}&language=en-US&append_to_response=credits`;
+                    $.getJSON(movieurl, (data) => {
+                        console.log(data)
+                        this.director = "None Acknowledged"
+                        data.credits.crew.forEach(element => {
+                            if (element.job == "Director") {
+                                this.director = element.name
+                            }
+                        })
+                        data.genres
+                        data.vote_average * 10
+                        let cast = []
+                        for (let i = 0; i <= 3; i++) {
+                            cast.push(data.credits.cast[i])
+                        }  
+                        let searchResult = new movie(
+                            element.id,
+                            element.title,
+                            `https://image.tmdb.org/t/p/w92${element.poster_path}`,
+                            `https://image.tmdb.org/t/p/w600_and_h900_bestv2${element.poster_path}`,
+                            element.overview,
+                            element.release_date.split("-")[0],
+                            data.genres,
+                            "",
+                            director,
+                            data.vote_average * 10,
+                            cast
                         )
-                    $(`#results`).append(searchResult.searchItem);
+                        
+                        $(`#results`).append(searchResult.searchItem); 
+                        //display pagination controls after 10th search result
+                        resultCount++  
+                        if (resultCount == 9){
+                            $(`#results`).append(paginationControls(page, terms, "movie"));
+                        }  
+                    })
+                    .fail(()=>{
+                        console.log("movie with that id doesn't exist");
+                    })
+                    
                 })
             }else{
                 $(`#results`).append(`<p>no results found please change your search criteria</p>`);
             }
-            $(`#results`).append(paginationControls(page, terms, "movie"));
-            
-            
         })
-        .fail(function(){
+        .fail(()=>{
             console.log("there was an error of sorts")
         });
+        
     },
     tv: (terms, page)=>{
         $(`#results`).html(`

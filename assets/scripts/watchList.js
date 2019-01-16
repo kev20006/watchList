@@ -11,7 +11,20 @@ let watchList = {
                 prevData.list.contents.forEach((item)=>{
                     switch (item.type){
                         case "movie":
-                            watchList.add(new movie(item.dbid, item.title, item.thumb, item.lrgImage, item.longDescription, item.year, item.genre, item.note, item.cast));
+                            watchList.add(new movie(
+                                            item.dbid, 
+                                            item.title, 
+                                            item.thumb, 
+                                            item.lrgImage, 
+                                            item.longDescription, 
+                                            item.year, 
+                                            item.genre, 
+                                            item.note, 
+                                            item.director, 
+                                            item.rating, 
+                                            item.cast, 
+                                            )
+                                        );
                             break;
                         case "tv":
                             watchList.add(new tv(item.dbid, item.title, item.thumb, item.lrgImage, item.longDescription, item.year, item.genre, item.note, item.cast));

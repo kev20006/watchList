@@ -215,44 +215,26 @@ class watchItem {
 }
 
 class movie extends watchItem {
-    constructor(dbid, title, thumb, lrgImage, longDescription, year, genre, note) {
+    constructor(dbid, title, thumb, lrgImage, longDescription, year, genre, note,director,rating,cast) {
         super(dbid, title, thumb, lrgImage, longDescription, year, genre, note)
         this.type = "movie";
         this.icon = `<div class="icon-bg"><i class="fas fa-film m-1"></i></div>`;
+        this.director = director;
+        this.rating = rating
+        this.cast = cast;
+        this.genre = genre;
         this.searchItem = this.searchItem.bind(this);
         this.itemPreview = this.itemPreview.bind(this);
         this.card = this.card.bind(this);
         this.updateCollections = this.updateCollections.bind(this);
-        this.getMovieDetails = this.getMovieDetails.bind(this);
-        this.getMovieDetails();
     }
 
-    getMovieDetails(){
-        let key = "405219586381645a0c87c4c5dc9211d9";
-        let url = `https://api.themoviedb.org/3/movie/${this.dbid}?api_key=${key}&language=en-US&append_to_response=credits`;
-        $.getJSON(url, (data) => {
-            console.log(data)
-            this.director = "None Acknowledged"
-            data.credits.crew.forEach(element =>{
-                if (element.job == "Director"){
-                    this.director = element.name
-                }
-            })
-            this.genres = data.genres
-            this.rating = data.vote_average * 10
-            this.cast = []
-            for (let i=0; i <= 3; i++){
-                this.cast.push(data.credits.cast[i])
-            }     
-        })
-        
-    }
 
     itemPreview(location){
         let preview = super.itemPreview(location);
         let genresContainer = $(`<p></p>`)
         genresContainer.append(`<strong>Genres:</strong>`);
-        this.genres.forEach(element=>{
+        this.genre.forEach(element=>{
             console.log(element.name)
             genresContainer.append(`<span class="ml-2">${element.name}</span>`)
         })

@@ -11,21 +11,6 @@
   background-color: #e2a34a;
 }
 
-.owl-nav {
-  display: flex;
-  font-size: 1.5rem;
-  justify-content: center;
-}
-.owl-nav .owl-dots {
-  display: flex;
-  justify-content: center;
-}
-.owl-nav .owl-dots span {
-  width: 10px;
-  height: 10px;
-  background-color: black;
-}
-
 #app {
   overflow: hidden;
 }
