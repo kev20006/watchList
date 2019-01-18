@@ -12,7 +12,7 @@ function makePopUp(type){
     if (type == "manageFilters"){
         manageFilters();
     }
-    else if (type === "help"){
+    else if (type == "help"){
         displayHelp();
     }
     else{
@@ -92,7 +92,7 @@ function addNewMenu(type){
 
 function displayHelp(){
     $("#add-or-edit-container").html(`
-        <h5>Welcome to Watch List</h5>
+        <h3 class="sub-head">Welcome to Watch List</h3>
         <p>Has anybody ever recommended a great Movie to you, and then when you sat down to watch it, you couldn't remember what it was called?</p>
         <p>Have you ever been mid-way through series and you forgot what episode you were on? <strong>[not implemented yet]</strong></p>
         <p>WatchList allows you to keep track of any Movie, TV, Book or Game recommendations that you have received. It uses The TMBD, TGDB and Google Books API's

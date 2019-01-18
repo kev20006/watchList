@@ -87,7 +87,7 @@ class watchItem {
             .on("click",()=>{
                 watchList.addLike(this.type, this.dbid, this.title, this.genre)
                 watchList.remove(this.id.split("-")[1])
-                closePopUp();
+                this.getRecommendations("card");
             });
         let dislikeBtn = $(`<div class="btn-thumbs-dowm"><i class="fas fa-thumbs-down"></i></div>`)
             .on("click", () => {
@@ -193,6 +193,7 @@ class watchItem {
         .on("click", () => {
             watchList.addLike(this.type, this.dbid, this.title, this.genre)
             watchList.remove(this.id.split("-")[1])
+            this.getRecommendations("card");
         });
         let thumbDownButton = $(`<div class="btn btn-action text-center"><i class="fas fa-thumbs-down"></i></div>`)
             .on("click", () => {
@@ -245,6 +246,7 @@ class movie extends watchItem {
         this.itemPreview = this.itemPreview.bind(this);
         this.card = this.card.bind(this);
         this.updateCollections = this.updateCollections.bind(this);
+        this.getRecommendations = this.getRecommendations.bind(this); 
     }
 
 
@@ -277,6 +279,26 @@ class movie extends watchItem {
         preview.append(castSection);
         return preview
     }
+
+    getRecommendations(location){
+        if (location == "card"){
+            makePopUp()
+        }
+        let randomGenre = this.genre[Math.floor(Math.random() * Math.floor(this.genre.length))];
+        let randomActor = this.cast[Math.floor(Math.random() * Math.floor(this.cast.length))];
+        console.log(randomGenre)
+        $("#add-or-edit-container").html(`<p><strong>Because you liked ${this.title} you might also like </strong></p>
+        <ul>
+        <li>${randomGenre.name}</li>
+        <li>${randomActor.name}</li>
+        </ul>
+        `);
+        let noButton = $(`<div class="btn btn-more-info text-center">No Thanks</div>`);
+        noButton.on("click", ()=>{
+            closePopUp();
+        })
+        $("#add-or-edit-container").append(noButton)
+    }
     
 }
 
@@ -295,7 +317,24 @@ class tv extends watchItem{
     }
     itemPreview(location) {
         let preview = super.itemPreview(location);
+        preview.append("<p>tv Preview is not yet completed</p>")
         return preview
+    }
+    getRecommendations(location) {
+        if (location == "card") {
+            makePopUp()
+        }
+        $("#add-or-edit-container").html(`<p><strong>Because you liked ${this.title} you might also like </strong></p>
+        <ul>
+        <li>Actor</li>
+        <li>Genre</li>
+        </ul>
+        `);
+        let noButton = $(`<div class="btn btn-more-info text-center">No Thanks</div>`);
+        noButton.on("click", () => {
+            closePopUp();
+        })
+        $("#add-or-edit-container").append(noButton)
     }
 }
 
@@ -312,7 +351,24 @@ class book extends watchItem {
 
     itemPreview(location) {
         let preview = super.itemPreview(location);
+        preview.append("<p>book preivew is not yet completed</p>");
         return preview
+    }
+    getRecommendations(location) {
+        if (location == "card") {
+            makePopUp()
+        }
+        $("#add-or-edit-container").html(`<p><strong>Because you liked ${this.title} you might also like </strong></p>
+        <ul>
+        <li>Author</li>
+        <li>Genre</li>
+        </ul>
+        `);
+        let noButton = $(`<div class="btn btn-more-info text-center">No Thanks</div>`);
+        noButton.on("click", () => {
+            closePopUp();
+        })
+        $("#add-or-edit-container").append(noButton)
     }
 
 }
@@ -329,7 +385,24 @@ class game extends watchItem {
     }
     itemPreview(location) {
         let preview = super.itemPreview(location);
+        preview.append("<p>game preview is not yet completed</p>");
         return preview
+    }
+    getRecommendations(location) {
+        if (location == "card") {
+            makePopUp()
+        }
+        $("#add-or-edit-container").html(`<p><strong>Because you liked ${this.title} you might also like </strong></p>
+        <ul>
+        <li>Platform</li>
+        <li>Genre</li>
+        </ul>
+        `);
+        let noButton = $(`<div class="btn btn-more-info text-center">No Thanks</div>`);
+        noButton.on("click", () => {
+            closePopUp();
+        })
+        $("#add-or-edit-container").append(noButton)
     }
 
 }

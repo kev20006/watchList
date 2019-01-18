@@ -8,6 +8,24 @@ let watchList = {
             dislikes: 0,
             genres:{},
             lastFive:[]
+        },
+        tv: {
+            likes: 0,
+            dislikes: 0,
+            genres: {},
+            lastFive: []
+        },
+        game: {
+            likes: 0,
+            dislikes: 0,
+            genres: {},
+            lastFive: []
+        },
+        book: {
+            likes: 0,
+            dislikes: 0,
+            genres: {},
+            lastFive: []
         }
     },
     contents: [],
@@ -51,7 +69,19 @@ let watchList = {
                 watchList.collections = prevData.list.collections;
             } 
             if (prevData.list.analytics) {
-                watchList.analytics = prevData.list.analytics;
+                if (prevData.list.analytics.movie){
+                    watchList.analytics.movie = prevData.list.analytics.movie;
+                } 
+                if (prevData.list.analytics.tv) {
+                    watchList.analytics.tv = prevData.list.analytics.tv;
+                }
+                if (prevData.list.analytics.book) {
+                    watchList.analytics.book = prevData.list.analytics.book;
+                }
+                if (prevData.list.analytics.game) {
+                    watchList.analytics.tv = prevData.list.analytics.game;
+                }
+                    
             }
             
             watchList.updateLocalStorage();
@@ -174,6 +204,7 @@ let watchList = {
     addLike:(type, id, title, genres)=>{
         console.log(type)
         watchList.analytics[type].likes ++
+        console.log(genres)
         genres.forEach(element=>{
             console.log(element)
             if (watchList.analytics[type].genres[element.name]) {

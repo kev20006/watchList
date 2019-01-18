@@ -21,48 +21,18 @@ let searches = {
             if (results.length >= 0) {
                 let resultCount = 0
                 results.forEach((element) => {
-                    let movieurl = `https://api.themoviedb.org/3/movie/${element.id}?api_key=${searches.keys[0]}&language=en-US&append_to_response=credits`;
-                    $.getJSON(movieurl, (data) => {
-                        console.log(data)
-                        this.director = "None Acknowledged"
-                        data.credits.crew.forEach(element => {
-                            if (element.job == "Director") {
-                                this.director = element.name
-                            }
-                        })
-                        data.genres
-                        data.vote_average * 10
-                        let cast = []
-                        for (let i = 0; i <= 3; i++) {
-                            cast.push(data.credits.cast[i])
-                        }  
-                        let searchResult = new movie(
-                            element.id,
-                            element.title,
-                            `https://image.tmdb.org/t/p/w92${element.poster_path}`,
-                            `https://image.tmdb.org/t/p/w600_and_h900_bestv2${element.poster_path}`,
-                            element.overview,
-                            element.release_date.split("-")[0],
-                            data.genres,
-                            "",
-                            director,
-                            data.vote_average * 10,
-                            cast
-                        )
-                        
-                        $(`#results`).append(searchResult.searchItem); 
-                        //display pagination controls after 10th search result
-                        resultCount++  
-                        if (resultCount == 9){
+                    searches.fullMovie(element.id,(movie)=>{
+                        $(`#results`).append(movie.searchItem); 
+                        resultCount++
+                        if (resultCount == 9) {
                             $(`#results`).append(paginationControls(page, terms, "movie"));
                         }  
                     })
-                    .fail(()=>{
-                        console.log("movie with that id doesn't exist");
-                    })
-                    
+                        
                 })
-            }else{
+                    
+            }
+            else{
                 $(`#results`).append(`<p>no results found please change your search criteria</p>`);
             }
         })
@@ -70,6 +40,38 @@ let searches = {
             console.log("there was an error of sorts")
         });
         
+    },
+    fullMovie:(id, callback)=>{
+        let movieurl = `https://api.themoviedb.org/3/movie/${id}?api_key=${searches.keys[0]}&language=en-US&append_to_response=credits`;
+        $.getJSON(movieurl, (data) => {
+            console.log(data)
+            this.director = "None Acknowledged"
+            data.credits.crew.forEach(element => {
+                if (element.job == "Director") {
+                    this.director = element.name
+                }
+            })
+            data.genres
+            data.vote_average * 10
+            let cast = []
+            for (let i = 0; i <= 3; i++) {
+                cast.push(data.credits.cast[i])
+            }
+            let searchResult = new movie(
+                data.id,
+                data.title,
+                `https://image.tmdb.org/t/p/w92${data.poster_path}`,
+                `https://image.tmdb.org/t/p/w600_and_h900_bestv2${data.poster_path}`,
+                data.overview,
+                data.release_date.split("-")[0],
+                data.genres,
+                "",
+                director,
+                data.vote_average * 10,
+                cast
+            )
+            callback(searchResult)
+        })
     },
     tv: (terms, page)=>{
         $(`#results`).html(`
@@ -96,7 +98,7 @@ let searches = {
                         `https://image.tmdb.org/t/p/w600_and_h900_bestv2${element.poster_path}`,
                         element.overview,
                         element.first_air_date.split("-")[0],
-                        "genre",
+                        ["genre"],
                         ""
                         )
                     $(`#results`).append(searchResult.searchItem);
@@ -137,7 +139,7 @@ let searches = {
                         image,
                         element.volumeInfo.description,
                         element.volumeInfo.publishedDate,
-                        "genre",
+                        ["genre"],
                         ""
                     )
                     $(`#results`).append(searchResult.searchItem);
@@ -155,7 +157,9 @@ let searches = {
     game: (terms, page)=>{
         $(`#results`).html(`
             <img src="./assets/images/loading.gif" alt="loader">
-            <p>loading games....</p>`);
+            <p>loading games....</p>
+            <p>This may take a while, games API is host on a REPL teporarily</p>
+            <p>if you get no results after about 30 secs, try changing your search terms</p>`);
         let startIndex = page - 1;
         let url = `https://IGDB-PROXY--kev20006.repl.co/games/${terms}/page/${startIndex}`;
         $.getJSON(url, (data) => {
@@ -180,7 +184,7 @@ let searches = {
                         bigImg,
                         element.summary,
                         date.getFullYear(),
-                        "genre",
+                        ["genre"],
                         "")
 
                     $(`#results`).append(searchResult.searchItem);
