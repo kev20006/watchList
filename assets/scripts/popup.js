@@ -14,6 +14,8 @@ function makePopUp(type){
     }
     else if (type == "help"){
         displayHelp();
+    }else if(type == "reset"){
+        resetData();
     }
     else{
         addNewMenu(type);
@@ -28,7 +30,7 @@ $(document).on("click", (e) => {
 
 function manageFilters(){
     $("#add-or-edit-container").html("")
-    let title = $(`<h3 class="sub-head">Manage Collections</h3><hr>`)
+    let title = $(`<h3 class="sub-head">Add or Edit Tags</h3><hr>`)
     let collectionInput = $(`<input id="collection-input" type="text"></input>`)
     let button = $(`<input type="button">add</input>`)
     button.on("click", ()=>{
@@ -100,5 +102,23 @@ function displayHelp(){
             </p>
         <p>In the near future it will also make recommendations when you finish a list item, it will also provide some analytics to see your usage history</p>
         <p><small><strong>watch list uses a small amount of local storage, you have been warned</strong></small></p>`)
+}
+
+function resetData() {
+    $("#add-or-edit-container").html(`
+        <h3 class="sub-head">Delete Everything?</h3>
+        <p>By clicking the button below you will delete:</p>
+        <ul>
+        <li>The current watchlist</li>
+        <li>All your custom tags and groups</li>
+        <li>All the details about your watch history</li>
+        </ul>
+        `)
+    let deleteButton = $(`<button type="button" class="btn btn-danger">Yes Please, delete all my data</button>`)
+        .on("click", () => {
+            watchList.resetAll();
+            closePopUp();
+        });
+    $("#add-or-edit-container").append(deleteButton);
 }
    

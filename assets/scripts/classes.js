@@ -288,16 +288,26 @@ class movie extends watchItem {
         let randomActor = this.cast[Math.floor(Math.random() * Math.floor(this.cast.length))];
         console.log(randomGenre)
         $("#add-or-edit-container").html(`<p><strong>Because you liked ${this.title} you might also like </strong></p>
-        <ul>
-        <li>${randomGenre.name}</li>
-        <li>${randomActor.name}</li>
-        </ul>
+        <div id="actorRec">
+        <p>Because you liked ${randomActor.name}</p>
+        </div>
+        <div id="genreRec">
+        <p>Because you liked a ${randomGenre.name} movie</p>
+        </div>
         `);
         let noButton = $(`<div class="btn btn-more-info text-center">No Thanks</div>`);
-        noButton.on("click", ()=>{
+        noButton.on("click", () => {
             closePopUp();
-        })
-        $("#add-or-edit-container").append(noButton)
+        });
+        searches.getRandomRecommendaitons("actor", randomActor, (movie)=>{
+            $("#actorRec").append(movie.card(true));
+        });
+        searches.getRandomRecommendaitons("genre", randomGenre, (movie) => {
+            $("#genreRec").append(movie.card(true));
+        });
+        $("#add-or-edit-container").append(noButton);
+
+        
     }
     
 }

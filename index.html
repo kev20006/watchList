@@ -42,7 +42,7 @@
             </div>
         </nav>
         <aside id="menu">
-            <h3 class="sub-head"><strong>Filter By:</strong></h3>
+            <h5 class="sub-head"><strong>Filter By Type:</strong></h5>
             <ul id="filter-menu" class="menu-list">
                 <li onclick="performFilter('type','all')"><i class="fas fa-asterisk mr-2 w-30"></i><span>All</span></li>
                 <li onclick="performFilter('type','movie')"><i class="fas fa-film m-1 w-30"></i> <span>Movies</span> </li>
@@ -51,7 +51,7 @@
                 <li onclick="performFilter('type','book')"><i class="fas fa-book mr-1 w-30"></i> <span>Books</p> </li>
             </ul>
             <hr />
-            <h3 class="sub-head"><strong>Custom Categories:</strong></h3>
+            <h5 class="sub-head"><strong>Filter by Tags:</strong></h5>
             <ul id="category-list" class="category-list menu-list">
             </ul>
             <hr />
@@ -59,12 +59,12 @@
             <ul class = "category-list menu-list">
                 <li onclick="makePopUp('help')">About Watch List</li>
                 <li onclick="recommendations.recommendationsList()">Recommendations</li>
-                <li onclick="alert('this has been temporarily disabled')">My Watch History</li>
-                <li onclick="alert('this has been temporarily disabled')">Delete Watch List</li>
+                <li onclick="analytics.render()">My Watch History</li>
+                <li onclick="makePopUp('reset')">Delete Watch List</li>
             </ul>
         </aside>
         <header id="view-title" class="d-flex justify-content-center">
-            <h3>My Watch List: All Items</h3>
+            <h6>All Items</h6>
         </header>
         <article class="mx-auto">
             <div id="watch-list" class="d-flex flex-wrap justify-content-center"></div>  
@@ -100,6 +100,8 @@
     <script type="text/javascript" src="./assets/scripts/watchList.js"></script>
     <!-- get recommendations -->
     <script type="text/javascript" src="./assets/scripts/recommendations.js"></script>
+    <!-- get analytics -->
+    <script type="text/javascript" src="./assets/scripts/analytics.js"></script>
     
     
     

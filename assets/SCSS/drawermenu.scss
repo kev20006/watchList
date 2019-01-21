@@ -15,6 +15,7 @@
   width:200px;
   border-right:4px solid nth($default-color,1);
   background-color: white;
+  overflow-y: scroll;
   .sub-head{
     font-size: 1.1rem;
     padding-left:10px;

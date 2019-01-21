@@ -23,6 +23,7 @@ $(document).on("click", (e) => {
 
 function performFilter(filterBy, value){
     if (value =="all"){
+        $("#view-title").html(`<h6>All Items</h6>`)
         watchList.render(watchList.contents)
     }
     else{

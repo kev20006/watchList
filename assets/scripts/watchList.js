@@ -140,16 +140,30 @@ let watchList = {
         if(filterList.length == 0){
             let htmlString = ""
             if (filterBy == "type"){
-               htmlString = `<div class="no-results text-center">
+                let stringFix = ""
+                switch (value){
+                    case "movie": 
+                    case "game":
+                    case "book":
+                        stringFix = `${value}s`;
+                        break;
+                    case "tv":
+                        stringFix = "Tv Shows";
+                        break;
+                }
+                $("#view-title").html(`<h6>${stringFix[0].toUpperCase() + stringFix.slice(1)}</h6>`);
+                htmlString = `<div class="no-results text-center">
                 <h1>${icons[value]}</h1>
-                <h5>Currently you have no ${value} in your list</h5>
+                <h5>Currently you have no ${stringFix} in your list</h5>
                 <p>Click the add button to the right to start adding some ${value}s</p>
                 </div>
             `
             }else{
+                console.log(value)
+                $("#view-title").html(`<h6>Items with the ${value} tag </h6>`)
                 htmlString = `
                 <div class="no-results text-center">
-                <h5>Collection: ${value.key}, no longer has any contents</h5>
+                <h5>Collection: ${value}, no longer has any contents</h5>
                 </div>
                 `
             }  
@@ -189,7 +203,7 @@ let watchList = {
                 $("#category-list").append(collectionItem);
             }) 
         }
-        let addNew = $("<li class='add-new'>Edit Collections</li>")
+        let addNew = $("<li class='add-new'>Add or Edit Tags</li>")
         addNew.on("click", () =>{
             makePopUp("manageFilters")
         });
@@ -231,6 +245,24 @@ let watchList = {
                 likes: 0,
                 dislikes: 0,
                 genres: { },
+                lastFive: []
+            },
+            tv: {
+                likes: 0,
+                dislikes: 0,
+                genres: {},
+                lastFive: []
+            },
+            game:{
+                likes: 0,
+                dislikes: 0,
+                genres: {},
+                lastFive: []
+            },
+            book:{
+                likes: 0,
+                dislikes: 0,
+                genres: {},
                 lastFive: []
             }
         };

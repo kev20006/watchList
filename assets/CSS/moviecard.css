@@ -1,27 +1,11 @@
 /*************classes for colouring ************/
-.movie {
-  background-color: #8BEF86;
-}
-
-.tv {
-  background-color: #FF7770;
-}
-
-.game {
-  background-color: #6BF9F9;
-}
-
-.book {
-  background-color: #FF96FF;
-}
-
 .card {
   margin: 25px;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5), -1px -1px 5px rgba(0, 0, 0, 0.5);
-  height: 450px;
+  height: 341px;
+  max-width: 250px;
   width: 80%;
-  max-width: 330px;
-  padding: 10px;
+  padding: 7px;
   overflow: hidden;
 }
 .card .card-inner {
@@ -42,7 +26,7 @@
 }
 .card .card-inner .card-info {
   border-top: 4px solid orange;
-  height: 450px;
+  height: 341px;
   width: 100%;
   left: 0;
   z-index: 20;

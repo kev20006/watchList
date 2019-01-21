@@ -12,6 +12,7 @@
   width: 200px;
   border-right: 4px solid #fcb653;
   background-color: white;
+  overflow-y: scroll;
 }
 #menu .sub-head {
   font-size: 1.1rem;

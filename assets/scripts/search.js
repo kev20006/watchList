@@ -73,6 +73,28 @@ let searches = {
             callback(searchResult)
         })
     },
+
+    getRandomRecommendaitons: (type, value, callback) =>{
+        if (type == "actor"){
+            let actorUrl = `https://api.themoviedb.org/3/person/${value.id}?api_key=${searches.keys[0]}&append_to_response=movie_credits`;
+            $.getJSON(actorUrl, (data) => {
+                let randomMovie = Math.floor(Math.random() * data.movie_credits.cast.length);
+                searches.fullMovie(data.movie_credits.cast[randomMovie].id, (movie) => {
+                    callback(movie);
+                });
+            });
+        }else if(type == "genre"){
+            let genreUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${searches.keys[0]}&language=en-us&with_genres=${value.id}`
+            $.getJSON(genreUrl, (data) => {
+                console.log(data)
+                let randomMovie = Math.floor(Math.random() * data.results.length);
+                searches.fullMovie(data.results[randomMovie].id, (movie) => {
+                    callback(movie);
+                });
+            });
+        }
+        
+    },
     tv: (terms, page)=>{
         $(`#results`).html(`
             <img src="./assets/images/loading.gif" alt="loader">
@@ -222,3 +244,4 @@ function paginationControls(page, terms, type){
     pageButtons.append(back, custom, next);
     return pageButtons
 }
+

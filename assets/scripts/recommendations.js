@@ -18,82 +18,38 @@ const recommendations = {
             console.log(data)
             let index = 0
             let noOfResults = data.results.length
-            let searchResult = {}
             data.results.forEach((element) => {
-                let movieurl = `https://api.themoviedb.org/3/movie/${element.id}?api_key=${searches.keys[0]}&language=en-US&append_to_response=credits`;
-                $.getJSON(movieurl, (data) => {
-                    console.log(data)
-                    this.director = "None Acknowledged"
-                    data.credits.crew.forEach(element => {
-                        if (element.job == "Director") {
-                            this.director = element.name
-                        }
-                    })
-                    data.genres
-                    data.vote_average * 10
-                    let cast = []
-                    for (let i = 0; i <= 3; i++) {
-                        cast.push(data.credits.cast[i])
-                    }
-                    searchResult = new movie(
-                        element.id,
-                        element.title,
-                        `https://image.tmdb.org/t/p/w92${element.poster_path}`,
-                        `https://image.tmdb.org/t/p/w600_and_h900_bestv2${element.poster_path}`,
-                        element.overview,
-                        element.release_date.split("-")[0],
-                        data.genres,
-                        "",
-                        director,
-                        data.vote_average * 10,
-                        cast
-                    )
-                    
-                    
-                    
-                })
-                .fail(()=> {
-                    console.log("no movie of that id exists")
-                })
-                .done(()=>{
-                    searchResult.id = `${type}-${index}-card`;
-                    recdetails.domObject.append(searchResult.card(true));
-                    searchResult.updateCardTags()
-                    index ++;
+                searches.fullMovie(element.id, (movie) => {
+                    movie.id = `${type}-${index}-card`;
+                    recdetails.domObject.append(movie.card(true));
+                    movie.updateCardTags()
+                    index++;
                     if (index == noOfResults) {
                         $(`#${type}`).owlCarousel({
                             loop: true,
                             responsiveClass: true,
+                            nav: false,
+                            dots: false,
                             responsive: {
                                 0: {
                                     items: 1,
-                                    nav: true,
-                                    dots: true
                                 },
                                 800: {
                                     items: 2,
-                                    nav: true,
-                                    dots: true
                                 },
                                 1200: {
                                     items: 3,
-                                    nav: true,
-                                    dots: true
                                 },
                                 1500: {
                                     items: 4,
-                                    nav: true,
-                                    dots: true
                                 },
                                 1900: {
                                     items: 5,
-                                    nav: true,
-                                    dots: true
                                 }
                             }
                         });
                     }
-                });
+                });  
             })
             
             
@@ -105,7 +61,7 @@ const recommendations = {
     
     recommendationsList:()=> {
         closeDrawerMenu()
-        $("#view-title").html("<h3>Recommendations</h3>")
+        $("#view-title").html("<h6>Recommendations</h6>")
         $("#watch-list").html("");
         let inTheatres = $("<div></div>")
         let help = $(`<div class="my-0"><p><small><- swipe for more movies -></small></p></div>`)
