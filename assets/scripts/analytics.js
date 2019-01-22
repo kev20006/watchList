@@ -1,3 +1,5 @@
+//this will be used to generate D3/DC Crossfilter dashboard to show user information.
+
 const analytics = {
     render: ()=>{
         $("#view-title").html(`<h6>My Watch History</h6>`);

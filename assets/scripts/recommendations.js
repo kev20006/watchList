@@ -2,6 +2,8 @@
     
 
 const recommendations = {
+
+    /*  */
     get: (type)=>{
         console.log(type)
         let recdetails = {}

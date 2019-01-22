@@ -1,77 +1,71 @@
 "use strict"
 let movieGenres = ""
 
+//Code for rendering search results in the app
+
 let searches = {
     keys: ["405219586381645a0c87c4c5dc9211d9", "cClARfDJOoiKBziNEIAa4A"],
     //paginate movies
     movie: (terms,page) =>{
-        let searchPage = Math.ceil(page/2)
-        let url = `https://api.themoviedb.org/3/search/movie?api_key=${searches.keys[0]}&language=en-US&query=${terms}&page=${searchPage}`;
-        $(`#results`).html(`
-            <img src="./assets/images/loading.gif" alt="loader">
-            <p>loading movie....</p>`);
-        $.getJSON(url, (data)=>{
-            let results =[]
+        let searchPage = Math.ceil(page / 2)
+        tmdb.getMovieSearchObjects(terms, searchPage, (movies) => {
+            let results = []
             if (page % 2 != 0) {
-                results = data.results.slice(0, 9)
+                movies = movies.slice(0, 9)
             } else {
-                results = data.results.slice(10, 19)
+                movies = movies.slice(10, 19)
             }
             $(`#results`).html("")
-            if (results.length >= 0) {
-                let resultCount = 0
-                results.forEach((element) => {
-                    searches.fullMovie(element.id,(movie)=>{
-                        $(`#results`).append(movie.searchItem); 
-                        resultCount++
-                        if (resultCount == 9) {
-                            $(`#results`).append(paginationControls(page, terms, "movie"));
-                        }  
-                    })
-                        
-                })
-                    
-            }
-            else{
+            if (movies.length == 0){
                 $(`#results`).append(`<p>no results found please change your search criteria</p>`);
+            }else{
+                let resultsContainer = $(`<div></div>`)
+                movies.forEach(element=>{
+                    resultsContainer.append(element.searchItem)
+                })
+                $(`#results`).append(resultsContainer);
+                $(`#results`).append(paginationControls(page, terms, "movie"));
             }
-        })
-        .fail(()=>{
-            console.log("there was an error of sorts")
         });
-        
+        $(`#results`).html(`
+            <img src="./assets/images/loading.gif" alt="loader">
+            <p>loading movie....</p>`);   
     },
+    /* API CALLS WILL BE DONE IN ANOTHER FILE -- ALL CODE BELOW HERE WILL BE CHANGED */
     fullMovie:(id, callback)=>{
         let movieurl = `https://api.themoviedb.org/3/movie/${id}?api_key=${searches.keys[0]}&language=en-US&append_to_response=credits`;
         $.getJSON(movieurl, (data) => {
             console.log(data)
-            this.director = "None Acknowledged"
+            let director = "None Acknowledged"
             data.credits.crew.forEach(element => {
                 if (element.job == "Director") {
-                    this.director = element.name
+                    director = element.name
                 }
             })
-            data.genres
-            data.vote_average * 10
             let cast = []
             for (let i = 0; i <= 3; i++) {
                 cast.push(data.credits.cast[i])
             }
             let searchResult = new movie(
-                data.id,
-                data.title,
-                `https://image.tmdb.org/t/p/w92${data.poster_path}`,
-                `https://image.tmdb.org/t/p/w600_and_h900_bestv2${data.poster_path}`,
-                data.overview,
-                data.release_date.split("-")[0],
-                data.genres,
-                "",
-                director,
-                data.vote_average * 10,
-                cast
+                {
+                dbid: data.id,
+                title: data.title,
+                thumb: `https://image.tmdb.org/t/p/w92${data.poster_path}`,
+                lrgImage: `https://image.tmdb.org/t/p/w600_and_h900_bestv2${data.poster_path}`,
+                longDescription: data.overview,
+                year:data.release_date.split("-")[0],
+                genre: data.genres,
+                note:"",
+                director: director,
+                rating: data.vote_average * 10,
+                cast: cast
+                }
             )
             callback(searchResult)
-        })
+            
+        }).fail(
+            console.log("no movie by that name exists")
+        )
     },
 
     getRandomRecommendaitons: (type, value, callback) =>{
@@ -113,16 +107,16 @@ let searches = {
             if(resultsMobile.length != 0){
                 resultsMobile.forEach((element) => {
                     console.log(element)
-                    let searchResult = new tv(
-                        element.id,
-                        element.name,
-                        `https://image.tmdb.org/t/p/w92${element.poster_path}`,
-                        `https://image.tmdb.org/t/p/w600_and_h900_bestv2${element.poster_path}`,
-                        element.overview,
-                        element.first_air_date.split("-")[0],
-                        ["genre"],
-                        ""
-                        )
+                    let searchResult = new tv({
+                        dbid: element.id,
+                        title: element.name,
+                        thumb: `https://image.tmdb.org/t/p/w92${element.poster_path}`,
+                        lrgImage: `https://image.tmdb.org/t/p/w600_and_h900_bestv2${element.poster_path}`,
+                        longDescription: element.overview,
+                        year: element.first_air_date.split("-")[0],
+                        genre:["genre"],
+                        cast: ""
+                        })
                     $(`#results`).append(searchResult.searchItem);
                 })
             }else{
@@ -154,15 +148,16 @@ let searches = {
                         image = element.volumeInfo.imageLinks.smallThumbnail;
                         largerImage = element.volumeInfo.imageLinks.thumbnail
                     }
-                    let searchResult = new book(
-                        element.id,
-                        element.volumeInfo.title,
-                        image,
-                        image,
-                        element.volumeInfo.description,
-                        element.volumeInfo.publishedDate,
-                        ["genre"],
-                        ""
+                    let searchResult = new book({
+                        dbid:element.id,
+                        title:element.volumeInfo.title,
+                        thumb:image,
+                        lrgImage: image,
+                        longDescription: element.volumeInfo.description,
+                        year: element.volumeInfo.publishedDate,
+                        genre: ["genre"],
+                        cast: ""
+                    }
                     )
                     $(`#results`).append(searchResult.searchItem);
                 })
@@ -199,16 +194,17 @@ let searches = {
                         bigImg = `http://webmaster.ypsa.org/wp-content/uploads/2012/08/no_thumb.jpg`;
                     }
                     let date = new Date(element.first_release_date)
-                    let searchResult = new game(
-                        element.id,
-                        element.name,
-                        imgUrl,
-                        bigImg,
-                        element.summary,
-                        date.getFullYear(),
-                        ["genre"],
-                        "")
-
+                    let searchResult = new game({
+                        dbid:element.id,
+                        title:element.name,
+                        thumb:imgUrl,
+                        lrgImage: bigImg,
+                        description: element.summary,
+                        year: date.getFullYear(),
+                        genre: ["genre"],
+                        cast: ""
+                    }
+                    )
                     $(`#results`).append(searchResult.searchItem);
                 })
             } else {

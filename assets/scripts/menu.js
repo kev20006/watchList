@@ -1,3 +1,5 @@
+//Animates the add new items quick dropdown menu, and attached event listeners.
+
 ["movie", "tv", "game", "book"].forEach((element) => {
   $(`#${element}`).on("click", () => {
     makePopUp(`${element}`)

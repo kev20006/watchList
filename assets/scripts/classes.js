@@ -1,26 +1,29 @@
+//Movie, TV, Game and Book Classes are defined in this file.
+//Each class contains methods to generate the HTML for the cards, item previews and search results
+
 'use strict';
 
 class watchItem {
-    constructor(dbid, title, thumb, lrgImage, longDescription, year, genre, note) {
-        this.dbid = dbid;
-        this.title = title;
-        this.thumb = thumb;
-        this.lrgImage = lrgImage;
-        if(longDescription == undefined){
+    constructor(object) {
+        this.dbid = object.dbid;
+        this.title = object.title;
+        this.thumb = object.thumb;
+        this.lrgImage = object.lrgImage;
+        if(object.longDescription == undefined){
             this.longDescription = "no description given";
             this.shortDescription = "no description given";
         }
         else{
-            this.longDescription = longDescription;
-            if (longDescription.length <= 200) {
-                this.shortDescription = longDescription.substring(0, longDescription.length);
+            this.longDescription = object.longDescription;
+            if (object.longDescription.length <= 200) {
+                this.shortDescription = object.longDescription;
             } else {
-                this.shortDescription = `${longDescription.substring(0, 150)}...`;
+                this.shortDescription = `${object.longDescription.substring(0, 200)}...`;
             }
         }
-        this.year = year;
-        this.genre = genre;
-        this.note = note;
+        this.year = object.year;
+        this.genre = object.genre;
+        this.note = object.note;
         this.searchItem = this.searchItem.bind(this);
         this.itemPreview = this.itemPreview.bind(this);
         this.updateCollections = this.updateCollections.bind(this);
@@ -187,24 +190,27 @@ class watchItem {
             }
             
         })
-        let buttonWrapper = $('<div class="d-flex justify-content-around"></div>');
-        let deleteButton = $(`<div class="btn btn-action text-center"><i class="fas fa-trash-alt"></i></div>`);
-        let thumbUpButton = $(`<div class="btn btn-action text-center"><i class="fas fa-thumbs-up"></i></div>`)
-        .on("click", () => {
-            watchList.addLike(this.type, this.dbid, this.title, this.genre)
-            watchList.remove(this.id.split("-")[1])
-            this.getRecommendations("card");
-        });
-        let thumbDownButton = $(`<div class="btn btn-action text-center"><i class="fas fa-thumbs-down"></i></div>`)
-            .on("click", () => {
-                watchList.addDislike(this.type)
+        cardInfo.append(cardTitle, shortDescription, collectionsSubHeading, collectionsArea, findOutMore)
+        if (!recommendation){
+            let buttonWrapper = $('<div class="d-flex justify-content-around"></div>');
+            let deleteButton = $(`<div class="btn btn-action text-center"><i class="fas fa-trash-alt"></i></div>`);
+            let thumbUpButton = $(`<div class="btn btn-action text-center"><i class="fas fa-thumbs-up"></i></div>`)
+                .on("click", () => {
+                    watchList.addLike(this.type, this.dbid, this.title, this.genre)
+                    watchList.remove(this.id.split("-")[1])
+                    this.getRecommendations("card");
+                });
+            let thumbDownButton = $(`<div class="btn btn-action text-center"><i class="fas fa-thumbs-down"></i></div>`)
+                .on("click", () => {
+                    watchList.addDislike(this.type)
+                    watchList.remove(this.id.split("-")[1]);
+                });
+            deleteButton.on("click", () => {
                 watchList.remove(this.id.split("-")[1]);
-            });
-        deleteButton.on("click", () => {
-            watchList.remove(this.id.split("-")[1]);
-        })
-        buttonWrapper.append(thumbUpButton, deleteButton, thumbDownButton)
-        cardInfo.append(cardTitle, shortDescription, collectionsSubHeading, collectionsArea, findOutMore, buttonWrapper)
+            })
+            buttonWrapper.append(thumbUpButton, deleteButton, thumbDownButton)
+            cardInfo.append(buttonWrapper)
+        }
         cardInner.append(cardInfo)
         newCard.append(cardInner);
         return newCard;
@@ -234,14 +240,14 @@ class watchItem {
 }
 
 class movie extends watchItem {
-    constructor(dbid, title, thumb, lrgImage, longDescription, year, genre, note,director,rating,cast) {
-        super(dbid, title, thumb, lrgImage, longDescription, year, genre, note)
+    constructor(object) {
+        super(object)
         this.type = "movie";
         this.icon = `<div class="icon-bg"><i class="fas fa-film m-1"></i></div>`;
-        this.director = director;
-        this.rating = rating
-        this.cast = cast;
-        this.genre = genre;
+        this.director = object.director;
+        this.rating = object.rating
+        this.cast = object.cast;
+        this.genre = object.genre;
         this.searchItem = this.searchItem.bind(this);
         this.itemPreview = this.itemPreview.bind(this);
         this.card = this.card.bind(this);

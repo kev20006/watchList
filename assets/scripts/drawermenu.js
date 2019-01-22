@@ -1,3 +1,5 @@
+//animates the drawer menu handles drawer menu events
+
 var menuActive = false;
 
 
@@ -16,18 +18,18 @@ $(document).on("click", (e) => {
     }
     else if (menuActive) {
         if (e.target.closest("aside") == null) {
-            closeDrawerMenu()
+            closeDrawerMenu();
         }
     }
 })
 
 function performFilter(filterBy, value){
     if (value =="all"){
-        $("#view-title").html(`<h6>All Items</h6>`)
-        watchList.render(watchList.contents)
+        $("#view-title").html(`<h6>All Items</h6>`);
+        watchList.render(watchList.contents);
     }
     else{
-        watchList.filter(filterBy, value)
+        watchList.filter(filterBy, value);
     }
     menuActive = false;
     closeDrawerMenu()

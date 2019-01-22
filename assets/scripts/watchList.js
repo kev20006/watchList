@@ -1,4 +1,9 @@
 "use strict"
+//This file creates loads and manages all the watchlist data
+//including analytical data, the current watch lists, tags assigned to each movie.
+
+//html should only be appear in "render" - methods
+
 
 let watchList = {
 /** Initialise for first use **/
@@ -38,29 +43,58 @@ let watchList = {
                 prevData.list.contents.forEach((item)=>{
                     switch (item.type){
                         case "movie":
-                            watchList.add(new movie(
-                                            item.dbid, 
-                                            item.title, 
-                                            item.thumb, 
-                                            item.lrgImage, 
-                                            item.longDescription, 
-                                            item.year, 
-                                            item.genre, 
-                                            item.note, 
-                                            item.director, 
-                                            item.rating, 
-                                            item.cast, 
-                                            )
-                                        );
+                            watchList.add(new movie({
+                                dbid: item.dbid, 
+                                title: item.title, 
+                                thumb: item.thumb, 
+                                lrgImage: item.lrgImage,
+                                longDescription: item.longDescription,
+                                year: item.year, 
+                                genre: item.genre, 
+                                note: item.note, 
+                                director: item.director, 
+                                rating: item.rating,
+                                cast: item.cast, 
+                                })
+                            );
                             break;
                         case "tv":
-                            watchList.add(new tv(item.dbid, item.title, item.thumb, item.lrgImage, item.longDescription, item.year, item.genre, item.note, item.cast));
+                            watchList.add(new tv({
+                                dbid: item.dbid,
+                                title: item.title,
+                                thumb: item.thumb,
+                                lrgImage: item.lrgImage,
+                                longDescription: item.longDescription,
+                                year: item.year,
+                                genre: item.genre,
+                                note: item.note
+                                })
+                            )
                             break;
                         case "book":
-                            watchList.add(new book(item.dbid, item.title, item.thumb, item.lrgImage, item.longDescription, item.year, item.genre, item.note, item.cast));
-                            break;
+                            watchList.add(new book({
+                                dbid: item.dbid,
+                                title: item.title,
+                                thumb: item.thumb,
+                                lrgImage: item.lrgImage,
+                                longDescription: item.longDescription,
+                                year: item.year,
+                                genre: item.genre,
+                                note: item.note
+                            })
+                            )
                         case "game":
-                            watchList.add(new game(item.dbid, item.title, item.thumb, item.lrgImage, item.longDescription, item.year, item.genre, item.note, item.cast));
+                            watchList.add(new game({
+                                dbid: item.dbid,
+                                title: item.title,
+                                thumb: item.thumb,
+                                lrgImage: item.lrgImage,
+                                longDescription: item.longDescription,
+                                year: item.year,
+                                genre: item.genre,
+                                note: item.note
+                            })
+                            )
                             break;
                     }
                 });
@@ -90,6 +124,7 @@ let watchList = {
         }
     }, 
     add: (obj)=>{
+        $("#view-title").html(`<h6>All Items</h6>`);
         watchList.contents.push(obj);
         watchList.render(watchList.contents);
         watchList.updateLocalStorage();

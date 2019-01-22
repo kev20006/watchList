@@ -1,3 +1,5 @@
+//animates the pop-up menu and generates the HTML for all the non-search pop-up menu functions
+
 function closePopUp(){
     $("#search-box").removeClass("d-none").addClass("d-flex");
     $(".obscure").fadeOut(200, () => {
@@ -68,18 +70,18 @@ function manageFilters(){
 function addNewMenu(type){
     $("#add-or-edit-container").html("")
     let searchBox = $(`<div id="search-box" class="row d-flex mx-0 justify-content-center"></div>`);
-    let searchBar = $(`<input type="text" placeholder="${type} Title"></input>`);
-    searchBar.on("input", ()=>{
+    let searchBar = $(`<input type="text" placeholder="${type} Title"></input>`)
+        .on("keydown", (e)=>{
         if (searchBar.val().length == 0){
             $("#results").html(`
                             <div class="mt-5 text-center">
                                 <h1><i class="fas fa-search"></i></h1>
                                 <p>Please type above to search for media</p>
                             </div>`);
-        }else{
-            searches[type](searchBar.val(), 1);
         }
-        
+        if (e.keyCode == 13){
+                searches[type](searchBar.val(), 1);
+        } 
     })
    searchBox.append(searchBar) 
     let results = $(`<div id="results" data-page='1'>
