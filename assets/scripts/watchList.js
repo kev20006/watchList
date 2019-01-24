@@ -134,13 +134,13 @@ let watchList = {
         watchList.render(watchList.contents);
         watchList.updateLocalStorage();
     },
-    render: (list)=>{
+    render: (list, isRecommendation = false)=>{
         if (list.length >= 1) {
             let index = 0;
             $("#watch-list").html(""); 
             list.forEach((element) => {
                 element.id = "card-"+index;
-                $("#watch-list").append(element.card());
+                $("#watch-list").append(element.card(isRecommendation));
                 element.updateCardTags();
                 index++;
             })

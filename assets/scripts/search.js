@@ -9,7 +9,6 @@ let searches = {
     movie: (terms,page) =>{
         let searchPage = Math.ceil(page / 2)
         tmdb.getMovieSearchObjects(terms, searchPage, (movies) => {
-            let results = []
             if (page % 2 != 0) {
                 movies = movies.slice(0, 9)
             } else {

@@ -1,0 +1,36 @@
+1. Watch History 
+    1.1 show breakdown of current list by type
+    1.2 show total history by type
+    1.3 show movies by genre
+    1.4 show tv shows by genre
+    1.5 movies
+    1.6 show last 5 tv shows
+
+2. Movie Objects 
+    2.1 padding and spacing
+    2.3 view trailer
+
+3. Movie Cards
+    3.1 Change buttons based on location - specifically from previews
+    3.2 show director on movie card
+
+4. TV Cards
+    4.1 show last episode watched
+    4.2 show airdate of next episode
+
+5. TV Preview 
+    5.1 see 4.1 and 4.2
+    5.2 get episode information
+    5.3 show cast
+
+6. Styling
+    6.1 Style Search Items
+    6.2 Style tags menu
+    6.3 style welcome message
+    6.4 fonts
+    6.5 recolour UI based on clicks
+
+7. Recommendations
+    7.1 bug fix, make them all render at once.
+    7.2 
+7. Logo?

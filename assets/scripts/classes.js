@@ -82,7 +82,6 @@ class watchItem {
             .append(`<div class="rating"></div>`);
         let addBtn = $(`<div class="btn-add-to-list"><i class="fas fa-plus-circle"></i></div>`)
             .on("click", (e) => {
-                this.note = $(e.target).siblings("textarea").val()
                 closePopUp();
                 watchList.add(this);
             });
@@ -149,7 +148,10 @@ class watchItem {
             })
             .append(`<span class="ml-2 collection-tag"><input class="add-tag" type="text" placeholder="add new"></input></span>`, this.updateCollections());
         
-        let noteArea = $(`<textarea id="notes" class="notes-area" rows="5">Any Additional notes about this ${this.type}</textarea>`);     
+        let noteArea = $(`<textarea id="notes" class="notes-area" placeholder="Any Additional notes about this ${this.type}" rows="5">${this.note}</textarea>`)
+                        .on("input",(e) =>{
+                            this.note = $(e.target).val()
+                        })     
         previewMainContentContainer.append(controlsContainer, previewDescription, `<hr><p><strong>collections</strong></p>`, tagsContainer, noteArea)
         previewBody.append(previewMainContentContainer)
         wrapper.append(previewBody);
@@ -271,16 +273,29 @@ class movie extends watchItem {
         console.log(this.cast)
         let castSection = $("<section></section>").append(`<div class="row mx-0 px-1"><p><strong>Top Billed Cast</strong></div>`)
         let castContainer = $(`<div class="row mx-0 px-1"></div>`)
-        this.cast.forEach(element =>{
-            castContainer.append($(
-            `<div class="col-6 col-md-3 actor-thumb">
+        console.log(this.cast)
+        if(this.cast){
+            this.cast.forEach(element => {
+                let actorpic = "https://image.tmdb.org/t/p/w185"
+                if(element.profile_path){
+                    actorpic += element.profile_path 
+                }
+                else{
+                    actorpic = "./assets/images/no-profile.jpeg"
+                }
+                castContainer.append($(
+                    `<div class="col-6 col-md-3 actor-thumb">
                 <div class="img-container">
-                    <img src="https://image.tmdb.org/t/p/w185${element.profile_path}" alt="${element.name}">
+                    <img src="${actorpic}" alt="${element.name}">
                 </div>
                 <p><small>${element.name}</small></p>
             </div>`)
-            )
-        })
+                )
+            })
+        }
+        else{
+            castContainer.append(`<h3>No Cast Identified</h3>`);
+        }
         castSection.append(castContainer)
         preview.append(castSection);
         return preview

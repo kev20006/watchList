@@ -13,9 +13,6 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" 
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
     crossorigin="anonymous">
-    <!-- owl carousel -->
-    <link rel="stylesheet" href="./plug-ins/owl-carousel/owl.carousel.min.css">
-    <link rel="stylesheet" href="./plug-ins/owl-carousel/owl.theme.default.min.css">
     <!-- custom styles -->
     <link href="./assets/CSS/main.css" rel="stylesheet">
     
@@ -56,10 +53,15 @@
             <ul id="category-list" class="category-list menu-list">
             </ul>
             <hr />
+            <h5 class="sub-head"><strong>Recommendations:</strong></h5>
+            <ul id="category-list" class="category-list menu-list">
+                <li onclick="recommendations.recommendationsList('cinema now')">In Theatres Now</li>
+                <li onclick="recommendations.recommendationsList('top movies')">Top Movies</li>
+            </ul>
+            <hr />
             <p class="sub-head"><strong>Other Options:</strong></p>
             <ul class = "category-list menu-list">
                 <li onclick="makePopUp('help')">About Watch List</li>
-                <li onclick="recommendations.recommendationsList()">Recommendations</li>
                 <li onclick="analytics.render()">My Watch History</li>
                 <li onclick="makePopUp('reset')">Delete Watch List</li>
             </ul>
@@ -91,8 +93,6 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
     <!-- Bootstrap core JavaScript -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <!-- owl carousel scripts-->
-    <script type="text/javascript" src="./plug-ins/owl-carousel/owl.carousel.min.js"></script>
     <!-- Custom Scripts-->
     <script type="text/javascript" src="./assets/scripts/classes.js"></script>
     <script type="text/javascript" src="./assets/scripts/menu.js"></script>
