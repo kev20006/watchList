@@ -11,4 +11,12 @@
   background-color: #e2a34a;
 }
 
+.alert-warning {
+  text-align: center;
+  position: fixed;
+  top: 50px;
+  z-index: 9999;
+  width: 100%;
+}
+
 /*# sourceMappingURL=universalstyles.css.map */

@@ -56,13 +56,14 @@
             <h5 class="sub-head"><strong>Recommendations:</strong></h5>
             <ul id="category-list" class="category-list menu-list">
                 <li onclick="recommendations.recommendationsList('cinema now')">In Theatres Now</li>
-                <li onclick="recommendations.recommendationsList('top movies')">Top Movies</li>
+                <li onclick="recommendations.recommendationsList('top movies')">Top Rated Movies</li>
+                <li onclick="recommendations.recommendationsList('popular tv shows')">Top Rated TV Shows</li>
+                <li onclick="recommendations.recommendationsList('tv now')">On TV Now</li>
             </ul>
             <hr />
             <p class="sub-head"><strong>Other Options:</strong></p>
             <ul class = "category-list menu-list">
                 <li onclick="makePopUp('help')">About Watch List</li>
-                <li onclick="analytics.render()">My Watch History</li>
                 <li onclick="makePopUp('reset')">Delete Watch List</li>
             </ul>
         </aside>
@@ -76,6 +77,9 @@
         </article>
         <footer></footer>
         <!-- Watch List Main Container Ends Here -->
+        <div id="maxReq-Waring" class=" d-none alert alert-warning" role="alert" onclick="warningDismiss()">
+            Maximum Requests made. Retrying Request in <span id="warning-time-left"></span> Seconds - click to close this warning
+        </div>
     </main>
 
     <!-- Modal -->
@@ -93,6 +97,11 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
     <!-- Bootstrap core JavaScript -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <!-- Cross Filter DC and D3 -->
+    <script type="text/javascript" src="https://rawgithub.com/NickQiZhu/dc.js/master/web/js/crossfilter.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.js"></script>
+    <script type="text/javascript" src="https://dc-js.github.io/dc.js/js/dc.js"></script>
     <!-- Custom Scripts-->
     <script type="text/javascript" src="./assets/scripts/classes.js"></script>
     <script type="text/javascript" src="./assets/scripts/menu.js"></script>
@@ -102,7 +111,7 @@
     <script type="text/javascript" src="./assets/scripts/drawermenu.js"></script>
     <script type="text/javascript" src="./assets/scripts/watchList.js"></script>
     <script type="text/javascript" src="./assets/scripts/recommendations.js"></script>
-    <script type="text/javascript" src="./assets/scripts/analytics.js"></script>
+    <script type="text/javascript" src="./assets/scripts/warning.js"></script>
     <!-- End of Custom Scripts-->
 
 </body>

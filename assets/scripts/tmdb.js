@@ -29,39 +29,55 @@ const tmdb = {
 
         }
     },
-    getMovieObjects: async (details, callback)=>{
-        let movieList = []
+    getObjects: async (details, callback)=>{
+        let list = []
+        console.log(details)
         if (details.listType == "search"){
-            movieList = tmdb.getMovieSearchResults(details.terms, details.page)
+            list = tmdb.getSearchResults({type: details.type, terms: details.terms, page: details.page})
         }
         else if (details.listType == "recommendations"){
-            movieList = tmdb.getMovieRecommendations(details.rectype)
+            list = tmdb.getRecommendations(details.rectype)
         }
-        movieList.then((movies)=>{
-            moviePromises = [];
-            movies.results.forEach((element)=>{
-                moviePromises.push(tmdb.getMovieDetails(element.id))
+        list.then((items)=>{
+            console.log(items)
+            itemPromises = [];
+            items.results.forEach((element)=>{
+                itemPromises.push(tmdb.getDetails({type: details.type, id: element.id}))
             })
-            Promise.all(moviePromises).then((moviesWithDetails)=>{
-                let movieObjectArray = []
-                moviesWithDetails.forEach(movie=>{
-                     movieObjectArray.push(tmdb.makeMovieObject(movie))
+            Promise.all(itemPromises).then((itemsWithDetails)=>{
+                console.log("promise fulfilled")
+                console.log(itemsWithDetails)
+                let objectArray = []
+                itemsWithDetails.forEach(e=>{
+                    //type is lowercase, so this corrects it to camelCase to generate the correct object
+                    objectArray.push(tmdb[`make${details.type.charAt(0).toUpperCase() + details.type.slice(1)}Object`](e))
                 })
-                callback(movieObjectArray)
+                callback(objectArray)
 
             })
+            .catch(e=>{
+                if (e.status == 429){
+                    showWarning()
+                    setTimeout(() => {tmdb.getObjects(details, callback)}, 8000);
+                    
+                }
+            });
         })
+        .catch(e=>{
+            console.log("Catching Movie List Error");
+            console.log(e);
+        });
     },
 
-    getMovieSearchResults:(terms, page)=>{
-        return Promise.resolve($.getJSON(tmdb.getURL("movie search", {terms:terms, page:page})));
+    getSearchResults:(object)=>{
+        return Promise.resolve($.getJSON(tmdb.getURL(`${object.type} search`, {terms:object.terms, page:object.page})));
     },
 
-    getMovieDetails:(id)=>{
-        return Promise.resolve($.getJSON(tmdb.getURL("movie details", {id: id})));
+    getDetails:(object)=>{
+        return Promise.resolve($.getJSON(tmdb.getURL(`${object.type} details`, {id: object.id})));
     },
 
-    getMovieRecommendations:(type)=>{
+    getRecommendations:(type)=>{
         return Promise.resolve($.getJSON(tmdb.getURL(type)));
     },
 

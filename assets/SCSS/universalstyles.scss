@@ -9,3 +9,10 @@
   @include collections-add-color(nth($default-color,1), nth($default-color,2));
 }
 
+.alert-warning{
+  text-align: center;
+  position: fixed;
+  top: 50px;
+  z-index: 9999;
+  width: 100%;
+}
