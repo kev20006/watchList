@@ -1,0 +1,24 @@
+#add-or-edit-container #search-box {
+  margin-top: 5px;
+  width: 100%;
+  font-size: 1.5rem;
+}
+
+.results {
+  overflow-x: hidden;
+}
+
+.result {
+  position: relative;
+  transition: all 0.5s;
+}
+.result:hover, .result:active {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5), -1px -1px 5px rgba(0, 0, 0, 0.5);
+  background-color: #c8c8c8;
+  transform: scale(1.1);
+}
+.result .result-thumb {
+  max-height: 92px;
+}
+
+/*# sourceMappingURL=search.css.map */

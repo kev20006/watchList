@@ -13,7 +13,7 @@ const tmdb = {
             case "top movies":
                 return `https://api.themoviedb.org/3/movie/top_rated?api_key=${tmdb.key}&language=en-US&page=1`;
             case "movie genre":
-                return `https://api.themoviedb.org/3/discover/movie?api_key=${tmdb.key}&language=en-us&with_genres=${details.genre}`
+                return `https://api.themoviedb.org/3/discover/movie?api_key=${tmdb.key}&language=en-us&with_genres=${details.id}`
             case "movie actor":
                 return `https://api.themoviedb.org/3/person/${details.id}?api_key=${tmdb.key}&append_to_response=movie_credits`
             case "tv search":
@@ -29,28 +29,42 @@ const tmdb = {
 
         }
     },
+    /*all objects should include: 
+        * listtype: the type of list (search, recommendations)
+        * type: the type of object date pertains to, movie or tv
+        Searches should include:
+        * search terms
+        * the current page of the search
+        Recommendations should include:
+        * rectype: the type of recommendation used to generate URLS
+        * ID: genre id, actor id, movie id, used to generate recommendations
+    */ 
     getObjects: async (details, callback)=>{
         let list = []
-        console.log(details)
         if (details.listType == "search"){
             list = tmdb.getSearchResults({type: details.type, terms: details.terms, page: details.page})
         }
         else if (details.listType == "recommendations"){
-            list = tmdb.getRecommendations(details.rectype)
+            list = tmdb.getRecommendations(details)
         }
         list.then((items)=>{
-            console.log(items)
+            if (details.recType == "movie actor"){
+                items = [items.movie_credits.cast[randomIndex(items.movie_credits.cast.length)]]
+            }
+            else if (details.recType == "movie genre"){
+                items = [items.results[randomIndex(items.results.length)]]
+            }else{
+                items = items.results
+            }
             itemPromises = [];
-            items.results.forEach((element)=>{
+            items.forEach((element)=>{
                 itemPromises.push(tmdb.getDetails({type: details.type, id: element.id}))
             })
             Promise.all(itemPromises).then((itemsWithDetails)=>{
-                console.log("promise fulfilled")
-                console.log(itemsWithDetails)
                 let objectArray = []
                 itemsWithDetails.forEach(e=>{
                     //type is lowercase, so this corrects it to camelCase to generate the correct object
-                    objectArray.push(tmdb[`make${details.type.charAt(0).toUpperCase() + details.type.slice(1)}Object`](e))
+                    objectArray.push(tmdb[`make${capitalise(details.type)}Object`](e))
                 })
                 callback(objectArray)
 
@@ -77,8 +91,8 @@ const tmdb = {
         return Promise.resolve($.getJSON(tmdb.getURL(`${object.type} details`, {id: object.id})));
     },
 
-    getRecommendations:(type)=>{
-        return Promise.resolve($.getJSON(tmdb.getURL(type)));
+    getRecommendations:(object)=>{
+        return Promise.resolve($.getJSON(tmdb.getURL(object.recType, {id: object.id})));
     },
 
     makeMovieObject:(movieDetails)=>{

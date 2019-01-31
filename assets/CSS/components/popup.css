@@ -1,0 +1,133 @@
+.preview {
+  margin: 0 auto;
+}
+.preview hr {
+  width: 99%;
+  border-top: 4px solid #fcb653;
+}
+.preview img {
+  margin: 0 auto;
+}
+.preview .controls {
+  margin-bottom: 10px;
+}
+.preview .controls div {
+  width: 50px;
+  height: 50px;
+  border: 1px solid;
+  border-radius: 50%;
+  text-align: center;
+  padding-top: 10px;
+}
+.preview .tag {
+  padding: 0px 5px;
+  border-radius: 40px;
+  background-color: orange;
+  margin-left: 5px;
+}
+.preview .add-tag {
+  color: black;
+  border: none;
+  background: none;
+  padding: 0px 5px;
+  width: 85px;
+}
+.preview .add-tag::placeholder {
+  color: black;
+}
+.preview .add-tag:focus {
+  outline: 0;
+}
+.preview .desc-box {
+  max-height: 200px;
+  overflow-y: scroll;
+}
+.preview .actor-thumb {
+  margin: 0 auto;
+}
+.preview .actor-thumb .img-container {
+  border: 2px solid white;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5), -1px -1px 5px rgba(0, 0, 0, 0.5);
+  width: 120px;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 5px;
+}
+.preview .actor-thumb .img-container img {
+  position: relative;
+  bottom: 10px;
+  width: 100%;
+}
+.preview .notes-area {
+  width: 100%;
+  margin-top: 15px;
+  background-color: #dddddd;
+  border-radius: 5px;
+  border: none;
+  border-bottom: 4px solid #fcb653;
+  margin-bottom: 0px;
+  height: 131px;
+}
+
+#add-or-edit-container #search-box {
+  margin-top: 5px;
+  width: 100%;
+  font-size: 1.5rem;
+}
+
+.results {
+  overflow-x: hidden;
+}
+
+.result {
+  position: relative;
+  transition: all 0.5s;
+}
+.result:hover, .result:active {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5), -1px -1px 5px rgba(0, 0, 0, 0.5);
+  background-color: #c8c8c8;
+  transform: scale(1.1);
+}
+.result .result-thumb {
+  max-height: 92px;
+}
+
+.obscure {
+  display: none;
+  position: fixed;
+  top: 0;
+  z-index: 5000;
+  min-height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.obscure #add-or-edit-container {
+  position: relative;
+  top: 50px;
+  width: 95vw;
+  max-width: 600px;
+  height: 90vh;
+  max-height: 900px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: white;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+.obscure #add-or-edit-container #add-collection {
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid black;
+}
+.obscure #add-or-edit-container #add-new-label {
+  pointer-events: none;
+  position: absolute;
+}
+
+#background {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: #444444;
+}
+
+/*# sourceMappingURL=popup.css.map */

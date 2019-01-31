@@ -46,11 +46,18 @@ class watchItem {
     }
 
     searchItem() {
-        let wrapper = $(`<div class="d-flex my-2 mx-1"></div>`);
-        let imgWrapper = $(`<div></div>`);
-        let textWrapper = $(`<div></div>`);
-        imgWrapper.append(`<img src=${this.thumb} class="result-thumb" alt=${this.title.substring(0, 50)} height="50px" />`);
-        textWrapper.append(`<p class="result-title">${this.title.substring(0, 40)} - ${this.year}</p>`);
+        let wrapper = $(`<div class="result row pt-2 mx-0 result"></div>`);
+        let imgWrapper = $(`<div class="col-3 col-offset-2 "></div>`);
+        let textWrapper = $(`<div class="col-6"></div>`);
+        let genreHtml = $("<p></p>");
+        this.genre.forEach((element)=>{
+            genreHtml.append(`<span class="mr-2">${element.name}</span>`);
+        })
+        imgWrapper.append(`<img src=${this.thumb} class="result-thumb mx-auto d-block" alt=${this.title.substring(0, 50)} />`);
+        textWrapper.append(
+            `<h6 class="result-title"><strong>${this.title.substring(0, 40)}</strong> - ${this.year}</h6>`,
+            genreHtml
+        );
         wrapper.on("click", () => {
             $("#results").html(this.itemPreview("search"));
             $("#search-box").addClass("d-none").removeClass("d-flex");
@@ -132,7 +139,6 @@ class watchItem {
                     $(".add-tag").css("width", `${20 + ($(".add-tag").val().length * 9)}px`)
                 }
                 if (e.keyCode == 13) {
-                    console.log($(".add-tag"))
                     watchList.addCollection($(".add-tag").val(),this.dbid);
                     let newInput = $(`<input type="text" placeholder="add new"></input>`)
                         .addClass("add-tag")
@@ -263,17 +269,14 @@ class movie extends watchItem {
         let genresContainer = $(`<p></p>`)
         genresContainer.append(`<strong>Genres:</strong>`);
         this.genre.forEach(element=>{
-            console.log(element.name)
             genresContainer.append(`<span class="ml-2">${element.name}</span>`)
         })
         genresContainer.appendTo(preview.find(".genres"));
         $(`<strong>${this.rating}%</strong>`).appendTo(preview.find(".rating"));
         
         preview.append("<hr>")
-        console.log(this.cast)
         let castSection = $("<section></section>").append(`<div class="row mx-0 px-1"><p><strong>Top Billed Cast</strong></div>`)
         let castContainer = $(`<div class="row mx-0 px-1"></div>`)
-        console.log(this.cast)
         if(this.cast){
             this.cast.forEach(element => {
                 let actorpic = "https://image.tmdb.org/t/p/w185"
@@ -305,9 +308,8 @@ class movie extends watchItem {
         if (location == "card"){
             makePopUp()
         }
-        let randomGenre = this.genre[Math.floor(Math.random() * Math.floor(this.genre.length))];
-        let randomActor = this.cast[Math.floor(Math.random() * Math.floor(this.cast.length))];
-        console.log(randomGenre)
+        let randomGenre = this.genre[randomIndex(this.genre.length)];
+        let randomActor = this.cast[randomIndex(this.cast.length)];
         $("#add-or-edit-container").html(`<p><strong>Because you liked ${this.title} you might also like </strong></p>
         <div id="actorRec">
         <p>Because you liked ${randomActor.name}</p>
@@ -320,11 +322,17 @@ class movie extends watchItem {
         noButton.on("click", () => {
             closePopUp();
         });
-        searches.getRandomRecommendaitons("actor", randomActor, (movie)=>{
-            $("#actorRec").append(movie.card(true));
+        console.log(randomActor)
+        tmdb.getObjects({listType: "recommendations", recType:"movie actor", id: randomActor.id, type: this.type}, (movie)=>{
+            console.log(randomActor.name)
+            console.log(movie);
+            $("#actorRec").append(movie[0].card(true));
         });
-        searches.getRandomRecommendaitons("genre", randomGenre, (movie) => {
-            $("#genreRec").append(movie.card(true));
+        
+        tmdb.getObjects({ listType: "recommendations", recType:"movie genre", id: randomGenre.id, type: this.type}, (movie) => {
+            console.log(randomGenre.name);
+            console.log(movie);
+            $("#genreRec").append(movie[0].card(true));
         });
         $("#add-or-edit-container").append(noButton);
 

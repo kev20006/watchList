@@ -1,4 +1,9 @@
-@import "constants.scss";
+
+
+@import "../constants.scss";
+@import "./popup-submenus/preview.scss";
+@import "./popup-submenus/search.scss";
+
 .obscure{
   display:none;
   position:fixed;
@@ -15,6 +20,7 @@
     height:90vh;
     max-height: 900px;
     overflow-y:scroll; 
+    overflow-x:hidden;
     background-color: white;
     box-shadow:1px 1px 2px rgba(0,0,0,0.1);
     #add-collection{
@@ -38,14 +44,7 @@
 }
 
 
-/*******  Popup search menu styles ******/
-#add-or-edit-container{
-  #search-box{
-    margin-top:5px;
-    width:100%;
-    font-size:1.5rem;
-  }
-}
+
 
 
 

@@ -48,7 +48,6 @@ let searches = {
             $(`#results`).html("")
             if(resultsMobile.length != 0){
                 resultsMobile.forEach((element) => {
-                    console.log(element)
                     let searchResult = new tv({
                         dbid: element.id,
                         title: element.name,
@@ -80,7 +79,6 @@ let searches = {
             $(`#results`).html("")
             if (data.items.length !=0){
                 data.items.forEach((element) => {
-                    console.log(element)
                     let image = ""
                     let largerImage;
                     if (!element.volumeInfo.imageLinks){
@@ -125,7 +123,6 @@ let searches = {
             $(`#results`).html("")
             if (data.length != 0) { 
                 data.forEach((element) => {
-                    console.log(element)
                     let imgUrl;
                     let bigImg;
                     if ("cover" in element) {
