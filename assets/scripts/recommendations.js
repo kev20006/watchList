@@ -1,7 +1,7 @@
 
 
 const recommendations = {
-    recommendationsList:(type)=> {
+    recommendationsList:(object)=> {
         closeDrawerMenu()
         $("#watch-list").html(`<div class="no-results text-center">
                 <img src="./assets/images/loading.gif">
@@ -9,7 +9,7 @@ const recommendations = {
                 </div>
             `);
         tmdb.getObjects(
-            {type:"movie", listType: "recommendations", recType: type }, 
+            {type: object.type, listType: "recommendations", recType: object.recType }, 
             (movieObjectArray) => {
                 watchList.render(movieObjectArray, true);
             }

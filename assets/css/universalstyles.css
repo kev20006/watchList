@@ -19,4 +19,12 @@
   width: 100%;
 }
 
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+.heading {
+  font-family: "Bungee", cursive;
+}
+
 /*# sourceMappingURL=universalstyles.css.map */

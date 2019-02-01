@@ -9,7 +9,7 @@ $(document).on("click", (e) => {
             menuActive = true;
             $("#menu").animate(
                 {
-                    left: "+=210",
+                    left: "+=240",
                 }, 500);
         } else {
             menuActive = false;
@@ -42,6 +42,6 @@ $("#category-list .add-new").on("click", () => {
 function closeDrawerMenu(){
     menuActive = false;
     $("#menu").animate({
-        left: "-=210",
+        left: "-=240",
     }, 500)
 }

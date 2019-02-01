@@ -27,7 +27,6 @@
       padding: 0;
       border:none;
       border-bottom: 1px solid black;
-      @include tooltip("press enter to add your tag", 0px, 50px, nowrap)
     }
     #add-new-label{
       pointer-events: none;

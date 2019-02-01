@@ -20,7 +20,7 @@ let searches = {
             }else{
                 let resultsContainer = $(`<div></div>`)
                 movies.forEach(element=>{
-                    resultsContainer.append(element.searchItem)
+                    resultsContainer.append(element.searchItem())
                 })
                 $(`#results`).append(resultsContainer);
                 $(`#results`).append(paginationControls(page, terms, "movie"));
@@ -37,127 +37,27 @@ let searches = {
         $(`#results`).html(`
             <div class="no-results text-center">
             <img src="./assets/images/loading.gif" alt="loader">
-            <p>searching tv shows....</p>
+            <p>searching......</p>
             </div>`);
         let searchPage = Math.ceil(page / 2)
-        let url = `https://api.themoviedb.org/3/search/tv?api_key=${searches.keys[0]}&language=en-US&query=${terms}&page=${searchPage}`;
-        $(`#results`).html("loading...")
-        $.getJSON(url, (data) => {
-            let resultsMobile = []
+        tmdb.getObjects({ type: "tv", terms: terms, page: searchPage, listType: "search" }, (shows) => {
             if (page % 2 != 0) {
-                resultsMobile = data.results.slice(0, 9)
+                shows = shows.slice(0, 9)
             } else {
-                resultsMobile = data.results.slice(10, 19)
+                shows = shows.slice(10, 19)
             }
             $(`#results`).html("")
-            if(resultsMobile.length != 0){
-                resultsMobile.forEach((element) => {
-                    let searchResult = new tv({
-                        dbid: element.id,
-                        title: element.name,
-                        thumb: `https://image.tmdb.org/t/p/w92${element.poster_path}`,
-                        lrgImage: `https://image.tmdb.org/t/p/w600_and_h900_bestv2${element.poster_path}`,
-                        longDescription: element.overview,
-                        year: element.first_air_date.split("-")[0],
-                        genre:["genre"],
-                        cast: ""
-                        })
-                    $(`#results`).append(searchResult.searchItem);
-                })
-            }else{
+            if (shows.length == 0) {
                 $(`#results`).append(`<p>no results found please change your search criteria</p>`);
-            }
-            $(`#results`).append(paginationControls(page, terms, "tv"));
-        })
-            .fail(function () {
-                console.log("there was an error of sorts")
-            });
-       
-    },
-    book: (terms, page)=>{
-        $(`#results`).html(`
-            <img src="./assets/images/loading.gif" alt="loader">
-            <p>loading books....</p>`);
-        let url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${terms}&startIndex=${page}&maxResults=10`;
-        $.getJSON(url, (data) => {
-            $(`#results`).html("")
-            if (data.items.length !=0){
-                data.items.forEach((element) => {
-                    let image = ""
-                    let largerImage;
-                    if (!element.volumeInfo.imageLinks){
-                        image = `http://webmaster.ypsa.org/wp-content/uploads/2012/08/no_thumb.jpg`;
-                        largerImage = `http://webmaster.ypsa.org/wp-content/uploads/2012/08/no_thumb.jpg`;
-                    }else{
-                        image = element.volumeInfo.imageLinks.smallThumbnail;
-                        largerImage = element.volumeInfo.imageLinks.thumbnail
-                    }
-                    let searchResult = new book({
-                        dbid:element.id,
-                        title:element.volumeInfo.title,
-                        thumb:image,
-                        lrgImage: image,
-                        longDescription: element.volumeInfo.description,
-                        year: element.volumeInfo.publishedDate,
-                        genre: ["genre"],
-                        cast: ""
-                    }
-                    )
-                    $(`#results`).append(searchResult.searchItem);
+            } else {
+                let resultsContainer = $(`<div></div>`)
+                shows.forEach(element => {
+                    resultsContainer.append(element.searchItem())
                 })
-            }else{
-                $(`#results`).append(`<p>no results found please change your search criteria</p>`);
+                $(`#results`).append(resultsContainer);
+                $(`#results`).append(paginationControls(page, terms, "tv"));
             }
-            $(`#results`).append(paginationControls(page, terms, "book"));
-            
-        })
-        .fail(function () {
-            console.log("there was an error of sorts")
         });
-    },
-    game: (terms, page)=>{
-        $(`#results`).html(`
-            <img src="./assets/images/loading.gif" alt="loader">
-            <p>loading games....</p>
-            <p>This may take a while, games API is host on a REPL teporarily</p>
-            <p>if you get no results after about 30 secs, try changing your search terms</p>`);
-        let startIndex = page - 1;
-        let url = `https://IGDB-PROXY--kev20006.repl.co/games/${terms}/page/${startIndex}`;
-        $.getJSON(url, (data) => {
-            $(`#results`).html("")
-            if (data.length != 0) { 
-                data.forEach((element) => {
-                    let imgUrl;
-                    let bigImg;
-                    if ("cover" in element) {
-                        imgUrl = `https://images.igdb.com/igdb/image/upload/t_cover_small/${element.cover.cloudinary_id}.jpg`
-                        bigImg = `https://images.igdb.com/igdb/image/upload/t_cover_big/${element.cover.cloudinary_id}.jpg`
-                    } else {
-                        imgUrl = `http://webmaster.ypsa.org/wp-content/uploads/2012/08/no_thumb.jpg`;
-                        bigImg = `http://webmaster.ypsa.org/wp-content/uploads/2012/08/no_thumb.jpg`;
-                    }
-                    let date = new Date(element.first_release_date)
-                    let searchResult = new game({
-                        dbid:element.id,
-                        title:element.name,
-                        thumb:imgUrl,
-                        lrgImage: bigImg,
-                        description: element.summary,
-                        year: date.getFullYear(),
-                        genre: ["genre"],
-                        cast: ""
-                    }
-                    )
-                    $(`#results`).append(searchResult.searchItem);
-                })
-            } else {
-                 $(`#results`).append(`<p>no results found please change your search criteria</p>`);
-            }
-            $(`#results`).append(paginationControls(page, terms, "game"));
-        })
-            .fail(function () {
-                console.log("there was an error of sorts")
-            });
     }
 }
 

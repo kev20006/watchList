@@ -49,9 +49,9 @@ class watchItem {
         let wrapper = $(`<div class="result row pt-2 mx-0"></div>`);
         let imgWrapper = $(`<div class="col-3 col-offset-2 "></div>`);
         let textWrapper = $(`<div class="col-7"></div>`);
-        let genreHtml = $(`<p class="my-0"></p>`);
+        let genreHtml = $(`<p class="my-0 d-flex flex-wrap"></p>`);
         this.genre.forEach((element)=>{
-            genreHtml.append(`<span class="mr-2 collection-tag">${element.name}</span>`);
+            genreHtml.append(`<span class="mr-2 mb-1 collection-tag">${element.name}</span>`);
         })
         let leadCastHtml = $(`<p class="d-none d-sm-block my-0"></p>`).append(`<span class="mr-2"><strong><small>Lead Cast:</small></strong>`);
         this.cast.slice(0,2).forEach((element) => {
@@ -60,16 +60,15 @@ class watchItem {
 
         imgWrapper.append(`<img src=${this.thumb} class="result-thumb mx-auto d-block" alt=${this.title.substring(0, 50)} />`);
         textWrapper.append(
-            `<h6 class="result-title"><strong>${this.title.substring(0, 40)}</strong> - ${this.year}</h6>`,
+            `<h6 class="result-title"><strong class="heading">${this.title.substring(0, 40)}</strong> - ${this.year}</h6>`,
             genreHtml, leadCastHtml
         );
         wrapper.on("click", () => {
             $("#results").html(this.itemPreview("search"));
             $("#search-box").addClass("d-none").removeClass("d-flex");
         });
-        let buttonWrapper = $('<div class="col-2"></div>');
-        console.log(buttonWrapper)
-        let addButton = $(`<div class="add d-flex justify-content-center align-items-center pt-2"
+        let buttonWrapper = $('<div class="col-2 px-0"></div>');
+        let addButton = $(`<div class="add d-flex justify-content-center align-items-center pt-2 mr-2"
                             data-toggle="tooltip" data-placement="bottom" title="quick add to list, click anywhere else for more info"> 
                             <p class="mx-0 px-0"><strong>+</strong></p>
                             </div>`)
@@ -88,7 +87,7 @@ class watchItem {
         let wrapper = $(`<div class="row mx-0 preview"></div>`);
         let previewHeader = $(`<header class="col-12"></header>`);
         let titleContainer = $(`<div class="row mx-0 p-2"></div>`);
-        let titleContent = $(`<h3><strong>${this.title}</strong> <small class="ml-3">(${this.year})</small></h3>`);
+        let titleContent = $(`<h3><strong class="heading">${this.title}</strong> <small class="ml-3">(${this.year})</small></h3>`);
         let genreContainer = $(`<div class="genres row mx-0 p-2 mb-0"></div>`)
         //placeholder for genres - this will need to iterate
         let genresContent = $(``)
@@ -190,7 +189,7 @@ class watchItem {
         cardInner.append(cardImage);
         let cardInfo = $(`<div class="card-info p-2 scrollbar-ripe-malinka"></div>`);
         let cardTitle = $(
-            `<h5 class="text-left">${this.title}<span class="year"> - ${this.year} </span></h5>`
+            `<h5 class="text-left"><span class="heading">${this.title}</span><span class="year"> - ${this.year} </span></h5>`
         );
         let shortDescription = $(`
                                     <p><strong>Description</strong></p>
@@ -361,11 +360,22 @@ class movie extends watchItem {
 
 
 class tv extends watchItem{
-    constructor(dbid, title, thumb, lrgImage, longDescription, year, genre, note) {
-        super(dbid, title, thumb, lrgImage, longDescription, year, genre, note)
-        this.cast = []
+    constructor(object) {
+        super(object)
+        console.log(object);
         this.type = "tv";
         this.icon = `<div class="icon-bg"><i class="fas fa-tv m-1"></i></div>`;
+        this.rating = object.rating
+        this.cast = object.cast;
+        this.genre = object.genre;
+        this.lastEpisode = object.last_episode_to_air;
+        this.nextEpisode = object.next_episode_to_air;
+        this.seasons = object.seasons;
+        this.searchItem = this.searchItem.bind(this);
+        this.itemPreview = this.itemPreview.bind(this);
+        this.card = this.card.bind(this);
+        this.updateCollections = this.updateCollections.bind(this);
+        this.getRecommendations = this.getRecommendations.bind(this); 
         this.searchItem = this.searchItem.bind(this);
         this.itemPreview = this.itemPreview.bind(this);
         this.card = this.card.bind(this);
@@ -392,73 +402,4 @@ class tv extends watchItem{
         })
         $("#add-or-edit-container").append(noButton)
     }
-}
-
-class book extends watchItem {
-    constructor(dbid, title, thumb, lrgImage, longDescription, year, genre, note) {
-        super(dbid, title, thumb, lrgImage, longDescription, year, genre, note)
-        this.type = "book";
-        this.icon = `<div class="icon-bg"><i class="fas fa-book m-1"></i></div>`;
-        this.searchItem = this.searchItem.bind(this);
-        this.itemPreview = this.itemPreview.bind(this);
-        this.card = this.card.bind(this);
-        this.updateCollections = this.updateCollections.bind(this);
-    }
-
-    itemPreview(location) {
-        let preview = super.itemPreview(location);
-        preview.append("<p>book preivew is not yet completed</p>");
-        return preview
-    }
-    getRecommendations(location) {
-        if (location == "card") {
-            makePopUp()
-        }
-        $("#add-or-edit-container").html(`<p><strong>Because you liked ${this.title} you might also like </strong></p>
-        <ul>
-        <li>Author</li>
-        <li>Genre</li>
-        </ul>
-        `);
-        let noButton = $(`<div class="btn btn-more-info text-center">No Thanks</div>`);
-        noButton.on("click", () => {
-            closePopUp();
-        })
-        $("#add-or-edit-container").append(noButton)
-    }
-
-}
-
-class game extends watchItem {
-    constructor(dbid, title, thumb, lrgImage, longDescription, year, genre, note) {
-        super(dbid, title, thumb, lrgImage, longDescription, year, genre, note)
-        this.type = "game";
-        this.icon = `<div class="icon-bg"><i class="fas fa-gamepad m-1"></i></div>`;
-        this.searchItem = this.searchItem.bind(this);
-        this.itemPreview = this.itemPreview.bind(this);
-        this.card = this.card.bind(this);
-        this.updateCollections = this.updateCollections.bind(this);
-    }
-    itemPreview(location) {
-        let preview = super.itemPreview(location);
-        preview.append("<p>game preview is not yet completed</p>");
-        return preview
-    }
-    getRecommendations(location) {
-        if (location == "card") {
-            makePopUp()
-        }
-        $("#add-or-edit-container").html(`<p><strong>Because you liked ${this.title} you might also like </strong></p>
-        <ul>
-        <li>Platform</li>
-        <li>Genre</li>
-        </ul>
-        `);
-        let noButton = $(`<div class="btn btn-more-info text-center">No Thanks</div>`);
-        noButton.on("click", () => {
-            closePopUp();
-        })
-        $("#add-or-edit-container").append(noButton)
-    }
-
 }

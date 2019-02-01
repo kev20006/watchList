@@ -17,15 +17,17 @@ const tmdb = {
             case "movie actor":
                 return `https://api.themoviedb.org/3/person/${details.id}?api_key=${tmdb.key}&append_to_response=movie_credits`
             case "tv search":
-                return `https://api.themoviedb.org/3/search/tv?api_key=${tmdb.key}&language=en-US&query=${details.terms}&page=${details.searchPage}`;
+                return `https://api.themoviedb.org/3/search/tv?api_key=${tmdb.key}&language=en-US&query=${details.terms}&page=${details.page}`;
             case "tv details":
-                return //api end point
+                return `https://api.themoviedb.org/3/tv/${details.id}?api_key=${tmdb.key}&language=en-US&append_to_response=credits`
             case "tv now":
-                return //api end point
+                return `https://api.themoviedb.org/3/tv/on_the_air?api_key=${tmdb.key}&language=en-US&page=1`
             case "top tv":
-                return //api end point
+                return `https://api.themoviedb.org/3/tv/top_rated?api_key=${tmdb.key}&language=en-US&page=1`
             case "tv genre":
                 return //api end point
+            case "tv today":
+                return `https://api.themoviedb.org/3/tv/airing_today?api_key=${tmdb.key}&language=en-US&page=1`
 
         }
     },
@@ -39,7 +41,7 @@ const tmdb = {
         * rectype: the type of recommendation used to generate URLS
         * ID: genre id, actor id, movie id, used to generate recommendations
     */ 
-    getObjects: async (details, callback)=>{
+    getObjects: (details, callback)=>{
         let list = []
         if (details.listType == "search"){
             list = tmdb.getSearchResults({type: details.type, terms: details.terms, page: details.page})
@@ -61,11 +63,17 @@ const tmdb = {
                 itemPromises.push(tmdb.getDetails({type: details.type, id: element.id}))
             })
             Promise.all(itemPromises).then((itemsWithDetails)=>{
+                console.log(itemsWithDetails)
+                itemsWithDetails.forEach(e=>{
+                    console.log(e.name)
+                })
                 let objectArray = []
                 itemsWithDetails.forEach(e=>{
                     //type is lowercase, so this corrects it to camelCase to generate the correct object
                     objectArray.push(tmdb[`make${capitalise(details.type)}Object`](e))
                 })
+                console.log("logging object array")
+                console.log(objectArray)
                 callback(objectArray)
 
             })
@@ -96,28 +104,27 @@ const tmdb = {
     },
 
     makeMovieObject:(movieDetails)=>{
-        let thumb = "https://image.tmdb.org/t/p/w92"
-        let lrgImage = "https://image.tmdb.org/t/p/w600_and_h900_bestv2"
-        let director = "None Acknowledged"
+        let thumb = "https://image.tmdb.org/t/p/w92";
+        let lrgImage = "https://image.tmdb.org/t/p/w600_and_h900_bestv2";
         movieDetails.credits.crew.forEach(element => {
             if (element.job == "Director") {
-                director = element.name
+                director = element.name;
             }
         })
         let cast = []
         for (let i = 0; i <= 3; i++) {
             if (movieDetails.credits.cast[i]){
-                cast.push(movieDetails.credits.cast[i])
+                cast.push(movieDetails.credits.cast[i]);
             }
             
         }
 
         if (movieDetails.poster_path == null){
-            thumb = "./assets/images/no-movie-found.png"
-            lrgImage = "./assets/images/no-movie-found.png"
+            thumb = "./assets/images/no-movie-found.png";
+            lrgImage = "./assets/images/no-movie-found.png";
         }else{
-            thumb += movieDetails.poster_path
-            lrgImage += movieDetails.poster_path
+            thumb += movieDetails.poster_path;
+            lrgImage += movieDetails.poster_path;
         }
         return new movie(
             {
@@ -135,5 +142,45 @@ const tmdb = {
             }
         )
         
+    },
+    makeTvObject:(tvDetails)=>{
+        let thumb = "https://image.tmdb.org/t/p/w92";
+        let lrgImage = "https://image.tmdb.org/t/p/w600_and_h900_bestv2";
+        if (!tvDetails.poster_path){
+            thumb = "./assets/images/no-tv-found.png";
+            largImage = "./assets/images/no-tv-found.png";
+        }
+        else{
+            thumb += tvDetails.poster_path;
+            lrgImage += tvDetails.poster_path;
+        }
+        let cast = [];
+        for (let i = 0; i <= 3; i++) {
+            if (tvDetails.credits.cast[i]) {
+                cast.push(tvDetails.credits.cast[i])
+            }
+        }
+        let year = null;
+        if (tvDetails.first_air_date){
+            year = tvDetails.first_air_date.split("-")[0]
+            
+        }
+        return new tv(
+            {
+                dbid: tvDetails.id,
+                title: tvDetails.name,
+                thumb: thumb,
+                lrgImage: lrgImage,
+                longDescription: tvDetails.overview,
+                year: year,
+                genre: tvDetails.genres,
+                note: "",
+                rating: tvDetails.vote_average * 10,
+                cast: cast,
+                lastEpisode: tvDetails.last_episode_to_air,
+                nextEpisode: tvDetails.next_episode_to_air,
+                seasons: tvDetails.seasons
+            }
+        );
     }
 }

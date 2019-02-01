@@ -19,6 +19,14 @@
   width: 100%;
 }
 
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+.heading {
+  font-family: "Bungee", cursive;
+}
+
 #app {
   overflow: hidden;
 }
@@ -29,8 +37,8 @@
   z-index: 2000;
   position: fixed;
   height: 100vh;
-  left: -210px;
-  width: 200px;
+  left: -240px;
+  width: 230px;
   border-right: 4px solid #fcb653;
   background-color: white;
   overflow-y: scroll;
@@ -511,6 +519,7 @@
   transition: all 0.1s;
 }
 #results .result-btn:hover {
+  font-size: 0.9rem;
   top: 2px;
   box-shadow: 0px 2px 1px #e2a34a;
 }
@@ -540,22 +549,6 @@
   padding: 0;
   border: none;
   border-bottom: 1px solid black;
-}
-.obscure #add-or-edit-container #add-collection::before {
-  background: #111;
-  background: rgba(0, 0, 0, 0.8);
-  border-radius: 0.5em;
-  color: #fff;
-  content: "press enter to add your tag";
-  display: block;
-  right: 0px;
-  top: 50px;
-  padding: 0.3em 1em;
-  position: absolute;
-  text-shadow: 0 1px 0 #000;
-  white-space: nowrap;
-  z-index: 98;
-  font-size: 1rem;
 }
 .obscure #add-or-edit-container #add-new-label {
   pointer-events: none;

@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Watch List</title>
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Bungee|Montserrat:500i" 
+    rel="stylesheet">
     <!-- fontawesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" 
     integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
@@ -26,7 +29,7 @@
                     <img id= "toggle-menu" src="https://cdn4.iconfinder.com/data/icons/tupix-1/30/list-512.png" width="40" height="40" class="d-inline-block align-top" alt="hamburger icon">
                 </div>
                 <div>
-                    <h3>Watch List</h3>
+                    <h3 class="heading">Watch List</h3>
                 </div>    
             </div>
             <div class="d-flex">
@@ -40,28 +43,27 @@
         <!-- navbar ends here -->
         <!-- Drawer Menu Starts Here --> 
         <aside id="menu">
-            <h5 class="sub-head"><strong>Filter By Type:</strong></h5>
+            <h5 class="sub-head heading"><strong>Filter By Type:</strong></h5>
             <ul id="filter-menu" class="menu-list">
                 <li onclick="performFilter('type','all')"><i class="fas fa-asterisk mr-2 w-30"></i><span>All</span></li>
                 <li onclick="performFilter('type','movie')"><i class="fas fa-film m-1 w-30"></i> <span>Movies</span> </li>
                 <li onclick="performFilter('type','tv')"><i class="fas fa-tv mr-1 w-30"></i> <span>TV </span></li>
-                <li onclick="performFilter('type','game')"><i class="fas fa-gamepad mr-1 w-30"></i><span> Games </span></li>
-                <li onclick="performFilter('type','book')"><i class="fas fa-book mr-1 w-30"></i> <span>Books</p> </li>
             </ul>
             <hr />
-            <h5 class="sub-head"><strong>Filter by Tags:</strong></h5>
+            <h5 class="sub-head heading"><strong>Filter by Tags:</strong></h5>
             <ul id="category-list" class="category-list menu-list">
             </ul>
             <hr />
-            <h5 class="sub-head"><strong>Recommendations:</strong></h5>
+            <h5 class="sub-head heading"><strong>Recommendations:</strong></h5>
             <ul id="category-list" class="category-list menu-list">
-                <li onclick="recommendations.recommendationsList('cinema now')">In Theatres Now</li>
-                <li onclick="recommendations.recommendationsList('top movies')">Top Rated Movies</li>
-                <li onclick="recommendations.recommendationsList('popular tv shows')">Top Rated TV Shows</li>
-                <li onclick="recommendations.recommendationsList('tv now')">On TV Now</li>
+                <li onclick="recommendations.recommendationsList({type:'movie', recType:'cinema now'})">In Theatres Now</li>
+                <li onclick="recommendations.recommendationsList({type:'movie', recType:'top movies'})">Top Rated Movies</li>
+                <li onclick="recommendations.recommendationsList({type:'tv', recType:'top tv'})">Top Rated TV Shows</li>
+                <li onclick="recommendations.recommendationsList({type:'tv', recType:'tv now'})">On TV Now</li>
+                <li onclick="recommendations.recommendationsList({type:'tv', recType:'tv today'})">TV Today</li>
             </ul>
             <hr />
-            <p class="sub-head"><strong>Other Options:</strong></p>
+            <p class="sub-head heading"><strong>Other Options:</strong></p>
             <ul class = "category-list menu-list">
                 <li onclick="makePopUp('help')">About Watch List</li>
                 <li onclick="makePopUp('reset')">Delete Watch List</li>
