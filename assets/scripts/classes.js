@@ -46,23 +46,40 @@ class watchItem {
     }
 
     searchItem() {
-        let wrapper = $(`<div class="result row pt-2 mx-0 result"></div>`);
+        let wrapper = $(`<div class="result row pt-2 mx-0"></div>`);
         let imgWrapper = $(`<div class="col-3 col-offset-2 "></div>`);
-        let textWrapper = $(`<div class="col-6"></div>`);
-        let genreHtml = $("<p></p>");
+        let textWrapper = $(`<div class="col-7"></div>`);
+        let genreHtml = $(`<p class="my-0"></p>`);
         this.genre.forEach((element)=>{
-            genreHtml.append(`<span class="mr-2">${element.name}</span>`);
+            genreHtml.append(`<span class="mr-2 collection-tag">${element.name}</span>`);
         })
+        let leadCastHtml = $(`<p class="d-none d-sm-block my-0"></p>`).append(`<span class="mr-2"><strong><small>Lead Cast:</small></strong>`);
+        this.cast.slice(0,2).forEach((element) => {
+            leadCastHtml.append(`<span class="mr-2"><small>${element.name}</small></span>`);
+        })
+
         imgWrapper.append(`<img src=${this.thumb} class="result-thumb mx-auto d-block" alt=${this.title.substring(0, 50)} />`);
         textWrapper.append(
             `<h6 class="result-title"><strong>${this.title.substring(0, 40)}</strong> - ${this.year}</h6>`,
-            genreHtml
+            genreHtml, leadCastHtml
         );
         wrapper.on("click", () => {
             $("#results").html(this.itemPreview("search"));
             $("#search-box").addClass("d-none").removeClass("d-flex");
-        })
-        wrapper.append(imgWrapper, textWrapper);
+        });
+        let buttonWrapper = $('<div class="col-2"></div>');
+        console.log(buttonWrapper)
+        let addButton = $(`<div class="add d-flex justify-content-center align-items-center pt-2"
+                            data-toggle="tooltip" data-placement="bottom" title="quick add to list, click anywhere else for more info"> 
+                            <p class="mx-0 px-0"><strong>+</strong></p>
+                            </div>`)
+            .on("click", (e) => {
+                closePopUp();
+                watchList.add(this);
+            })
+        buttonWrapper.append(addButton);
+        console.log(buttonWrapper)
+        wrapper.append(imgWrapper, textWrapper, buttonWrapper);
         return wrapper
     }
 

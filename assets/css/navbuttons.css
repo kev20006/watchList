@@ -20,11 +20,13 @@
   content: "click here to add a new item";
   display: block;
   right: 50px;
+  top: 0px;
   padding: 0.3em 1em;
   position: absolute;
   text-shadow: 0 1px 0 #000;
   white-space: nowrap;
   z-index: 98;
+  font-size: 1rem;
 }
 #add i {
   font-size: 1.5rem;
@@ -49,11 +51,13 @@
   content: "New Movie";
   display: block;
   right: 50px;
+  top: 0px;
   padding: 0.3em 1em;
   position: absolute;
   text-shadow: 0 1px 0 #000;
   white-space: nowrap;
   z-index: 98;
+  font-size: 1rem;
 }
 #movie i {
   font-size: 1.5rem;
@@ -78,11 +82,13 @@
   content: "New Tv Show";
   display: block;
   right: 50px;
+  top: 0px;
   padding: 0.3em 1em;
   position: absolute;
   text-shadow: 0 1px 0 #000;
   white-space: nowrap;
   z-index: 98;
+  font-size: 1rem;
 }
 #tv i {
   font-size: 1.5rem;
@@ -107,11 +113,13 @@
   content: "New Game";
   display: block;
   right: 50px;
+  top: 0px;
   padding: 0.3em 1em;
   position: absolute;
   text-shadow: 0 1px 0 #000;
   white-space: nowrap;
   z-index: 98;
+  font-size: 1rem;
 }
 #game i {
   font-size: 1.5rem;
@@ -136,11 +144,13 @@
   content: "New Book";
   display: block;
   right: 50px;
+  top: 0px;
   padding: 0.3em 1em;
   position: absolute;
   text-shadow: 0 1px 0 #000;
   white-space: nowrap;
   z-index: 98;
+  font-size: 1rem;
 }
 #book i {
   font-size: 1.5rem;

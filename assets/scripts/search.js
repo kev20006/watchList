@@ -27,14 +27,18 @@ let searches = {
             }
         });
         $(`#results`).html(`
+            <div class="no-results text-center">
             <img src="./assets/images/loading.gif" alt="loader">
-            <p>loading movie....</p>`);   
+            <p>searching movies....</p>
+            </div>`);   
     },
 
     tv: (terms, page)=>{
         $(`#results`).html(`
+            <div class="no-results text-center">
             <img src="./assets/images/loading.gif" alt="loader">
-            <p>loading tv shows....</p>`);
+            <p>searching tv shows....</p>
+            </div>`);
         let searchPage = Math.ceil(page / 2)
         let url = `https://api.themoviedb.org/3/search/tv?api_key=${searches.keys[0]}&language=en-US&query=${terms}&page=${searchPage}`;
         $(`#results`).html("loading...")
@@ -160,8 +164,8 @@ let searches = {
 function paginationControls(page, terms, type){
     let incr = 1
     if (type == "book" || type == "game"){incr = 5}
-    let pageButtons = $(`<div class="d-flex"></div>`);
-    let back = $(`<div class="btn">prev</div>`)
+    let pageButtons = $(`<div class="d-flex justify-content-around"></div>`);
+    let back = $(`<div class="result-btn">prev</div>`)
         .on("click", () => {
             let newPage = ((p) => { return p - incr })(page);
             if(newPage > 0){
@@ -169,14 +173,13 @@ function paginationControls(page, terms, type){
                 searches[type](terms, newPage)
             }
         });
-    let custom = $(`<div class="btn"></div>`);
-    let next = $(`<div class="btn">next</div>`)
+    let next = $(`<div class="result-btn">next</div>`)
         .on("click", () => {
             let newPage = ((p) => { return p + incr })(page);
             $("#results").attr("data-page", newPage)
             searches[type](terms, newPage)
         });
-    pageButtons.append(back, custom, next);
+    pageButtons.append(back, next);
     return pageButtons
 }
 

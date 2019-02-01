@@ -32,6 +32,7 @@ $(document).on("click", (e) => {
 
 function manageFilters(){
     $("#add-or-edit-container").html("")
+    let manageFiltersWrapper = $(`<div class="manage-tags p-2"></div>`)
     let title = $(`<h3 class="sub-head">Add or Edit Tags</h3><hr>`)
     let collectionInput = $(`<input id="collection-input" type="text"></input>`)
     let button = $(`<input type="button">add</input>`)
@@ -39,7 +40,7 @@ function manageFilters(){
         watchList.addCollection($("#collection-input").val())
         manageFilters()
     })
-    $("#add-or-edit-container").append(title, collectionInput, button)
+    manageFiltersWrapper.append(title, collectionInput, button)
 
     if (Object.keys(watchList.collections).length > 0){
         let index=0;
@@ -60,10 +61,11 @@ function manageFilters(){
                     manageFilters()
                 })
             wrapper.append(input,deleteButton)
-            $("#add-or-edit-container").append(wrapper)
+            manageFiltersWrapper.append(wrapper)
             index ++
         })
     }
+    $("#add-or-edit-container").append(manageFiltersWrapper)
   
 }
 
@@ -95,19 +97,22 @@ function addNewMenu(type){
 }
 
 function displayHelp(){
-    $("#add-or-edit-container").html(`
-        <h3 class="sub-head">Welcome to Watch List</h3>
+    $("#add-or-edit-container").html("");
+    let helpMenu = $(`<div class="help-menu p-2"></div>`)
+        .append(`<h3 class="sub-head">Welcome to Watch List</h3>
         <p>Has anybody ever recommended a great Movie to you, and then when you sat down to watch it, you couldn't remember what it was called?</p>
         <p>Have you ever been mid-way through series and you forgot what episode you were on? <strong>[not implemented yet]</strong></p>
         <p>WatchList allows you to keep track of any Movie, TV, Book or Game recommendations that you have received. It uses The TMBD, TGDB and Google Books API's
             to search for and store media that you want to remember.
             </p>
-        <p>In the near future it will also make recommendations when you finish a list item, it will also provide some analytics to see your usage history</p>
-        <p><small><strong>watch list uses a small amount of local storage, you have been warned</strong></small></p>`)
+        <p><small><strong>watch-list uses a small amount of local storage</strong></small></p>`);
+    $("#add-or-edit-container").append(helpMenu);
 }
 
 function resetData() {
-    $("#add-or-edit-container").html(`
+    $("#add-or-edit-container").html(``)
+    let resetMenu = $(`<div class="reset-menu p-2"></div>`)
+        .append(`
         <h3 class="sub-head">Delete Everything?</h3>
         <p>By clicking the button below you will delete:</p>
         <ul>
@@ -121,6 +126,7 @@ function resetData() {
             watchList.resetAll();
             closePopUp();
         });
-    $("#add-or-edit-container").append(deleteButton);
+    resetMenu.append(deleteButton);
+    $("#add-or-edit-container").append(resetMenu);
 }
    

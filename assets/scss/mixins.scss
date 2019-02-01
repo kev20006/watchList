@@ -21,3 +21,22 @@
     }
 
 }
+
+@mixin tooltip($content, $right, $top, $wrap){
+  &::before{
+        background: #111;
+        background: rgba(0,0,0,.8);
+        border-radius: .5em;
+        color: #fff;
+        content: $content;
+        display: block;
+        right: $right;
+        top: $top;  
+        padding: .3em 1em;
+        position: absolute;
+        text-shadow: 0 1px 0 #000;
+        white-space: $wrap;
+        z-index: 98;
+        font-size: 1rem;
+  }      
+}

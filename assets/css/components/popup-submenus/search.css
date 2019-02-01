@@ -20,5 +20,60 @@
 .result .result-thumb {
   max-height: 92px;
 }
+.result .add {
+  position: relative;
+  border-radius: 50%;
+  background-color: #fcb653;
+  width: 40px;
+  height: 40px;
+  top: 20px;
+  font-size: 2rem;
+  box-shadow: 0px 4px 2px #e2a34a;
+  transition: all 0.1s;
+}
+.result .add:hover {
+  top: 22px;
+  box-shadow: 0px 2px 1px #e2a34a;
+}
+.result .add:hover::before {
+  font-size: 1rem;
+  width: 300px;
+  right: 10px;
+}
+.result .add:hover::before {
+  background: #111;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 0.5em;
+  color: #fff;
+  content: "quick add to list, click anywhere else for more info";
+  display: block;
+  right: 50px;
+  top: 0px;
+  padding: 0.3em 1em;
+  position: absolute;
+  text-shadow: 0 1px 0 #000;
+  white-space: wrap;
+  z-index: 98;
+  font-size: 1rem;
+}
+.result .add:active {
+  top: 25px;
+}
+
+#results .result-btn {
+  position: relative;
+  background-color: #fcb653;
+  box-shadow: 0px 4px 2px #e2a34a;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  padding: 5px 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  transition: all 0.1s;
+}
+#results .result-btn:hover {
+  top: 2px;
+  box-shadow: 0px 2px 1px #e2a34a;
+}
 
 /*# sourceMappingURL=search.css.map */

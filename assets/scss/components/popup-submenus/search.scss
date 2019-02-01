@@ -1,4 +1,5 @@
 @import "../../constants.scss";
+@import "../../mixins.scss";
 
 #add-or-edit-container{
   #search-box{
@@ -21,5 +22,49 @@
     }
     .result-thumb{
       max-height:92px;
+    }
+    .add{
+      position: relative;
+      border-radius: 50%;
+      background-color: #fcb653;
+      width: 40px;
+      height: 40px;
+      top: 20px;
+      font-size: 2rem;
+      box-shadow:0px 4px 2px #e2a34a;
+      transition: all 0.1s;
+      &:hover{
+        top: 22px;
+        box-shadow:0px 2px 1px #e2a34a;
+        &::before{
+          font-size: 1rem;
+          width: 300px;
+          right: 10px;
+        }
+        @include tooltip("quick add to list, click anywhere else for more info", 50px, 0px, wrap);
+        
+      }
+      &:active{
+        top: 25px;
+      }
+    }
+}
+
+#results{
+  .result-btn{
+      position: relative;
+      background-color: #fcb653;
+      box-shadow:0px 4px 2px #e2a34a;
+      border-radius: 10px;
+      font-size:1.3rem;
+      padding: 5px 10px;
+      margin-top: 5px;
+      margin-bottom:15px;
+
+      transition: all 0.1s;
+      &:hover{
+        top: 2px;
+        box-shadow:0px 2px 1px #e2a34a;
+      }
     }
 }
