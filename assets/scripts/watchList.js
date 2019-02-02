@@ -67,7 +67,14 @@ let watchList = {
                                 longDescription: item.longDescription,
                                 year: item.year,
                                 genre: item.genre,
-                                note: item.note
+                                note: item.note,
+                                rating: item.rating,
+                                cast: item.cast,
+                                genre: item.genre,
+                                lastEpisode: item.lastEpisode,
+                                nextEpisode: item.nextEpisode,
+                                seasons: item.seasons,
+                                epTracker: item.epTracker
                                 })
                             )
                             break;
@@ -124,7 +131,6 @@ let watchList = {
         }
     }, 
     add: (obj)=>{
-        $("#view-title").html(`<h6>All Items</h6>`);
         watchList.contents.push(obj);
         watchList.render(watchList.contents);
         watchList.updateLocalStorage();

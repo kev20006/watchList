@@ -63,17 +63,11 @@ const tmdb = {
                 itemPromises.push(tmdb.getDetails({type: details.type, id: element.id}))
             })
             Promise.all(itemPromises).then((itemsWithDetails)=>{
-                console.log(itemsWithDetails)
-                itemsWithDetails.forEach(e=>{
-                    console.log(e.name)
-                })
                 let objectArray = []
                 itemsWithDetails.forEach(e=>{
                     //type is lowercase, so this corrects it to camelCase to generate the correct object
                     objectArray.push(tmdb[`make${capitalise(details.type)}Object`](e))
                 })
-                console.log("logging object array")
-                console.log(objectArray)
                 callback(objectArray)
 
             })
@@ -148,7 +142,7 @@ const tmdb = {
         let lrgImage = "https://image.tmdb.org/t/p/w600_and_h900_bestv2";
         if (!tvDetails.poster_path){
             thumb = "./assets/images/no-tv-found.png";
-            largImage = "./assets/images/no-tv-found.png";
+            lrgImage = "./assets/images/no-tv-found.png";
         }
         else{
             thumb += tvDetails.poster_path;
@@ -165,6 +159,22 @@ const tmdb = {
             year = tvDetails.first_air_date.split("-")[0]
             
         }
+        let epTracker = []
+        console.log(tvDetails.seasons)
+        tvDetails.seasons.forEach(element =>{
+            let episodes = []
+            console.log(element);
+            for (i = 0; i < element.episode_count; i++){
+                episodes.push(false);
+            }
+            epTracker.push({
+                name: element.name,
+                episodes: episodes
+            });
+        });
+        
+
+
         return new tv(
             {
                 dbid: tvDetails.id,
@@ -179,7 +189,8 @@ const tmdb = {
                 cast: cast,
                 lastEpisode: tvDetails.last_episode_to_air,
                 nextEpisode: tvDetails.next_episode_to_air,
-                seasons: tvDetails.seasons
+                seasons: tvDetails.seasons,
+                epTracker: epTracker
             }
         );
     }

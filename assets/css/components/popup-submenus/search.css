@@ -36,7 +36,7 @@
   box-shadow: 0px 2px 1px #e2a34a;
 }
 .result .add:hover::before {
-  font-size: 1rem;
+  font-size: 0.8rem;
   width: 300px;
   right: 10px;
 }
@@ -72,7 +72,6 @@
   transition: all 0.1s;
 }
 #results .result-btn:hover {
-  font-size: 0.9rem;
   top: 2px;
   box-shadow: 0px 2px 1px #e2a34a;
 }

@@ -68,8 +68,7 @@ class watchItem {
             $("#search-box").addClass("d-none").removeClass("d-flex");
         });
         let buttonWrapper = $('<div class="col-2 px-0"></div>');
-        let addButton = $(`<div class="add d-flex justify-content-center align-items-center pt-2 mr-2"
-                            data-toggle="tooltip" data-placement="bottom" title="quick add to list, click anywhere else for more info"> 
+        let addButton = $(`<div class="add d-flex justify-content-center align-items-center pt-2 mr-2"> 
                             <p class="mx-0 px-0"><strong>+</strong></p>
                             </div>`)
             .on("click", (e) => {
@@ -77,7 +76,6 @@ class watchItem {
                 watchList.add(this);
             })
         buttonWrapper.append(addButton);
-        console.log(buttonWrapper)
         wrapper.append(imgWrapper, textWrapper, buttonWrapper);
         return wrapper
     }
@@ -85,14 +83,11 @@ class watchItem {
     itemPreview(location) {
         let pageNumber = $("#results").attr("data-page")
         let wrapper = $(`<div class="row mx-0 preview"></div>`);
-        let previewHeader = $(`<header class="col-12"></header>`);
+        let previewHeader = $(`<header class="col-12 prev-head"></header>`);
         let titleContainer = $(`<div class="row mx-0 p-2"></div>`);
-        let titleContent = $(`<h3><strong class="heading">${this.title}</strong> <small class="ml-3">(${this.year})</small></h3>`);
-        let genreContainer = $(`<div class="genres row mx-0 p-2 mb-0"></div>`)
-        //placeholder for genres - this will need to iterate
-        let genresContent = $(``)
+        let titleContent = $(`<h3>${this.icon}<strong class="mx-2 heading">${this.title}</strong> <small class="ml-3">(${this.year})</small></h3>`);
+        let genreContainer = $(`<div class="genres row mx-0 p-2 mb-0 heading"></div>`)
         titleContainer.append(titleContent);
-        genreContainer.append(genresContent);
         previewHeader.append(titleContainer, genreContainer);
         wrapper.append(previewHeader, $(`<hr>`));
         let previewBody = $(`<main class="row mx-0"></main>`);
@@ -144,12 +139,15 @@ class watchItem {
         }
         
         let previewDescription = $(`
-            <p><strong>Overview:</strong></p>
+            <p><strong class="heading">Description:</strong></p>
             <p class="desc-box">${this.longDescription}</p>
             `)
         
+        previewMainContentContainer.append(controlsContainer, previewDescription);
         
-        let tagsContainer = $(`<div class=" d-flex flex-wrap preview-tags"></div>`)    
+        let additionalInfo = $(`<section class="col-12 additional-info">`);
+        previewBody.append(previewMainContentContainer, additionalInfo);
+        let tagsContainer = $(`<div class=" d-flex flex-wrap preview-tags"></div>`)
             .on('keydown', "input", (e) => {
                 if ($(".add-tag").val().length >= 1) {
                     $(".add-tag").css("width", `${20 + ($(".add-tag").val().length * 9)}px`)
@@ -168,15 +166,20 @@ class watchItem {
                     watchList.updateLocalStorage();
                 }
             })
+            .focusin(()=>{
+                $(".help").toggleClass("d-none");
+            })
+            .focusout(()=>{
+                $(".help").toggleClass("d-none");
+            })
             .append(`<span class="ml-2 collection-tag"><input class="add-tag" type="text" placeholder="add new"></input></span>`, this.updateCollections());
         
         let noteArea = $(`<textarea id="notes" class="notes-area" placeholder="Any Additional notes about this ${this.type}" rows="5">${this.note}</textarea>`)
                         .on("input",(e) =>{
                             this.note = $(e.target).val()
                         })     
-        previewMainContentContainer.append(controlsContainer, previewDescription, `<hr><p><strong>collections</strong></p>`, tagsContainer, noteArea)
-        previewBody.append(previewMainContentContainer)
-        wrapper.append(previewBody);
+        let tagsAndComments = $(`<section class="col-12"></section>`).append(`<hr><p><strong class="heading">Tags</strong></p>`, tagsContainer,`<p class="d-none help"><small>press enter to add your new tag</small></p>`, noteArea)
+        wrapper.append(previewBody, tagsAndComments);
         return wrapper
         
     }
@@ -187,20 +190,22 @@ class watchItem {
         let cardImage = $(`<div class="card-bg"></div>`);
         cardImage.css("background-image", `url("${this.lrgImage}")`);
         cardInner.append(cardImage);
-        let cardInfo = $(`<div class="card-info p-2 scrollbar-ripe-malinka"></div>`);
+        let cardInfo = $(`<div class="card-info p-2"></div>`);
+        let cardHeader =$(`<header class="card-head"></header>`)
         let cardTitle = $(
-            `<h5 class="text-left"><span class="heading">${this.title}</span><span class="year"> - ${this.year} </span></h5>`
+            `<div class="row mx-0"><h5 class="text-left">${this.icon}<span class="heading mx-2">${this.title}</span><span class="year"> - ${this.year} </span></h5></div>`
         );
+        cardHeader.append(cardTitle);
         let shortDescription = $(`
-                                    <p><strong>Description</strong></p>
+                                    <p><strong class="heading">Description</strong></p>
                                     <p><small>${this.shortDescription}</small></p>
                                     <hr>
                                 `)
-        let collectionsSubHeading = $(`<p><strong>Collections:</strong></p>`);
+        let collectionsSubHeading = $(`<p><strong class="heading">Tags:</strong></p>`);
         let collectionsArea = $(`<div id="collections-${this.id}" class="d-flex flex-wrap"></div>`);
 
         let findOutMore = $(
-            `<hr><div class="btn btn-more-info text-center">more info</div>`
+            `<div class="btn btn-more-info text-center mt-2">more info</div>`
         );
 
         findOutMore.on("click", () => {
@@ -214,7 +219,6 @@ class watchItem {
             }
             
         })
-        cardInfo.append(cardTitle, shortDescription, collectionsSubHeading, collectionsArea, findOutMore)
         if (!recommendation){
             let buttonWrapper = $('<div class="d-flex justify-content-around"></div>');
             let deleteButton = $(`<div class="btn btn-action text-center"><i class="fas fa-trash-alt"></i></div>`);
@@ -231,9 +235,21 @@ class watchItem {
                 });
             deleteButton.on("click", () => {
                 watchList.remove(this.id.split("-")[1]);
+
             })
             buttonWrapper.append(thumbUpButton, deleteButton, thumbDownButton)
-            cardInfo.append(buttonWrapper)
+            cardInfo.append(cardHeader, shortDescription, collectionsSubHeading, collectionsArea, findOutMore, buttonWrapper)
+        }
+        else{
+            let quickAdd = $(
+                `<div class="btn btn-more-info text-center mt-3">add to list</div>`
+            );
+            quickAdd.on("click", ()=>{
+                watchList.add(this)
+                closePopUp()
+                watchList.render(watchList.contents)
+            })
+            cardInfo.append(cardHeader, shortDescription, findOutMore, quickAdd)
         }
         cardInner.append(cardInfo)
         newCard.append(cardInner);
@@ -267,7 +283,7 @@ class movie extends watchItem {
     constructor(object) {
         super(object)
         this.type = "movie";
-        this.icon = `<div class="icon-bg"><i class="fas fa-film m-1"></i></div>`;
+        this.icon = `<i class="fas fa-film m-1"></i>`;
         this.director = object.director;
         this.rating = object.rating
         this.cast = object.cast;
@@ -319,7 +335,12 @@ class movie extends watchItem {
         preview.append(castSection);
         return preview
     }
-
+    card(location){
+        let cardContents = super.card(location);
+        let director = $(`<div class="row mx-0"><p class="text-right"><small><strong class="mr-2">Directed By:</strong>${this.director}</p></small></div>`)
+        cardContents.find(".card-head").append(director);
+        return cardContents
+    }
     getRecommendations(location){
         if (location == "card"){
             makePopUp()
@@ -338,16 +359,11 @@ class movie extends watchItem {
         noButton.on("click", () => {
             closePopUp();
         });
-        console.log(randomActor)
         tmdb.getObjects({listType: "recommendations", recType:"movie actor", id: randomActor.id, type: this.type}, (movie)=>{
-            console.log(randomActor.name)
-            console.log(movie);
             $("#actorRec").append(movie[0].card(true));
         });
         
         tmdb.getObjects({ listType: "recommendations", recType:"movie genre", id: randomGenre.id, type: this.type}, (movie) => {
-            console.log(randomGenre.name);
-            console.log(movie);
             $("#genreRec").append(movie[0].card(true));
         });
         $("#add-or-edit-container").append(noButton);
@@ -362,15 +378,15 @@ class movie extends watchItem {
 class tv extends watchItem{
     constructor(object) {
         super(object)
-        console.log(object);
         this.type = "tv";
-        this.icon = `<div class="icon-bg"><i class="fas fa-tv m-1"></i></div>`;
+        this.icon = `<i class="fas fa-tv m-1"></i>`;
         this.rating = object.rating
         this.cast = object.cast;
         this.genre = object.genre;
-        this.lastEpisode = object.last_episode_to_air;
-        this.nextEpisode = object.next_episode_to_air;
+        this.lastEpisode = object.lastEpisode;
+        this.nextEpisode = object.nextEpisode;
         this.seasons = object.seasons;
+        this.epTracker = object.epTracker
         this.searchItem = this.searchItem.bind(this);
         this.itemPreview = this.itemPreview.bind(this);
         this.card = this.card.bind(this);
@@ -380,12 +396,71 @@ class tv extends watchItem{
         this.itemPreview = this.itemPreview.bind(this);
         this.card = this.card.bind(this);
         this.updateCollections = this.updateCollections.bind(this);
+        
+        
     }
     itemPreview(location) {
         let preview = super.itemPreview(location);
-        preview.append("<p>tv Preview is not yet completed</p>")
-        return preview
+        preview.append("<hr>")
+        let seasonList = $(`<div id="seasons" class="d-flex flex-wrap"></div>`)
+        let episodeList = $(`<div id="episodes" class="d-flex flex-wrap"></div>`)
+        let epIndex = 0;
+        this.epTracker.forEach(element =>{
+            let epButton = $(`<span id="s-${epIndex}" class="mx-2 season button">${element.name}</span>`)
+            .on("click", (e)=>{
+                $("#episodes").html("");
+                for (i = 0; i < this.epTracker[e.target.id.split("-")[1]].episodes.length; i++){
+                    $("#episodes").append(`<span class="mx-2 season-button">E${i+1}</span>`);
+                }
+            })
+            seasonList.append(epButton)
+            epIndex += 1;
+        })
+        preview.find(".additional-info").append(`<p class="heading">Episode Tracker</p>`, `<p><strong>Seasons</strong></p>`, seasonList, `<p><strong>episodes</strong></p>`, episodeList );
+        let castSection = $("<section></section>").append(`<div class="row mx-0 px-1"><p><strong>Top Billed Cast</strong></div>`)
+        let castContainer = $(`<div class="row mx-0 px-1"></div>`)
+        if (this.cast) {
+            this.cast.forEach(element => {
+                let actorpic = "https://image.tmdb.org/t/p/w185"
+                if (element.profile_path) {
+                    actorpic += element.profile_path
+                }
+                else {
+                    actorpic = "./assets/images/no-profile.jpeg"
+                }
+                castContainer.append($(
+                    `<div class="col-6 col-md-3 actor-thumb">
+                <div class="img-container">
+                    <img src="${actorpic}" alt="${element.name}">
+                </div>
+                <p><small>${element.name}</small></p>
+            </div>`)
+                )
+            })
+        }
+        else {
+            castContainer.append(`<h3>No Cast Identified</h3>`);
+        }
+        castSection.append(castContainer);
+        preview.append(castSection);
+        return preview;
+ 
     }
+    card(location) {
+        let cardContents = super.card(location);
+        if(this.nextEpisode){
+            console.log(this.nextEpisode)
+            let nextEpisode = $(`<div class= "row d-block mx-0 mb-0 text-right" >
+                <p class="text-right mb-0"><small>
+                <strong class="mr-2">Next Episode:</strong>
+                ${this.nextEpisode.name}</p></small>
+                <p><small>S${this.nextEpisode.season_number}E${numberString(this.nextEpisode.episode_number)} - ${tmdbDateFix(this.nextEpisode.air_date)} </small></p>
+                </div >`);
+            cardContents.find(".card-head").append(nextEpisode);
+        }
+        return cardContents
+    }
+
     getRecommendations(location) {
         if (location == "card") {
             makePopUp()

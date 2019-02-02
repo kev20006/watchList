@@ -483,7 +483,7 @@ body {
   box-shadow: 0px 2px 1px #e2a34a;
 }
 .result .add:hover::before {
-  font-size: 1rem;
+  font-size: 0.8rem;
   width: 300px;
   right: 10px;
 }
@@ -519,7 +519,6 @@ body {
   transition: all 0.1s;
 }
 #results .result-btn:hover {
-  font-size: 0.9rem;
   top: 2px;
   box-shadow: 0px 2px 1px #e2a34a;
 }
@@ -538,7 +537,7 @@ body {
   top: 50px;
   width: 95vw;
   max-width: 600px;
-  height: 90vh;
+  height: 80vh;
   max-height: 900px;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -578,7 +577,6 @@ body {
 
 main .app {
   background-color: #eeeeee;
-  font-family: sans-serif;
   min-height: 100vh;
   width: 100vw;
 }
@@ -591,6 +589,17 @@ main .app {
 .menu-item {
   padding: 10px 0px 10px 0px;
   padding-left: 15px;
+}
+
+.page-footer {
+  padding-top: 30px;
+  color: white;
+  background-color: black;
+}
+
+#watch-list {
+  padding-top: 5vh;
+  min-height: 90vh;
 }
 
 /*# sourceMappingURL=main.css.map */
