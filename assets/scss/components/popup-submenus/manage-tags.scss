@@ -1,0 +1,34 @@
+@import "../../constants.scss";
+@import "../../mixins.scss";
+
+.manage-tags{
+    overflow-x: hidden;
+    input[type=text]{
+        margin:10px;
+        border: none;
+        margin-bottom: 5px;
+        &:focus{
+            outline: none;
+            background-color: rgb(230,230,230);
+            border-bottom: solid 2px orange;
+        }
+    }
+    #collection-input{
+    border-bottom: solid 2px orange;
+    }
+
+    .tag-wrapper{
+        transition: all 0.1s;
+        &:hover, &:active{
+            box-shadow:$shadow;
+            background-color: rgb(230,230,230);
+            input[type=text]{
+               background-color: rgb(230,230,230);
+                border-bottom: 2px solid orange;
+            }
+        }
+    }
+
+
+
+}

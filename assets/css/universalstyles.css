@@ -19,12 +19,32 @@
   width: 100%;
 }
 
+.btn-default {
+  position: relative;
+  background-color: #fcb653;
+  box-shadow: 0px 6px 2px #e2a34a;
+}
+.btn-default:hover {
+  top: 3px;
+  box-shadow: 0px 3px 1px #e2a34a;
+}
+
 body {
   font-family: "Montserrat", sans-serif;
 }
 
 .heading {
   font-family: "Bungee", cursive;
+}
+
+.input-box-wrapper {
+  position: relative;
+}
+.input-box-wrapper label {
+  position: absolute;
+  left: 5%;
+  bottom: 0px;
+  pointer-events: none;
 }
 
 /*# sourceMappingURL=universalstyles.css.map */

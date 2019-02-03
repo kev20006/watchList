@@ -25,11 +25,11 @@
     <main id="app">
         <nav class="navbar fixed-top d-flex py-0">
             <div class="navbar-brand d-flex">
-                <div class="mr-3">
+                <div class="mr-3 align-self-center">
                     <img id= "toggle-menu" src="https://cdn4.iconfinder.com/data/icons/tupix-1/30/list-512.png" width="40" height="40" class="d-inline-block align-top" alt="hamburger icon">
                 </div>
-                <div>
-                    <h3 class="heading">Watch List</h3>
+                <div class="d-flex heading align-items-center">
+                    <h3 class="heading my-0">Watch List</h3>
                 </div>    
             </div>
             <div class="d-flex">
@@ -56,11 +56,11 @@
             <hr />
             <h5 class="sub-head heading"><strong>Recommendations:</strong></h5>
             <ul id="category-list" class="category-list menu-list">
-                <li onclick="recommendations.recommendationsList({type:'movie', recType:'cinema now'})">In Theatres Now</li>
-                <li onclick="recommendations.recommendationsList({type:'movie', recType:'top movies'})">Top Rated Movies</li>
-                <li onclick="recommendations.recommendationsList({type:'tv', recType:'top tv'})">Top Rated TV Shows</li>
-                <li onclick="recommendations.recommendationsList({type:'tv', recType:'tv now'})">On TV Now</li>
-                <li onclick="recommendations.recommendationsList({type:'tv', recType:'tv today'})">TV Today</li>
+                <li onclick="recommendations.recommendationsList({type:'movie', recType:'cinema now', page:1})">In Theatres Now</li>
+                <li onclick="recommendations.recommendationsList({type:'movie', recType:'top movies', page:1})">Top Rated Movies</li>
+                <li onclick="recommendations.recommendationsList({type:'tv', recType:'top tv',page:1} )">Top Rated TV Shows</li>
+                <li onclick="recommendations.recommendationsList({type:'tv', recType:'tv now', page:1})">On TV Now</li>
+                <li onclick="recommendations.recommendationsList({type:'tv', recType:'tv today',page:1})">TV Today</li>
             </ul>
             <hr />
             <p class="sub-head heading"><strong>Other Options:</strong></p>
@@ -78,7 +78,8 @@
             <div class="row mx-0 d-flex justify-content-center">
                 <div class="text-center">
                     <p>Brought to you by Kevin Stewart</p>
-                    <p>[placeholder]</p>
+                    <p>social media links</p>
+                    <p>copyright</p>
                 </div>
             </div>
         </footer>

@@ -3,6 +3,7 @@
 @import "../constants.scss";
 @import "./popup-submenus/preview.scss";
 @import "./popup-submenus/search.scss";
+@import "./popup-submenus/manage-tags.scss";
 
 .obscure{
   display:none;
@@ -17,8 +18,8 @@
     top: 50px;
     width: 95vw;
     max-width: 600px;
-    height:80vh;
-    max-height: 900px;
+    min-height:300px;
+    max-height:80vh;
     overflow-y:scroll; 
     overflow-x:hidden;
     background-color: white;

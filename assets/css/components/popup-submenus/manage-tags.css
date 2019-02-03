@@ -1,0 +1,29 @@
+.manage-tags {
+  overflow-x: hidden;
+}
+.manage-tags input[type=text] {
+  margin: 10px;
+  border: none;
+  margin-bottom: 5px;
+}
+.manage-tags input[type=text]:focus {
+  outline: none;
+  background-color: #e6e6e6;
+  border-bottom: solid 2px orange;
+}
+.manage-tags #collection-input {
+  border-bottom: solid 2px orange;
+}
+.manage-tags .tag-wrapper {
+  transition: all 0.1s;
+}
+.manage-tags .tag-wrapper:hover, .manage-tags .tag-wrapper:active {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5), -1px -1px 5px rgba(0, 0, 0, 0.5);
+  background-color: #e6e6e6;
+}
+.manage-tags .tag-wrapper:hover input[type=text], .manage-tags .tag-wrapper:active input[type=text] {
+  background-color: #e6e6e6;
+  border-bottom: 2px solid orange;
+}
+
+/*# sourceMappingURL=manage-tags.css.map */

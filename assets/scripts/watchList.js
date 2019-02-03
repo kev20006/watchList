@@ -78,31 +78,6 @@ let watchList = {
                                 })
                             )
                             break;
-                        case "book":
-                            watchList.add(new book({
-                                dbid: item.dbid,
-                                title: item.title,
-                                thumb: item.thumb,
-                                lrgImage: item.lrgImage,
-                                longDescription: item.longDescription,
-                                year: item.year,
-                                genre: item.genre,
-                                note: item.note
-                            })
-                            )
-                        case "game":
-                            watchList.add(new game({
-                                dbid: item.dbid,
-                                title: item.title,
-                                thumb: item.thumb,
-                                lrgImage: item.lrgImage,
-                                longDescription: item.longDescription,
-                                year: item.year,
-                                genre: item.genre,
-                                note: item.note
-                            })
-                            )
-                            break;
                     }
                 });
             }
@@ -200,7 +175,6 @@ let watchList = {
                 </div>
             `
             }else{
-                console.log(value)
                 $("#view-title").html(`<h6>Items with the ${value} tag </h6>`)
                 htmlString = `
                 <div class="no-results text-center">
@@ -257,11 +231,8 @@ let watchList = {
         window.localStorage.setItem('watchListData', JSON.stringify({ list: watchList}));
     },
     addLike:(type, id, title, genres)=>{
-        console.log(type)
         watchList.analytics[type].likes ++
-        console.log(genres)
         genres.forEach(element=>{
-            console.log(element)
             if (watchList.analytics[type].genres[element.name]) {
                 watchList.analytics[type].genres[element.name] += 1
             } else {

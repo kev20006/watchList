@@ -16,6 +16,9 @@
   z-index: 9999;
   width: 100%;
 }
+.btn-default{
+  @include buttonClick(nth($default-color,1), nth($default-color,2))
+}
 
 body{
   font-family: 'Montserrat', sans-serif;
@@ -23,4 +26,14 @@ body{
 
 .heading{
   font-family: 'Bungee', cursive;
+}
+
+.input-box-wrapper{
+  position:relative;
+  label{
+    position: absolute;
+    left: 5%;
+    bottom:0px;
+    pointer-events: none;
+  }
 }

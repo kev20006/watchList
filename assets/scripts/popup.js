@@ -33,20 +33,48 @@ $(document).on("click", (e) => {
 function manageFilters(){
     $("#add-or-edit-container").html("")
     let manageFiltersWrapper = $(`<div class="manage-tags p-2"></div>`)
-    let title = $(`<h3 class="sub-head">Add or Edit Tags</h3><hr>`)
+    let title = $(`<h3 class="heading text-center">Add or Edit Tags</h3><hr>`)
+    let newCollectionWrapper = $(`<div class="d-flex justify-content-center align-items-center new-collection-wrapper">`)
+
+    let collectionLabel = $(`<label>Add New Collection</label>`)
     let collectionInput = $(`<input id="collection-input" type="text"></input>`)
-    let button = $(`<input type="button">add</input>`)
+        .on("input keydown", (e)=>{
+            console.log(e.keycode);
+            console.log($(e.target).val().length);
+                    
+            if (e.keyCode == 13) {
+                if ($("#collection-input").val().length > 0){
+                    watchList.addCollection($("#collection-input").val())
+                    manageFilters();
+                }
+                $(e.target).blur();
+            }
+           
+        })
+        .focusin((e)=>{
+            $(e.target).siblings().animate({ "font-size": "0.5rem", bottom: "25px" }, "linear")
+        })
+        .focusout((e)=>{
+            if($(e.target).val().length == 0){
+                $(e.target).siblings().animate({ "font-size": "1rem", bottom: "0px" }, "linear")
+            }
+        })
+    let button = $(`<div class="btn my-0"><i class="fas fa-plus"></i></div>`)
     button.on("click", ()=>{
-        watchList.addCollection($("#collection-input").val())
-        manageFilters()
-    })
-    manageFiltersWrapper.append(title, collectionInput, button)
+        if ($("#collection-input").val().length > 0) {
+            watchList.addCollection($("#collection-input").val())
+            manageFilters()
+        };
+    });
+    let inputWrapper = $(`<div class="input-box-wrapper my-0"></div>`).append(collectionLabel, collectionInput)
+    newCollectionWrapper.append(inputWrapper, button)
+    manageFiltersWrapper.append(title, newCollectionWrapper)
 
     if (Object.keys(watchList.collections).length > 0){
         let index=0;
         Object.keys(watchList.collections).forEach(element =>{
             let i = (function (i) {return i})(index)
-            let wrapper = $(`<div class="d-flex"></div>`)
+            let wrapper = $(`<div class="d-flex justify-content-around tag-wrapper"></div>`)
             let input = $(`<input type="text" value=${element}></input>`)
                 .on("input",(e)=>{
                     watchList.collections[e.target.value] =  watchList.collections[element]
@@ -54,13 +82,14 @@ function manageFilters(){
                     watchList.renderCollections();
                     watchList.updateLocalStorage();
                 })
-            let deleteButton = $(`<input type="button" value="d"></input>`)
+            let arrow = $(`<div class="d-flex align-items-center"><i class="fas fa-arrow-right my-0"></i>`)
+            let deleteButton = $(`<div class="d-flex align-items-center btn-delete"><i class="far fa-trash-alt my-0"></i></i></div>`)
                 .on("click", ()=>{
                     watchList.removeCollection(element)
                     watchList.renderCollections()
                     manageFilters()
                 })
-            wrapper.append(input,deleteButton)
+            wrapper.append(arrow,input,deleteButton)
             manageFiltersWrapper.append(wrapper)
             index ++
         })
@@ -83,6 +112,7 @@ function addNewMenu(type){
         }
         if (e.keyCode == 13){
                 searches[type](searchBar.val(), 1);
+                $(e.target).blur()
         } 
     })
    searchBox.append(searchBar) 
@@ -98,24 +128,36 @@ function addNewMenu(type){
 
 function displayHelp(){
     $("#add-or-edit-container").html("");
-    let helpMenu = $(`<div class="help-menu p-2"></div>`)
-        .append(`<h3 class="sub-head">Welcome to Watch List</h3>
-        <p>Has anybody ever recommended a great Movie to you, and then when you sat down to watch it, you couldn't remember what it was called?</p>
-        <p>Have you ever been mid-way through series and you forgot what episode you were on? <strong>[not implemented yet]</strong></p>
-        <p>WatchList allows you to keep track of any Movie, TV, Book or Game recommendations that you have received. It uses The TMBD, TGDB and Google Books API's
-            to search for and store media that you want to remember.
-            </p>
-        <p><small><strong>watch-list uses a small amount of local storage</strong></small></p>`);
-    $("#add-or-edit-container").append(helpMenu);
+    let helpMenu = $(`<div class="help-menu p-4"></div>`)
+        .append(`<h3 class="heading text-center mb-4">Welcome to Watch List</h3>
+        <p class="mb-2">Has anybody ever recommended a great Movie to you, and then when you sat down to watch it, you couldn't remember what it was called?</p>
+        <p class="mb-2">Have you ever been mid-way through a show then taken a break and forgotten what episode you were on? </p>
+        <p class="mb-4">If you answered yes to any of these questions then WatchList is for you allows you to keep track of any Movie or
+        TV recommendations that you have received. It uses The TMBD API to search for up-to-date information about media that you want to remember.
+        </p>
+        <p class="heading mb-3"> <strong>Getting Started:</strong> </p>
+        <ul>
+            <li>search for specific using the <i class="fas fa-pen align-self-center"></i> icon</li>
+            <li>Browse new and popular items by selecting one of the recommendations from the menu</li> 
+        </ul>
+        <p class="my-2"><small class="text-center"><strong>User History and Watch List are stored using your browsers local storage</strong></small></p>`);
+    let okButton = $(`<button type="button" class="btn btn-default mx-auto">OK</button>`)
+        .on("click", () => {
+            closePopUp();
+        });
+    let buttonWrapper = $(`<div class="d-flex justify-content-center mb-5"></div>`).append(okButton);
+    $("#add-or-edit-container").append(helpMenu, buttonWrapper);
 }
 
 function resetData() {
     $("#add-or-edit-container").html(``)
     let resetMenu = $(`<div class="reset-menu p-2"></div>`)
         .append(`
-        <h3 class="sub-head">Delete Everything?</h3>
+        <h3 class="heading text-center mb-4">Delete Everything?</h3>
+        <p class="mb-1">Thank you for using WatchList, I hope you enjoyed your time here and I'm sorry that maybe things didn't work out quite as well as you hoped</p>
+        <p class="mb-3">Please be cautious, there is no going back from this point.</p>
         <p>By clicking the button below you will delete:</p>
-        <ul>
+        <ul class="mb-4">
         <li>The current watchlist</li>
         <li>All your custom tags and groups</li>
         <li>All the details about your watch history</li>
@@ -126,7 +168,8 @@ function resetData() {
             watchList.resetAll();
             closePopUp();
         });
-    resetMenu.append(deleteButton);
+    let buttonWrapper = $(`<div class="d-flex justify-content-center"></div>`).append(deleteButton);
+    resetMenu.append(buttonWrapper);
     $("#add-or-edit-container").append(resetMenu);
 }
    

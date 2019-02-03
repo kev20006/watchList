@@ -9,9 +9,9 @@ const tmdb = {
             case "movie details":
                 return `https://api.themoviedb.org/3/movie/${details.id}?api_key=${tmdb.key}&language=en-US&append_to_response=credits`;
             case "cinema now": 
-                return `https://api.themoviedb.org/3/movie/now_playing?api_key=${tmdb.key}&language=en-US&page=1`;
+                return `https://api.themoviedb.org/3/movie/now_playing?api_key=${tmdb.key}&language=en-US&page=${details.page}`;
             case "top movies":
-                return `https://api.themoviedb.org/3/movie/top_rated?api_key=${tmdb.key}&language=en-US&page=1`;
+                return `https://api.themoviedb.org/3/movie/top_rated?api_key=${tmdb.key}&language=en-US&page=${details.page}`;
             case "movie genre":
                 return `https://api.themoviedb.org/3/discover/movie?api_key=${tmdb.key}&language=en-us&with_genres=${details.id}`
             case "movie actor":
@@ -21,13 +21,13 @@ const tmdb = {
             case "tv details":
                 return `https://api.themoviedb.org/3/tv/${details.id}?api_key=${tmdb.key}&language=en-US&append_to_response=credits`
             case "tv now":
-                return `https://api.themoviedb.org/3/tv/on_the_air?api_key=${tmdb.key}&language=en-US&page=1`
+                return `https://api.themoviedb.org/3/tv/on_the_air?api_key=${tmdb.key}&language=en-US&page=${details.page}`
             case "top tv":
-                return `https://api.themoviedb.org/3/tv/top_rated?api_key=${tmdb.key}&language=en-US&page=1`
-            case "tv genre":
-                return //api end point
+                return `https://api.themoviedb.org/3/tv/top_rated?api_key=${tmdb.key}&language=en-US&page=${details.page}`
+            case "tv recommendations":
+                return `https://api.themoviedb.org/3/tv/${details.id}/recommendations?api_key=${tmdb.key}&language=en-US&page=1`
             case "tv today":
-                return `https://api.themoviedb.org/3/tv/airing_today?api_key=${tmdb.key}&language=en-US&page=1`
+                return `https://api.themoviedb.org/3/tv/airing_today?api_key=${tmdb.key}&language=en-US&page=${details.page}`
 
         }
     },
@@ -94,7 +94,7 @@ const tmdb = {
     },
 
     getRecommendations:(object)=>{
-        return Promise.resolve($.getJSON(tmdb.getURL(object.recType, {id: object.id})));
+        return Promise.resolve($.getJSON(tmdb.getURL(object.recType, {id: object.id, page:object.page})));
     },
 
     makeMovieObject:(movieDetails)=>{
@@ -160,10 +160,8 @@ const tmdb = {
             
         }
         let epTracker = []
-        console.log(tvDetails.seasons)
         tvDetails.seasons.forEach(element =>{
             let episodes = []
-            console.log(element);
             for (i = 0; i < element.episode_count; i++){
                 episodes.push(false);
             }
