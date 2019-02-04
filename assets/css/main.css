@@ -22,11 +22,9 @@
 .btn-default {
   position: relative;
   background-color: #fcb653;
-  box-shadow: 0px 6px 2px #e2a34a;
 }
 .btn-default:hover {
-  top: 3px;
-  box-shadow: 0px 3px 1px #e2a34a;
+  background-color: #e2a34a;
 }
 
 body {
@@ -190,35 +188,14 @@ body {
   background-color: #ffc04d;
 }
 .card .card-inner .card-info .btn-actions {
-  width: 31%;
-  background-color: orange;
-}
-.card .card-inner .card-info .btn-actions:hover {
-  background-color: #ffc04d;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 .card .card-inner:hover .card-info {
   bottom: 0px;
-}
-
-.delete-button {
-  color: white;
-  font-size: 1.2rem;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5), -1px -1px 5px rgba(0, 0, 0, 0.5);
-  height: 2rem;
-  width: 2rem;
-  margin: 0px;
-  padding: 0px;
-  border-radius: 50%;
-  border: 2px solid white;
-  background-color: red;
-  position: absolute;
-  z-index: 25;
-  top: -10px;
-  right: -10px;
-}
-.delete-button > i {
-  cursor: default;
-  font-size: 1.4rem;
 }
 
 #next-twenty {
@@ -401,6 +378,10 @@ body {
 .preview {
   margin: 0 auto;
 }
+.preview .img-wrapper img {
+  height: 270px;
+  width: 180px;
+}
 .preview hr {
   width: 99%;
   border-top: 4px solid #fcb653;
@@ -410,14 +391,118 @@ body {
 }
 .preview .controls {
   margin-bottom: 10px;
+  height: 60px;
+  border-top: 2px solid orange;
+  border-bottom: 2px solid orange;
 }
 .preview .controls div {
-  width: 50px;
-  height: 50px;
-  border: 1px solid;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   text-align: center;
-  padding-top: 10px;
+}
+.preview .controls .btn-add-to-list:hover::before {
+  background: #111;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 0.5em;
+  color: #fff;
+  content: "Add To List";
+  display: block;
+  right: none;
+  top: 50px;
+  padding: 0.3em 1em;
+  position: absolute;
+  text-shadow: 0 1px 0 #000;
+  white-space: nowrap;
+  z-index: 98;
+  font-size: 1rem;
+}
+.preview .controls .btn-add-to-list:hover::before {
+  position: absolute;
+  font-size: 1rem;
+}
+.preview .controls .btn-thumbs-up:hover::before {
+  background: #111;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 0.5em;
+  color: #fff;
+  content: "like";
+  display: block;
+  right: none;
+  top: 50px;
+  padding: 0.3em 1em;
+  position: absolute;
+  text-shadow: 0 1px 0 #000;
+  white-space: nowrap;
+  z-index: 98;
+  font-size: 1rem;
+}
+.preview .controls .btn-thumbs-up:hover::before {
+  position: absolute;
+  font-size: 1rem;
+}
+.preview .controls .btn-thumbs-down:hover::before {
+  background: #111;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 0.5em;
+  color: #fff;
+  content: "dislike";
+  display: block;
+  right: none;
+  top: 50px;
+  padding: 0.3em 1em;
+  position: absolute;
+  text-shadow: 0 1px 0 #000;
+  white-space: nowrap;
+  z-index: 98;
+  font-size: 1rem;
+}
+.preview .controls .btn-thumbs-down:hover::before {
+  position: absolute;
+  font-size: 1rem;
+}
+.preview .controls .btn-delete:hover::before {
+  background: #111;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 0.5em;
+  color: #fff;
+  content: "delete item";
+  display: block;
+  right: none;
+  top: 50px;
+  padding: 0.3em 1em;
+  position: absolute;
+  text-shadow: 0 1px 0 #000;
+  white-space: nowrap;
+  z-index: 98;
+  font-size: 1rem;
+}
+.preview .controls .btn-delete:hover::before {
+  position: absolute;
+  font-size: 1rem;
+}
+.preview .controls .btn-back:hover::before {
+  background: #111;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 0.5em;
+  color: #fff;
+  content: "close this preview";
+  display: block;
+  right: none;
+  top: 50px;
+  padding: 0.3em 1em;
+  position: absolute;
+  text-shadow: 0 1px 0 #000;
+  white-space: nowrap;
+  z-index: 98;
+  font-size: 1rem;
+}
+.preview .controls .btn-back:hover::before {
+  position: absolute;
+  font-size: 1rem;
+}
+.preview .controls .rating {
+  height: 50px;
 }
 .preview .tag {
   padding: 0px 5px;
@@ -468,6 +553,14 @@ body {
   margin-bottom: 0px;
   height: 131px;
 }
+.preview .watched {
+  border-radius: 50%;
+  background-color: #bbb;
+}
+.preview .selected {
+  border-radius: 10px;
+  background-color: orange;
+}
 
 #add-or-edit-container #search-box {
   margin-top: 5px;
@@ -493,22 +586,20 @@ body {
 }
 .result .add {
   position: relative;
-  border-radius: 50%;
   background-color: #fcb653;
+  position: relative;
+  border-radius: 50%;
   width: 40px;
   height: 40px;
   top: 20px;
   font-size: 1rem;
-  box-shadow: 0px 4px 2px #e2a34a;
   transition: all 0.1s;
 }
 .result .add:hover {
-  top: 22px;
-  box-shadow: 0px 2px 1px #e2a34a;
+  background-color: #e2a34a;
 }
-.result .add:hover::before {
-  width: 300px;
-  right: 10px;
+.result .add:hover {
+  top: 20px;
 }
 .result .add:hover::before {
   background: #111;
@@ -517,7 +608,7 @@ body {
   color: #fff;
   content: "quick add to list, click anywhere else for more info";
   display: block;
-  right: 50px;
+  right: 75px;
   top: 0px;
   padding: 0.3em 1em;
   position: absolute;
@@ -525,6 +616,11 @@ body {
   white-space: wrap;
   z-index: 98;
   font-size: 1rem;
+}
+.result .add:hover::before {
+  width: 300px;
+  right: 10px;
+  font-size: 0.7rem;
 }
 .result .add:active {
   top: 25px;

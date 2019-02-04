@@ -24,23 +24,23 @@
       max-height:92px;
     }
     .add{
+      @include buttonClick(nth($default-color,1), nth($default-color,2));
       position: relative;
       border-radius: 50%;
-      background-color: #fcb653;
       width: 40px;
       height: 40px;
       top: 20px;
       font-size: 1rem;
-      box-shadow:0px 4px 2px #e2a34a;
       transition: all 0.1s;
       &:hover {
-        top: 22px;
-        box-shadow:0px 2px 1px #e2a34a;
+        top: 20px;
+        @include tooltip("quick add to list, click anywhere else for more info", 75px, 0px, wrap);
         &::before{
           width: 300px;
           right: 10px;
+          font-size: 0.7rem;
         }
-        @include tooltip("quick add to list, click anywhere else for more info", 50px, 0px, wrap);
+        
         
       }
       &:active{

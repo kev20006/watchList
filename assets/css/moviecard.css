@@ -48,35 +48,14 @@
   background-color: #ffc04d;
 }
 .card .card-inner .card-info .btn-actions {
-  width: 31%;
-  background-color: orange;
-}
-.card .card-inner .card-info .btn-actions:hover {
-  background-color: #ffc04d;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 .card .card-inner:hover .card-info {
   bottom: 0px;
-}
-
-.delete-button {
-  color: white;
-  font-size: 1.2rem;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5), -1px -1px 5px rgba(0, 0, 0, 0.5);
-  height: 2rem;
-  width: 2rem;
-  margin: 0px;
-  padding: 0px;
-  border-radius: 50%;
-  border: 2px solid white;
-  background-color: red;
-  position: absolute;
-  z-index: 25;
-  top: -10px;
-  right: -10px;
-}
-.delete-button > i {
-  cursor: default;
-  font-size: 1.4rem;
 }
 
 #next-twenty {

@@ -1,6 +1,10 @@
 .preview {
   margin: 0 auto;
 }
+.preview .img-wrapper img {
+  height: 270px;
+  width: 180px;
+}
 .preview hr {
   width: 99%;
   border-top: 4px solid #fcb653;
@@ -10,14 +14,118 @@
 }
 .preview .controls {
   margin-bottom: 10px;
+  height: 60px;
+  border-top: 2px solid orange;
+  border-bottom: 2px solid orange;
 }
 .preview .controls div {
-  width: 50px;
-  height: 50px;
-  border: 1px solid;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   text-align: center;
-  padding-top: 10px;
+}
+.preview .controls .btn-add-to-list:hover::before {
+  background: #111;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 0.5em;
+  color: #fff;
+  content: "Add To List";
+  display: block;
+  right: none;
+  top: 50px;
+  padding: 0.3em 1em;
+  position: absolute;
+  text-shadow: 0 1px 0 #000;
+  white-space: nowrap;
+  z-index: 98;
+  font-size: 1rem;
+}
+.preview .controls .btn-add-to-list:hover::before {
+  position: absolute;
+  font-size: 1rem;
+}
+.preview .controls .btn-thumbs-up:hover::before {
+  background: #111;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 0.5em;
+  color: #fff;
+  content: "like";
+  display: block;
+  right: none;
+  top: 50px;
+  padding: 0.3em 1em;
+  position: absolute;
+  text-shadow: 0 1px 0 #000;
+  white-space: nowrap;
+  z-index: 98;
+  font-size: 1rem;
+}
+.preview .controls .btn-thumbs-up:hover::before {
+  position: absolute;
+  font-size: 1rem;
+}
+.preview .controls .btn-thumbs-down:hover::before {
+  background: #111;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 0.5em;
+  color: #fff;
+  content: "dislike";
+  display: block;
+  right: none;
+  top: 50px;
+  padding: 0.3em 1em;
+  position: absolute;
+  text-shadow: 0 1px 0 #000;
+  white-space: nowrap;
+  z-index: 98;
+  font-size: 1rem;
+}
+.preview .controls .btn-thumbs-down:hover::before {
+  position: absolute;
+  font-size: 1rem;
+}
+.preview .controls .btn-delete:hover::before {
+  background: #111;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 0.5em;
+  color: #fff;
+  content: "delete item";
+  display: block;
+  right: none;
+  top: 50px;
+  padding: 0.3em 1em;
+  position: absolute;
+  text-shadow: 0 1px 0 #000;
+  white-space: nowrap;
+  z-index: 98;
+  font-size: 1rem;
+}
+.preview .controls .btn-delete:hover::before {
+  position: absolute;
+  font-size: 1rem;
+}
+.preview .controls .btn-back:hover::before {
+  background: #111;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 0.5em;
+  color: #fff;
+  content: "close this preview";
+  display: block;
+  right: none;
+  top: 50px;
+  padding: 0.3em 1em;
+  position: absolute;
+  text-shadow: 0 1px 0 #000;
+  white-space: nowrap;
+  z-index: 98;
+  font-size: 1rem;
+}
+.preview .controls .btn-back:hover::before {
+  position: absolute;
+  font-size: 1rem;
+}
+.preview .controls .rating {
+  height: 50px;
 }
 .preview .tag {
   padding: 0px 5px;
@@ -67,6 +175,14 @@
   border-bottom: 4px solid #fcb653;
   margin-bottom: 0px;
   height: 131px;
+}
+.preview .watched {
+  border-radius: 50%;
+  background-color: #bbb;
+}
+.preview .selected {
+  border-radius: 10px;
+  background-color: orange;
 }
 
 /*# sourceMappingURL=preview.css.map */

@@ -1,6 +1,13 @@
 @import "../../constants.scss";
+@import "../../mixins.scss";
 
 .preview{
+  .img-wrapper{
+    img{
+      height:270px;
+      width: 180px;
+    }
+  }
   hr{
     width:99%;
     border-top: 4px solid nth($default-color,1);
@@ -11,14 +18,63 @@
   }
   .controls{
     margin-bottom:10px;
+    height:60px;
+    border-top: 2px solid orange;
+    border-bottom: 2px solid orange;
     div{
-      width: 50px;
-      height:50px;
-      border:1px solid;
+      width: 30px;
+      height:30px;
       border-radius:50%;
       text-align: center;
-      padding-top:10px
     }
+    .btn-add-to-list{
+      &:hover {
+      @include tooltip("Add To List", none, 50px, nowrap);
+        &::before{
+          position: absolute;
+          font-size: 1rem;
+        }
+      }
+    }
+    .btn-thumbs-up{
+      &:hover {
+        @include tooltip("like", none, 50px, nowrap);
+        &::before{
+          position: absolute;
+          font-size:1rem;
+          }
+        }
+    }
+      .btn-thumbs-down{
+         &:hover {
+            @include tooltip("dislike", none, 50px, nowrap);
+            &::before{
+              position: absolute;
+              font-size:1rem;
+            }
+         }
+      }
+      .btn-delete{
+         &:hover {
+            @include tooltip("delete item", none, 50px, nowrap);
+            &::before{
+              position: absolute;
+              font-size:1rem;
+            }
+         }
+      }
+      .btn-back{
+         &:hover {
+            @include tooltip("close this preview", none, 50px, nowrap);
+            &::before{
+              position: absolute;
+              font-size:1rem;
+            }
+         }
+      }
+      .rating{
+        height:50px;
+      }
   }
   .tag{
     padding: 0px 5px;
@@ -67,5 +123,12 @@
     margin-bottom: 0px;
     height: 131px;
   }
-
+  .watched{
+    border-radius:50%;
+    background-color: #bbb;
+  }
+  .selected{
+    border-radius:10px;
+    background-color: orange;
+  }
 }

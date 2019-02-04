@@ -52,11 +52,11 @@ $card-max-width: 250px;
         }
       }
       .btn-actions{
-        width:31%;
-        background-color: orange;
-         &:hover{
-          background-color: #ffc04d;
-        }
+        margin-top:10px;
+        margin-bottom: 10px;
+        width:40px;
+        height: 40px;
+        border-radius:50%;
       }
     }
     &:hover .card-info{
@@ -64,30 +64,6 @@ $card-max-width: 250px;
     }
   }
   
-}
-
-
-
-
-.delete-button{ 
-  color:white;
-  font-size:1.2rem;
-  box-shadow: $shadow;
-  height:2rem;
-  width:2rem;
-  margin:0px;
-  padding:0px;
-  border-radius:50%;
-  border: 2px solid white;
-  background-color:red;
-  position: absolute;
-  z-index: 25;
-  top: -10px;
-  right: -10px;
-  > i{
-    cursor: default;
-    font-size:1.4rem;
-  }
 }
 
 #next-twenty{

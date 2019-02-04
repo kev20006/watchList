@@ -17,7 +17,7 @@
   width: 100%;
 }
 .btn-default{
-  @include buttonClick(nth($default-color,1), nth($default-color,2))
+  @include buttonClick(nth($default-color,1), nth($default-color,2));
 }
 
 body{

@@ -163,7 +163,10 @@ const tmdb = {
         tvDetails.seasons.forEach(element =>{
             let episodes = []
             for (i = 0; i < element.episode_count; i++){
-                episodes.push(false);
+                episodes.push({
+                    watched: false,
+                    episode: i+1,
+                });
             }
             epTracker.push({
                 name: element.name,
