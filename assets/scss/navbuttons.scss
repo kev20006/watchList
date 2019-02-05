@@ -5,19 +5,19 @@ $colorlist:(
   add: $default-color,
   movie: $movie-color,
   tv: $tv-color,
-  game: $game-color,
+  person: $game-color,
   book: $book-color
 );
 
 $toolTips:(
   add: "click here to add a new item",
-  movie: "New Movie",
-  tv: "New Tv Show",
-  game: "New Game",
+  movie: "Add Movie",
+  tv: "Add Tv Show",
+  Person: "Search Actors",
   book: "New Book"
 );
 
-$typelist: add, movie, tv, game, book;
+$typelist: add, movie, tv, person, book;
 $zpos: -5;
 
 @each $type in $typelist{

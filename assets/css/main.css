@@ -154,7 +154,7 @@ body {
 }
 .card .card-inner .card-bg {
   background-image: url(https://image.tmdb.org/t/p/w600_and_h900_bestv2/dCtFvscYcXQKTNvyyaQr2g2UacJ.jpg);
-  background-size: cover;
+  background-size: 100% 100%;
   z-index: 5;
   height: 100%;
   width: 100%;
@@ -198,8 +198,16 @@ body {
   bottom: 0px;
 }
 
-#next-twenty {
-  height: 60px;
+.info-card {
+  overflow-y: scroll;
+  height: 60vh;
+  width: 95%;
+  max-width: 350px;
+}
+.info-card hr {
+  margin: 0px;
+  width: 99%;
+  border-top: 2px solid #fcb653;
 }
 
 #add {
@@ -252,7 +260,7 @@ body {
   background: rgba(0, 0, 0, 0.8);
   border-radius: 0.5em;
   color: #fff;
-  content: "New Movie";
+  content: "Add Movie";
   display: block;
   right: 50px;
   top: 0px;
@@ -283,7 +291,7 @@ body {
   background: rgba(0, 0, 0, 0.8);
   border-radius: 0.5em;
   color: #fff;
-  content: "New Tv Show";
+  content: "Add Tv Show";
   display: block;
   right: 50px;
   top: 0px;
@@ -298,7 +306,7 @@ body {
   font-size: 1.5rem;
 }
 
-#game {
+#person {
   position: absolute;
   top: 7px;
   right: 5%;
@@ -306,15 +314,14 @@ body {
   display: none;
   background-color: #6BF9F9;
 }
-#game:hover {
+#person:hover {
   background-color: #43F2F2;
 }
-#game:hover::before {
+#person:hover::before {
   background: #111;
   background: rgba(0, 0, 0, 0.8);
   border-radius: 0.5em;
   color: #fff;
-  content: "New Game";
   display: block;
   right: 50px;
   top: 0px;
@@ -325,7 +332,7 @@ body {
   z-index: 98;
   font-size: 1rem;
 }
-#game i {
+#person i {
   font-size: 1.5rem;
 }
 
@@ -562,10 +569,24 @@ body {
   background-color: orange;
 }
 
+#add-or-edit-container {
+  padding-top: 0px;
+}
 #add-or-edit-container #search-box {
   margin-top: 5px;
   width: 100%;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
+  border-bottom: 2px solid #fcb653;
+}
+#add-or-edit-container #search-box:focus-within {
+  background-color: #ddd;
+}
+#add-or-edit-container #search-box input {
+  width: 80%;
+  background-color: rgba(0, 0, 0, 0);
+  outline: none;
+  border: none;
+  padding: 0px 5px;
 }
 
 .results {

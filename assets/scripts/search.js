@@ -4,7 +4,6 @@ let movieGenres = ""
 //Code for rendering search results in the app
 
 let searches = {
-    keys: ["405219586381645a0c87c4c5dc9211d9", "cClARfDJOoiKBziNEIAa4A"],
     //paginate movies
     movie: (terms,page) =>{
         let searchPage = Math.ceil(page / 2)
@@ -58,26 +57,112 @@ let searches = {
                 $(`#results`).append(paginationControls(page, terms, "tv"));
             }
         });
+    },
+    person: (terms, page)=>{
+        $(`#results`).html(`
+            <div class="no-results text-center">
+            <img src="./assets/images/loading.gif" alt="loader">
+            <p>searching......</p>
+            </div>`);
+        let searchPage = Math.ceil(page / 2)
+        tmdb.getSearchResults({ type: "person", terms: terms, page: searchPage, listType: "search" })
+        .then((person) => {
+            console.log(person)
+            person = person.results;
+            console.log(person)
+            if (page % 2 != 0) {
+                person = person.slice(0, 9)
+            } else {
+                person = person.slice(10, 19)
+            }
+            $(`#results`).html("")
+            if (person.length == 0) {
+                $(`#results`).append(`<p>no results found please change your search criteria</p>`);
+            } else {
+                let resultsContainer = $(`<div></div>`)
+                person.forEach(element => {
+                    console.log(element)
+                    let searchItem = searches.personSearchItem({ name: element.name, id: element.id, profile_path: element.profile_path})
+                    .on("click",()=>{
+                        searches.actorMovies({id:element.id, name:element.name, page: 1});
+                    })
+                    resultsContainer.append(searchItem)
+                });
+                $(`#results`).append(resultsContainer);
+                $(`#results`).append(paginationControls(page, terms, "person"));
+            }
+        });
+    },
+
+    actorMovies:(object)=>{
+        console.log(object)
+        $(`#results`).html("");
+        let resultsContainer = $(`<div></div>`)
+        $("#search-box input[type=text]").val(object.name)
+        tmdb.getObjects(
+            {
+                listType: "recommendations",
+                recType: `movie actor`,
+                id: object.id,
+                type: "movie",
+                page: object.page
+            },
+            (movies) => {
+                $("#results").attr("data-actorid", object.id)
+                console.log(movies)
+                movies.forEach(movie => {
+                    resultsContainer.append(movie.searchItem(true));
+                })
+                $(`#results`).append(resultsContainer);
+                $(`#results`).append(paginationControls(page, terms, "actor-movies"));
+            });
+    },
+
+    personSearchItem: (object)=>{
+        let actorpic = `https://image.tmdb.org/t/p/w185${object.profile_path}`;
+        if (!object.profile_path){
+            actorpic = `./assets/images/no-profile.jpeg`
+        }
+        let wrapper = $(`<div class="result row pt-2 mx-0 "></div>`);
+        let imgWrapper = $(`<div class="col-3 col-offset-2 "></div>`);
+        let textWrapper = $(`<div class="col-7 mt-3"></div>`);
+        imgWrapper.append(`<img src=${actorpic} class="result-thumb mx-auto d-block" alt=${object.name} />`);
+        textWrapper.append(
+            `<h6 class="result-title"><strong class="heading">${object.name}</strong></h6>`
+        );
+        wrapper.append(imgWrapper, textWrapper);
+        return wrapper
     }
 }
 
+
 function paginationControls(page, terms, type){
     let incr = 1
-    if (type == "book" || type == "game"){incr = 5}
-    let pageButtons = $(`<div class="d-flex justify-content-around"></div>`);
+    let pageButtons = $(`<div class="d-flex justify-content-around mt-2"></div>`);
     let back = $(`<div class="result-btn">prev</div>`)
         .on("click", () => {
             let newPage = ((p) => { return p - incr })(page);
+            $("#results").attr("data-page", newPage)
             if(newPage > 0){
-                $("#results").attr("data-page", newPage)
-                searches[type](terms, newPage)
+                if (type == "actor-movies"){
+                    searches.actorMovies({ id: element.id, name: element.name, page: newPage});
+                }
+                else{
+                    searches[type](terms, newPage)
+                }
+                
             }
         });
     let next = $(`<div class="result-btn">next</div>`)
         .on("click", () => {
             let newPage = ((p) => { return p + incr })(page);
             $("#results").attr("data-page", newPage)
-            searches[type](terms, newPage)
+            if (type == "actor-movies") {
+                searches.actorMovies({ id: element.id, name: element.name, page: newPage });
+            }
+            else {
+                searches[type](terms, newPage)
+            }
         });
     pageButtons.append(back, next);
     return pageButtons

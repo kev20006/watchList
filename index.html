@@ -26,7 +26,8 @@
         <nav class="navbar fixed-top d-flex py-0">
             <div class="navbar-brand d-flex">
                 <div class="mr-3 align-self-center">
-                    <img id= "toggle-menu" src="https://cdn4.iconfinder.com/data/icons/tupix-1/30/list-512.png" width="40" height="40" class="d-inline-block align-top" alt="hamburger icon">
+                    <img id= "toggle-menu" src="https://cdn4.iconfinder.com/data/icons/tupix-1/30/list-512.png" 
+                    width="40" height="40" class="d-inline-block align-top" alt="hamburger icon">
                 </div>
                 <div class="d-flex heading align-items-center">
                     <h3 class="heading my-0">Watch List</h3>
@@ -36,7 +37,7 @@
                 <div id="add" class="icon nav-button ml-2 d-flex justify-content-center"><i class="fas fa-pen align-self-center"></i></div>
                 <div id="movie" class="icon nav-button ml-2 d-flex d-none justify-content-center"><i class="fas fa-film align-self-center"></i></div>
                 <div id="tv" class="icon nav-button ml-2 d-flex d-none justify-content-center"><i class="fas fa-tv align-self-center"></i></div>
-                <div id="game" class="icon nav-button ml-2 d-flex d-none justify-content-center"><i class="fas fa-gamepad align-self-center"></i></div>
+                <div id="person" class="icon nav-button ml-2 d-flex d-none justify-content-center"><i class="fas fa-users align-self-center"></i></div>
                 <div id="book" class="icon nav-button ml-2 d-flex d-none justify-content-center"><i class="fas fa-book align-self-center"></i></div>
             </div>
         </nav>
@@ -66,6 +67,7 @@
             <p class="sub-head heading"><strong>Other Options:</strong></p>
             <ul class = "category-list menu-list">
                 <li onclick="makePopUp('help')">About Watch List</li>
+                <li onclick="watchHistory.render()">My Watch History</li>
                 <li onclick="makePopUp('reset')">Delete Watch List</li>
             </ul>
         </aside>

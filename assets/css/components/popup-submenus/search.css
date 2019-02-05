@@ -1,7 +1,21 @@
+#add-or-edit-container {
+  padding-top: 0px;
+}
 #add-or-edit-container #search-box {
   margin-top: 5px;
   width: 100%;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
+  border-bottom: 2px solid #fcb653;
+}
+#add-or-edit-container #search-box:focus-within {
+  background-color: #ddd;
+}
+#add-or-edit-container #search-box input {
+  width: 80%;
+  background-color: rgba(0, 0, 0, 0);
+  outline: none;
+  border: none;
+  padding: 0px 5px;
 }
 
 .results {

@@ -99,9 +99,21 @@ function manageFilters(){
 }
 
 function addNewMenu(type){
+    let searchPlaceholder = `Enter a`
+    switch (type){
+        case "person":
+            searchPlaceholder += "n Actor's Name";
+            break;
+        case "movie":
+            searchPlaceholder += " Movie";
+            break;
+        case "tv":
+            searchPlaceholder += " TV show"
+    }
+    if (type == "person")
     $("#add-or-edit-container").html("")
-    let searchBox = $(`<div id="search-box" class="row d-flex mx-0 justify-content-center"></div>`);
-    let searchBar = $(`<input type="text" placeholder="${type} Title"></input>`)
+    let searchBox = $(`<div id="search-box" class="row d-flex mx-0 justify-content-center align-items-center"></div>`);
+    let searchBar = $(`<input type="text" placeholder="${searchPlaceholder}"></input>`)
         .on("keydown", (e)=>{
         if (searchBar.val().length == 0){
             $("#results").html(`
@@ -115,7 +127,8 @@ function addNewMenu(type){
                 $(e.target).blur()
         } 
     })
-   searchBox.append(searchBar) 
+    let searchIcon = $(`<i class="fas fa-search ml-2 mr-4"></i>`) 
+    searchBox.append(searchIcon, searchBar) 
     let results = $(`<div id="results" data-page='1'>
                         <div class="mt-5 text-center">
                         <h1><i class="fas fa-search"></i></h1>

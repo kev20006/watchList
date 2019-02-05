@@ -14,7 +14,7 @@
 }
 .card .card-inner .card-bg {
   background-image: url(https://image.tmdb.org/t/p/w600_and_h900_bestv2/dCtFvscYcXQKTNvyyaQr2g2UacJ.jpg);
-  background-size: cover;
+  background-size: 100% 100%;
   z-index: 5;
   height: 100%;
   width: 100%;
@@ -58,8 +58,16 @@
   bottom: 0px;
 }
 
-#next-twenty {
-  height: 60px;
+.info-card {
+  overflow-y: scroll;
+  height: 60vh;
+  width: 95%;
+  max-width: 350px;
+}
+.info-card hr {
+  margin: 0px;
+  width: 99%;
+  border-top: 2px solid #fcb653;
 }
 
 /*# sourceMappingURL=moviecard.css.map */

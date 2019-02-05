@@ -1,6 +1,6 @@
 //Animates the add new items quick dropdown menu, and attached event listeners.
 
-["movie", "tv"].forEach((element) => {
+["movie", "tv", "person"].forEach((element) => {
   $(`#${element}`).on("click", () => {
     makePopUp(`${element}`)
   })
@@ -11,7 +11,7 @@ let addMenuVis = false;
 $(document).on("click", (e)=>{
   if($(e.target).closest('div[id]').attr("id") =="add"){
     let startPos = 60;
-    ["movie", "tv"].forEach((element)=>{
+    ["movie", "tv", "person"].forEach((element)=>{
       $(`#${element}`).animate({
         display: 'toggle',
         top: startPos,
@@ -24,7 +24,7 @@ $(document).on("click", (e)=>{
     })
   }else{
       if(addMenuVis){
-          ["movie", "tv","game","book"].forEach((element)=>{
+          ["movie", "tv","person"].forEach((element)=>{
             $(`#${element}`).animate({
             display: "toggle",
             top: 7,

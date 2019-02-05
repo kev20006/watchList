@@ -28,6 +28,8 @@ const tmdb = {
                 return `https://api.themoviedb.org/3/tv/${details.id}/recommendations?api_key=${tmdb.key}&language=en-US&page=1`
             case "tv today":
                 return `https://api.themoviedb.org/3/tv/airing_today?api_key=${tmdb.key}&language=en-US&page=${details.page}`
+            case "person search":
+                return `https://api.themoviedb.org/3/search/person?api_key=${tmdb.key}&language=en-US&query=${details.terms}&page=${details.page}`;
 
         }
     },
@@ -50,14 +52,32 @@ const tmdb = {
             list = tmdb.getRecommendations(details)
         }
         list.then((items)=>{
+            console.log(items)
             if (details.recType == "movie actor"){
-                items = [items.movie_credits.cast[randomIndex(items.movie_credits.cast.length)]]
+                if (details.page){
+                    let upperbound = (details.page * 20) - 1;
+                    if (upperbound > items.movie_credits.cast.length) {
+                        upperbound = items.movie_credits.cast.length
+                    }
+                    let lowerbound = (details.page - 1) * 20;
+                    console.log(items)
+                    console.log(`${lowerbound} and ${upperbound}`)
+                    items = items.movie_credits.cast.slice(lowerbound, upperbound);
+                    console.log(items)
+                }
+                else{
+                    
+                    items = [items.movie_credits.cast[randomIndex(items.results.length)]];
+                }
+               
             }
             else if (details.recType == "movie genre"){
-                items = [items.results[randomIndex(items.results.length)]]
-            }else{
+                items = [items.results[randomIndex(items.results.length)]];
+            }
+            else{
                 items = items.results
             }
+            console.log(items)
             itemPromises = [];
             items.forEach((element)=>{
                 itemPromises.push(tmdb.getDetails({type: details.type, id: element.id}))
@@ -173,9 +193,6 @@ const tmdb = {
                 episodes: episodes
             });
         });
-        
-
-
         return new tv(
             {
                 dbid: tvDetails.id,

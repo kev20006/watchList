@@ -48,7 +48,7 @@
   background: rgba(0, 0, 0, 0.8);
   border-radius: 0.5em;
   color: #fff;
-  content: "New Movie";
+  content: "Add Movie";
   display: block;
   right: 50px;
   top: 0px;
@@ -79,7 +79,7 @@
   background: rgba(0, 0, 0, 0.8);
   border-radius: 0.5em;
   color: #fff;
-  content: "New Tv Show";
+  content: "Add Tv Show";
   display: block;
   right: 50px;
   top: 0px;
@@ -94,7 +94,7 @@
   font-size: 1.5rem;
 }
 
-#game {
+#person {
   position: absolute;
   top: 7px;
   right: 5%;
@@ -102,15 +102,14 @@
   display: none;
   background-color: #6BF9F9;
 }
-#game:hover {
+#person:hover {
   background-color: #43F2F2;
 }
-#game:hover::before {
+#person:hover::before {
   background: #111;
   background: rgba(0, 0, 0, 0.8);
   border-radius: 0.5em;
   color: #fff;
-  content: "New Game";
   display: block;
   right: 50px;
   top: 0px;
@@ -121,7 +120,7 @@
   z-index: 98;
   font-size: 1rem;
 }
-#game i {
+#person i {
   font-size: 1.5rem;
 }
 

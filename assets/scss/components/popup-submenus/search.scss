@@ -2,10 +2,22 @@
 @import "../../mixins.scss";
 
 #add-or-edit-container{
+  padding-top:0px;
   #search-box{
     margin-top:5px;
     width:100%;
-    font-size:1.5rem;
+    font-size:1.3rem;
+    border-bottom: 2px solid nth($default-color,1);
+    &:focus-within{
+      background-color: #ddd;
+    }
+    input{
+      width: 80%;
+      background-color:rgba(0,0,0,0);
+      outline:none;
+      border: none;
+      padding: 0px 5px;
+    }
   }
 }
 .results{
