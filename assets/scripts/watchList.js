@@ -3,10 +3,12 @@
 //including analytical data, the current watch lists, tags assigned to each movie.
 
 //html should only be appear in "render" - methods
-
-
 let watchList = {
 /** Initialise for first use **/
+    details:{
+        tvGenres: [],
+        movieGenres: []
+    },
     analytics:{
         movie:{
             likes: 0,
@@ -99,7 +101,24 @@ let watchList = {
                 }
                     
             }
-            
+
+            if (prevData.list.details.movieGenres.length > 1 && prevData.list.details.tvGenres.length > 1){
+                watchList.details.movieGenres = prevData.list.details.movieGenres;
+                watchList.details.tvGenres = prevData.list.details.tvGenres;
+            }else{
+                let movieGenresPromise = tmdb.getGenres("movie");
+                let tvGenresPromise = tmdb.getGenres("tv");
+                movieGenresPromise.then((movieGenres) => { 
+                    watchList.details.movieGenres= movieGenres.genres
+                });
+                tvGenresPromise.then((tvGenres) => { 
+                    watchList.details.tvGenres = tvGenres.genres
+                });
+                Promise.all([movieGenresPromise, tvGenresPromise]).then(()=>{
+                    watchList.renderDataLists();
+                })
+            }
+            watchList.renderDataLists();
             watchList.updateLocalStorage();
             watchList.render(watchList.contents);
             watchList.renderCollections();
@@ -114,27 +133,6 @@ let watchList = {
         watchList.contents.splice(id, 1);
         watchList.render(watchList.contents);
         watchList.updateLocalStorage();
-    },
-    render: (list, isRecommendation = false)=>{
-        if (list.length >= 1) {
-            let index = 0;
-            $("#watch-list").html(""); 
-            list.forEach((element) => {
-                element.id = "card-"+index;
-                $("#watch-list").append(element.card(isRecommendation));
-                element.updateCardTags();
-                index++;
-            })
-        }else{
-            $("#watch-list").html(`<div class="no-results text-center">
-                <h1><i class="fas fa-asterisk"></i></h1>
-                <h5>Currently you have no items in your list</h5>
-                <p >Click the add button to the right to start adding movies, tv shows and games to your to watch list</p> 
-                </div>
-            `);
-        }
-        watchList.renderCollections();
-        
     },
     filter: (filterBy, value)=>{
         let filterList = {} 
@@ -206,6 +204,27 @@ let watchList = {
         watchList.renderCollections();
         watchList.updateLocalStorage();
     },
+    render: (list, isRecommendation = false) => {
+        if (list.length >= 1) {
+            let index = 0;
+            $("#watch-list").html("");
+            list.forEach((element) => {
+                element.id = "card-" + index;
+                $("#watch-list").append(element.card(isRecommendation));
+                element.updateCardTags();
+                index++;
+            })
+        } else {
+            $("#watch-list").html(`<div class="no-results text-center">
+                <h1><i class="fas fa-asterisk"></i></h1>
+                <h5>Currently you have no items in your list</h5>
+                <p >Click the add button to the right to start adding movies, tv shows and games to your to watch list</p> 
+                </div>
+            `);
+        }
+        watchList.renderCollections();
+
+    },
     renderCollections: ()=>{
         //update collection list in drawer menu
         $("#category-list").html("");
@@ -227,8 +246,21 @@ let watchList = {
             element.updateCardTags();
         })
     },
-    updateLocalStorage: ()=>{
-        window.localStorage.setItem('watchListData', JSON.stringify({ list: watchList}));
+    renderDataLists:()=>{
+        $("#movie-genres").html("");
+        $("#tv-genres").html("");
+        $("#tags-list").html("");
+        console.log(watchList.details.movieGenres)
+        watchList.details.movieGenres.forEach(element =>{
+            $("#movie-genres-list").append(`<option value="${element.id}">${element.name}</option>`);
+        });
+        watchList.details.tvGenres.forEach(element => {
+            $("#tv-genres-list").append(`<option value="${element.id}">${element.name}</option>`);
+       });
+       Object.keys(watchList.collections).forEach(element =>{
+           $("#tags-list").append(`<option value="${element}"></option>`);
+       })
+       console.log(watchList.collections);
     },
     addLike:(type, id, title, genres)=>{
         watchList.analytics[type].likes ++
@@ -245,12 +277,13 @@ let watchList = {
         })
         watchList.updateLocalStorage();
     },
-
     addDislike:(type)=>{
         watchList.analytics[type].dislikes++
         watchList.updateLocalStorage();
     },
-
+    updateLocalStorage: () => {
+        window.localStorage.setItem('watchListData', JSON.stringify({ list: watchList }));
+    },
     resetAll:() =>{
         watchList.analytics = {
             movie: {
@@ -278,6 +311,8 @@ let watchList = {
                 lastFive: []
             }
         };
+        watchList.details.movieGenres= [];
+        watchList.details.tvGenres = [];
         watchList.contents = [];
         watchList.collections= {}
         watchList.render(watchList.contents);

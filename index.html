@@ -22,6 +22,9 @@
 </head>
 <body>
     <!-- navbar starts here -->
+    <datalist id="tv-genres"></datalist>
+    <datalist id="movie-genres"></datalist>
+    <datalist id="tags"></datalist>
     <main id="app">
         <nav class="navbar fixed-top d-flex py-0">
             <div class="navbar-brand d-flex">
@@ -55,13 +58,28 @@
             <ul id="category-list" class="category-list menu-list">
             </ul>
             <hr />
-            <h5 class="sub-head heading"><strong>Recommendations:</strong></h5>
+            <h5 class="sub-head heading"><strong>Browse:</strong></h5>
             <ul id="category-list" class="category-list menu-list">
                 <li onclick="recommendations.recommendationsList({type:'movie', recType:'cinema now', page:1})">In Theatres Now</li>
                 <li onclick="recommendations.recommendationsList({type:'movie', recType:'top movies', page:1})">Top Rated Movies</li>
                 <li onclick="recommendations.recommendationsList({type:'tv', recType:'top tv',page:1} )">Top Rated TV Shows</li>
                 <li onclick="recommendations.recommendationsList({type:'tv', recType:'tv now', page:1})">On TV Now</li>
-                <li onclick="recommendations.recommendationsList({type:'tv', recType:'tv today',page:1})">TV Today</li>
+            </ul>
+            <h5 class="sub-head heading"><strong>Browse by Genre:</strong></h5>
+            <ul id="browse-genres" class="category-list menu-list">
+                <li id="movie-by-genre">Movies </li>
+                <p id="movie-genre-search" class="mx-0 px-4">
+                    <select id="movie-genres-list">
+                        <option>select a genre</option>
+                    </select>
+                </p>
+            
+                <li id="tv-by-genre">TV</li>
+                <p id="tv-genre-search" class="mx-0 px-4">
+                    <select id="tv-genres-list" class="w-90">
+                        <option>select a genre</option>
+                    </select>
+                </p>
             </ul>
             <hr />
             <p class="sub-head heading"><strong>Other Options:</strong></p>
@@ -95,7 +113,7 @@
     <main class="obscure justify-content-center">
         <div id="add-or-edit-container" class="active">
         </div>
-    </main>
+    </main>  
     <!-- End Modal -->
     <!-- bootstrap scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="

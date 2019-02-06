@@ -60,7 +60,7 @@
 
 .info-card {
   overflow-y: scroll;
-  height: 60vh;
+  height: 50vh;
   width: 95%;
   max-width: 350px;
 }

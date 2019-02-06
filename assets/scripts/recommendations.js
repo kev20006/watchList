@@ -13,7 +13,8 @@ const recommendations = {
                 type: object.type, 
                 listType: "recommendations", 
                 recType: object.recType, 
-                page:object.page
+                page: object.page,
+                id: object.id
             }, 
             (movieObjectArray) => {
                 watchList.render(movieObjectArray, true);
@@ -35,7 +36,10 @@ const recommendations = {
                                 { 
                                     type: object.type, 
                                     recType: object.recType, 
-                                    page: object.page + 1}); 
+                                    page: object.page + 1,
+                                    id: object.id
+                                }
+                            );
                         });
                     let prevButton = $(
                         `<div class="btn btn-default my-5"> 
@@ -46,7 +50,8 @@ const recommendations = {
                                 {
                                     type: object.type,
                                     recType: object.recType,
-                                    page: object.page - 1
+                                    page: object.page - 1,
+                                    id: object.id
                                 });
                         });
                     if (object.page > 1){

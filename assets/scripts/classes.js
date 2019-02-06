@@ -59,6 +59,7 @@ It also has methods to generate the HTML for the cards, search results and previ
         wrapper.on("click", () => {
             if(!actorSearch){
                 $("#results").html(this.itemPreview("search"));
+                watchList.renderDataLists(); 
             }
             else{
                 $("#results").html(this.itemPreview("actorSearch"));
@@ -180,20 +181,24 @@ It also has methods to generate the HTML for the cards, search results and previ
         previewBody.append(previewMainContentContainer, additionalInfo);
         let tagsContainer = $(`<div class=" d-flex flex-wrap preview-tags"></div>`)
             .on('keydown', "input", (e) => {
-                if ($(".add-tag").val().length >= 1) {
-                    $(".add-tag").css("width", `${30 + ($(".add-tag").val().length * 9)}px`)
+                if ($(".add-tag").val().length >= 10) {
+                    $(".add-tag").css("width", `${120 + (($(".add-tag").val().length -9) * 9)}px`)
                 }
                 if (e.keyCode == 13) {
                     watchList.addCollection($(".add-tag").val(),this.dbid);
-                    let newInput = $(`<input type="text" placeholder="add new"></input>`)
+                    let newInput = $(`
+                        <input list="tags-list" placeholder="add new"></input>
+                        <datalist id="tags-list"></datalist>
+                    `)
                         .addClass("add-tag")
                     let newSpan = $(`<span class="collection-tag"></span>`)
                         .append(newInput);
                     $(".preview-tags")
                         .html("")
                         .append(newSpan)
-                        .append(this.updateCollections())
-                    this.updateCardTags()
+                        .append(this.updateCollections());
+                    this.updateCardTags();
+                    watchList.renderDataLists();
                     watchList.updateLocalStorage();
                 }
             })
@@ -203,8 +208,12 @@ It also has methods to generate the HTML for the cards, search results and previ
             .focusout(()=>{
                 $(".help").toggleClass("d-none");
             })
-            .append(`<span class="ml-2 collection-tag"><input class="add-tag" type="text" placeholder="add new"></input></span>`, this.updateCollections());
-        
+            .append(`
+            <span class="ml-2 collection-tag">
+                <input class="add-tag" list="tags-list" placeholder="add new"></input>
+                <datalist id="tags-list"></datalist>
+            </span>`, 
+            this.updateCollections());
         let noteArea = $(`<textarea id="notes" class="notes-area" placeholder="Any Additional notes about this ${this.type}" rows="5">${this.note}</textarea>`)
                         .on("input",(e) =>{
                             this.note = $(e.target).val()
@@ -215,8 +224,9 @@ It also has methods to generate the HTML for the cards, search results and previ
                     tagsContainer,
                     `<p class="d-none help"><small>press enter to add your new tag</small></p>`, 
                     noteArea
-                )
-        wrapper.append(previewBody, tagsAndComments); 
+                );
+
+        wrapper.append(previewBody, tagsAndComments);
         wrapper.append("<hr>")
         let castSection = $("<section></section>").append(`<div class="row mx-0 px-1"><p><strong>Top Billed Cast</strong></div>`)
         let castContainer = $(`<div class="row mx-0 px-1"></div>`)
@@ -286,6 +296,7 @@ It also has methods to generate the HTML for the cards, search results and previ
                 $("#search-box").addClass("d-none").removeClass("d-flex");
                 $("#results").html(this.itemPreview("recommendation"));
             }
+            watchList.renderDataLists(); 
         });
         if (!recommendation){
             let buttonWrapper = $('<div class="d-flex justify-content-around"></div>');
@@ -445,19 +456,30 @@ class tv extends watchItem{
                     }
                     let episodeButon = $(`<span id="S-${e.target.id.split("-")[1]}-E-${episode.episode}" class="mx-2 season-button ${state}">E-${episode.episode}</span>`)
                         .on("click", (e) => {
+                            $(".ep-details").html("fetching episode information...")
                             let series = e.target.id.split("-");
                             console.log(this.epTracker[series[1]].episodes[series[3]-1]);
-                            if (this.epTracker[series[1]].episodes[series[3]-1].watched){
-                                this.epTracker[series[1]].episodes[series[3]-1].watched = false;
-                                $(`#S-${series[1]}-E-${series[3]}`).removeClass("watched");
-                            }else{
-                                this.epTracker[series[1]].episodes[series[3]-1].watched = true;
-                                $(`#S-${series[1]}-E-${series[3]}`).addClass("watched");
-                            }
+                            tmdb.getEpisodeName(this.dbid, series[1], series[3], (episode)=>{
+                                $(".ep-details").html("");
+                                $(".ep-details").append(`
+                                    <p class="mt-2 mb-0 text-center heading"><strong>${episode.name}</strong></p>
+                                    <p class="text-right"><small>first aired: ${tmdbDateFix(episode.air_date)}</small>
+                                    <p class="desc-box">${episode.overview}</p>
+                                    `);
+                                let confirmButton = $(`<div id="confirm-button" class="btn-default w-23 mx-auto text-center">Mark as Watched</div>`)
+                                    .on("click",()=>{
+                                        if (this.epTracker[series[1]].episodes[series[3] - 1].watched) {
+                                            this.epTracker[series[1]].episodes[series[3] - 1].watched = false;
+                                            $(`#S-${series[1]}-E-${series[3]}`).removeClass("watched");
+                                        } else {
+                                            this.epTracker[series[1]].episodes[series[3] - 1].watched = true;
+                                            $(`#S-${series[1]}-E-${series[3]}`).addClass("watched");
+                                        }
+                                    })
+                                console.log(episode);
+                                $(".ep-details").append(confirmButton);
+                            })
                             watchList.updateLocalStorage();
-                            console.log(sIndex);
-                            console.log(episode.episode)
-                            console.log(this.epTracker[sIndex - 1].episodes[episode.episode - 1]);
                         });
 
                     $("#episodes").append(episodeButon)
@@ -473,15 +495,24 @@ class tv extends watchItem{
         <div class="d-flex justify-content-around">
 
             <p class="heading">Episode Tracker</p>
-            <div class="btn btn-default" data-toggle="collapse" href="#ep-tracker" role="button" aria-expanded="false" aria-controls="ep-tracker">
+            <div class="btn btn-default right" data-toggle="collapse" href="#ep-tracker" role="button" aria-expanded="false" aria-controls="ep-tracker">
                 <i class="fas fa-angle-right"></i>
             </div>
         </div>
-        <div class="collapse" id="ep-tracker">
+        <div class="collapse " id="ep-tracker">
             <div id="ep-tracker-content">
             </div>
-        </div>`);
-        collapseTracker.find("#ep-tracker-content").append(`<p><strong>Seasons</strong></p>`, seasonList, `<p><strong>episodes</strong></p>`, episodeList);
+        </div>`)
+            .on("click", (e) => {
+                if ($(e.target).closest("div").hasClass("right")) {
+                    $(e.target).closest("div").switchClass("right", "down", 500);
+                }   
+                else {
+                    $(e.target).closest(".btn").switchClass("down", "right", 500);
+                   
+                }
+            });
+        collapseTracker.find("#ep-tracker-content").append(`<p><strong>Seasons</strong></p>`, seasonList, `<p class="mt-3"><strong>Episodes</strong></p>`, episodeList, `<div class="ep-details"></div>`);
         preview.find(".additional-info").append(collapseTracker);
         return preview;
  

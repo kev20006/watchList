@@ -45,6 +45,15 @@ body {
   pointer-events: none;
 }
 
+/*classes for animating collapsable menus*/
+.right {
+  transform: rotate(0deg);
+}
+
+.down {
+  transform: rotate(90deg);
+}
+
 #app {
   overflow: hidden;
 }
@@ -78,50 +87,11 @@ body {
   height: 30px;
 }
 
-#filter-menu li:nth-child(1):hover {
+#filter-menu li:hover {
   background-color: #fcb653;
 }
-#filter-menu li:nth-child(1):active {
+#filter-menu li:active {
   background-color: #e2a34a;
-}
-#filter-menu li:nth-child(1) .active {
-  background-color: #fcb653;
-}
-#filter-menu li:nth-child(2):hover {
-  background-color: #8BEF86;
-}
-#filter-menu li:nth-child(2):active {
-  background-color: #69EF62;
-}
-#filter-menu li:nth-child(2) .active {
-  background-color: #8BEF86;
-}
-#filter-menu li:nth-child(3):hover {
-  background-color: #FF7770;
-}
-#filter-menu li:nth-child(3):active {
-  background-color: #F2716A;
-}
-#filter-menu li:nth-child(3) .active {
-  background-color: #FF7770;
-}
-#filter-menu li:nth-child(4):hover {
-  background-color: #6BF9F9;
-}
-#filter-menu li:nth-child(4):active {
-  background-color: #43F2F2;
-}
-#filter-menu li:nth-child(4) .active {
-  background-color: #6BF9F9;
-}
-#filter-menu li:nth-child(5):hover {
-  background-color: #FF96FF;
-}
-#filter-menu li:nth-child(5):active {
-  background-color: #F26AF2;
-}
-#filter-menu li:nth-child(5) .active {
-  background-color: #FF96FF;
 }
 
 #add-new-input {
@@ -136,6 +106,10 @@ body {
 }
 .category-list li:active {
   background-color: #e2a34a;
+}
+
+#browse-genres p {
+  display: none;
 }
 
 /*************classes for colouring ************/
@@ -200,7 +174,7 @@ body {
 
 .info-card {
   overflow-y: scroll;
-  height: 60vh;
+  height: 50vh;
   width: 95%;
   max-width: 350px;
 }
@@ -522,7 +496,7 @@ body {
   border: none;
   background: none;
   padding: 0px 5px;
-  width: 85px;
+  width: 100px;
 }
 .preview .add-tag::placeholder {
   color: black;

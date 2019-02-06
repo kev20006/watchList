@@ -3,6 +3,9 @@
 const tmdb = {
     key: "405219586381645a0c87c4c5dc9211d9",
     getURL: (typeOfSearch, details)=>{
+        if (!details.page){
+            details.page=1;
+        }
         switch (typeOfSearch){
             case "movie search":
                 return `https://api.themoviedb.org/3/search/movie?api_key=${tmdb.key}&language=en-US&query=${details.terms}&page=${details.page}`;
@@ -13,7 +16,9 @@ const tmdb = {
             case "top movies":
                 return `https://api.themoviedb.org/3/movie/top_rated?api_key=${tmdb.key}&language=en-US&page=${details.page}`;
             case "movie genre":
-                return `https://api.themoviedb.org/3/discover/movie?api_key=${tmdb.key}&language=en-us&with_genres=${details.id}`
+                return `https://api.themoviedb.org/3/discover/movie?api_key=${tmdb.key}&language=en-us&with_genres=${details.id}&page=${details.page}`
+            case "tv genre":
+                return `https://api.themoviedb.org/3/discover/tv?api_key=${tmdb.key}&language=en-us&with_genres=${details.id}&page=${details.page}`    
             case "movie actor":
                 return `https://api.themoviedb.org/3/person/${details.id}?api_key=${tmdb.key}&append_to_response=movie_credits`
             case "tv search":
@@ -72,7 +77,13 @@ const tmdb = {
                
             }
             else if (details.recType == "movie genre"){
-                items = [items.results[randomIndex(items.results.length)]];
+                if (details.page) {
+                    items = items.results
+                }
+                else{
+                    items = [items.results[randomIndex(items.results.length)]];
+                }
+                
             }
             else{
                 items = items.results
@@ -114,7 +125,18 @@ const tmdb = {
     },
 
     getRecommendations:(object)=>{
+        console.log(tmdb.getURL(object.recType, { id: object.id, page: object.page }))
         return Promise.resolve($.getJSON(tmdb.getURL(object.recType, {id: object.id, page:object.page})));
+    },
+
+    getGenres:(type)=>{
+        return Promise.resolve($.getJSON(`https://api.themoviedb.org/3/genre/${type}/list?api_key=${tmdb.key}&language=en-US`));
+    },
+
+    getEpisodeName:(id, season, episode, callback)=>{
+        let urlString = `https://api.themoviedb.org/3/tv/${id}/season/${season}/episode/${episode}?api_key=405219586381645a0c87c4c5dc9211d9&language=en-US`
+        let episodeDetails = $.getJSON(urlString)
+        episodeDetails.then((episode)=>{callback(episode)});
     },
 
     makeMovieObject:(movieDetails)=>{
@@ -213,3 +235,4 @@ const tmdb = {
         );
     }
 }
+

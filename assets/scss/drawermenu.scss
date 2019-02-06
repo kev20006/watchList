@@ -34,11 +34,8 @@
 }
 
 #filter-menu li{
-  @include add-color(1, nth($default-color,1), nth($default-color,2));
-  @include add-color(2, nth($movie-color,1), nth($movie-color,2));
-  @include add-color(3, nth($tv-color,1), nth($tv-color,2));
-  @include add-color(4, nth($game-color,1), nth($game-color,2));
-  @include add-color(5, nth($book-color,1), nth($book-color,2));
+  @include add-color(nth($default-color,1), nth($default-color,2));
+ 
 }
 
 #add-new-input{
@@ -56,4 +53,10 @@
   &:active{
     background-color: #e2a34a;
     }
+}
+
+#browse-genres{
+  p{
+    display: none;
+  }
 }

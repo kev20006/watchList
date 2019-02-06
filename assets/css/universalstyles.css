@@ -45,4 +45,13 @@ body {
   pointer-events: none;
 }
 
+/*classes for animating collapsable menus*/
+.right {
+  transform: rotate(0deg);
+}
+
+.down {
+  transform: rotate(90deg);
+}
+
 /*# sourceMappingURL=universalstyles.css.map */

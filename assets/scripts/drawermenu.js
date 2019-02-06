@@ -1,6 +1,6 @@
 //animates the drawer menu handles drawer menu events
 
-var menuActive = false;
+let menuActive = false;
 
 
 $(document).on("click", (e) => {
@@ -38,6 +38,24 @@ function performFilter(filterBy, value){
 $("#category-list .add-new").on("click", () => {
     makePopUp("manageFilters")
 })
+
+$("#tv-by-genre").on("click",()=>{
+    $("#tv-genre-search").slideToggle("slow");
+    $("#tv-genre-search").siblings("p").slideUp()
+})
+
+$("#movie-by-genre").on("click", () => {
+    $("#movie-genre-search").slideToggle("slow");
+    $("#movie-genre-search").siblings("p").slideUp();
+})
+
+$("#movie-genres-list").on("change", ()=>{
+    recommendations.recommendationsList({id:$("#movie-genres-list").val(), type: "movie", recType: "movie genre", page:1});
+});
+
+$("#tv-genres-list").on("change", () => {
+    recommendations.recommendationsList({ id: $("#tv-genres-list").val(), type: "tv", recType: "tv genre", page: 1 });
+});
 
 function closeDrawerMenu(){
     menuActive = false;
