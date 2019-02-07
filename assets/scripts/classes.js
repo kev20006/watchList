@@ -73,7 +73,8 @@ It also has methods to generate the HTML for the cards, search results and previ
             .on("click", () => {
                 closePopUp();
                 watchList.add(this);
-                watchList.render(watchlist.contents);
+                watchList.render(watchList.contents);
+              
             })
         buttonWrapper.append(addButton);
         wrapper.append(imgWrapper, textWrapper, buttonWrapper);
@@ -125,7 +126,7 @@ It also has methods to generate the HTML for the cards, search results and previ
             .on("click", () => {
                 closePopUp();
                 watchList.add(this);
-                watchList.render(watchlist.contents);
+                watchList.render(watchList.contents);
                 
             });
         let likeBtn = $(`<div class="d-flex justify-content-center align-items-center btn-thumbs-up btn-success"><i class="fas fa-thumbs-up"></i></div>`)

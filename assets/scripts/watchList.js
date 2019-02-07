@@ -25,6 +25,7 @@ const watchList = {
     },
     contents: [],
     collections: {},
+    returningUser: false,
 /** Load Data From Local Storage**/
     load: ()=>{
         if (window.localStorage.getItem('watchListData')) {
@@ -97,6 +98,10 @@ const watchList = {
                 Promise.all([movieGenresPromise, tvGenresPromise]).then(()=>{
                     watchList.renderDataLists();
                 })
+            }
+
+            if (prevData.list.returningUser){
+                watchList.returningUser = prevData.list.collections;
             }
             watchList.renderDataLists();
             watchList.updateLocalStorage();
@@ -296,7 +301,8 @@ const watchList = {
         watchList.details.movieGenres= [];
         watchList.details.tvGenres = [];
         watchList.contents = [];
-        watchList.collections= {}
+        watchList.collections= {};
+        watchList.returningUser = false;
         watchList.render(watchList.contents);
         watchList.renderCollections(); 
         watchList.updateLocalStorage();
@@ -306,6 +312,6 @@ const watchList = {
 
 watchList.load();
 watchList.render(watchList.contents);
-if (watchList.contents.length == 0){
+if (!watchList.returningUser){
     makePopUp('help')
 }

@@ -174,12 +174,14 @@ function displayHelp(){
         </p>
         <p class="heading mb-3"> <strong>Getting Started:</strong> </p>
         <ul>
-            <li>search for specific using the <i class="fas fa-pen align-self-center"></i> icon</li>
+            <li>search for specific using the <i class="fas fa-plus my-0"></i> icon</li>
             <li>Browse new and popular items by selecting one of the recommendations from the menu</li> 
         </ul>
         <p class="my-2"><small class="text-center"><strong>User History and Watch List are stored using your browsers local storage</strong></small></p>`);
     let okButton = $(`<button type="button" class="btn btn-default mx-auto">OK</button>`)
         .on("click", () => {
+            watchList.returningUser = true;
+            watchList.updateLocalStorage();
             closePopUp();
         });
     let buttonWrapper = $(`<div class="d-flex justify-content-center mb-5"></div>`).append(okButton);
