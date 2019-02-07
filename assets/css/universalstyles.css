@@ -54,4 +54,16 @@ body {
   transform: rotate(90deg);
 }
 
+/*customise select boxes*/
+select {
+  border: none;
+  border-bottom: 2px solid #fcb653;
+}
+select option {
+  background-color: #eee;
+}
+select option:checked {
+  background-color: #fcb653;
+}
+
 /*# sourceMappingURL=universalstyles.css.map */

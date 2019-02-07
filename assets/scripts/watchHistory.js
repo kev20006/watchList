@@ -119,15 +119,27 @@ const watchHistory = {
             </thead>
             </table>
             `);
-        let tableHTMLString = "<tbody>"
+        let tableBody = $("<tbody></tbody>");
         watchList.analytics[type].lastFive.forEach(element => {
-            tableHTMLString += `
-            <tr>
-                <td>${element.title}</td>
-            </tr>`
+            let tableRow = $(`<tr><td>${element.title}</td></tr>`)
+                .on("click", ()=>{
+                    makePopUp()
+                    $("#search-box").addClass("d-none").removeClass("d-flex");
+                    $("#results").html(`
+                        <div class="no-results text-center">
+                            <img src="./assets/images/loading.gif" alt="loader">
+                            <p>fetching preview......</p>
+                        </div>`
+                    );
+                    let movie = tmdb.getDetails({type: type, id:element.id})
+                    movie.then((movieDetails)=>{
+                        $("#results").html("");
+                        $("#results").html(tmdb[`make${capitalise(type)}Object`](movieDetails).itemPreview("recommendation"));
+                    });
+                });
+            tableBody.append(tableRow);
         });
-        tableHTMLString += "</tbody>"
-        lastFiveTable.append(tableHTMLString)
+        lastFiveTable.append(tableBody)
         history.append(lastFiveTable)
         return history;
     },

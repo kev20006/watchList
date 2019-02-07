@@ -189,7 +189,6 @@
   padding-top: 0px;
 }
 #add-or-edit-container #search-box {
-  margin-top: 5px;
   width: 100%;
   font-size: 1.3rem;
   border-bottom: 2px solid #fcb653;
@@ -198,6 +197,7 @@
   background-color: #ddd;
 }
 #add-or-edit-container #search-box input {
+  height: 100%;
   width: 80%;
   background-color: rgba(0, 0, 0, 0);
   outline: none;
@@ -317,11 +317,13 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 .obscure #add-or-edit-container {
+  border-top: 2px solid orange;
+  border-radius: 5px;
+  margin: 50px auto;
   position: relative;
   top: 50px;
   width: 95vw;
   max-width: 600px;
-  min-height: 300px;
   max-height: 80vh;
   overflow-y: scroll;
   overflow-x: hidden;

@@ -72,7 +72,7 @@ const tmdb = {
                 }
                 else{
                     
-                    items = [items.movie_credits.cast[randomIndex(items.results.length)]];
+                    items = [items.movie_credits.cast[randomIndex(items.movie_credits.cast.length)]];
                 }
                
             }

@@ -51,6 +51,36 @@ main .app{
     min-height:90vh;
   }
 
+.page-footer{
+  a{
+    all: unset;
+    cursor: pointer;
+  }
+  .outwardline{
+    transition: all 0.5s;
+    hr{
+      border-top: 2px solid white;
+      position: relative;
+      bottom: 20px;
+      width: 0%;
+      transition: all 0.5s;
+    }
+    &:hover{
+      transform:scale(1.1);
+      hr{
+        width: 70%;
+      }
+    }
+  }
+  i{
+    transition: all 0.2s;
+    &:hover{
+      transform:scale(1.5);
+    }
+  }
+
+}
+
 
 
 

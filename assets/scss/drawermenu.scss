@@ -48,10 +48,10 @@
 
 .category-list li{
   &:hover{
-    background-color: #fcb653;
+    background-color: nth($default-color,1);
     }
   &:active{
-    background-color: #e2a34a;
+    background-color: nth($default-color,2);
     }
 }
 

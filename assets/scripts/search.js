@@ -81,7 +81,6 @@ let searches = {
             } else {
                 let resultsContainer = $(`<div></div>`)
                 person.forEach(element => {
-                    console.log(element)
                     let searchItem = searches.personSearchItem({ name: element.name, id: element.id, profile_path: element.profile_path})
                     .on("click",()=>{
                         searches.actorMovies({id:element.id, name:element.name, page: 1});
@@ -95,8 +94,12 @@ let searches = {
     },
 
     actorMovies:(object)=>{
-        console.log(object)
         $(`#results`).html("");
+        $(`#results`).html(`
+                    <div class="no-results text-center">
+                        <img src="./assets/images/loading.gif" alt="loader">
+                        <p>searching......</p>
+                    </div>`);
         let resultsContainer = $(`<div></div>`)
         $("#search-box input[type=text]").val(object.name)
         tmdb.getObjects(
@@ -108,17 +111,18 @@ let searches = {
                 page: object.page
             },
             (movies) => {
+                $(`#results`).html("");
                 $("#results").attr("data-actorid", object.id)
-                console.log(movies)
                 movies.forEach(movie => {
                     resultsContainer.append(movie.searchItem(true));
                 })
                 $(`#results`).append(resultsContainer);
+                console.log(paginationControls(page, terms, "actor-movies"));
                 $(`#results`).append(paginationControls(page, terms, "actor-movies"));
             });
     },
 
-    personSearchItem: (object)=>{
+    personSearchItem: (object) => {
         let actorpic = `https://image.tmdb.org/t/p/w185${object.profile_path}`;
         if (!object.profile_path){
             actorpic = `./assets/images/no-profile.jpeg`

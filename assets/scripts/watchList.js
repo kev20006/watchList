@@ -3,7 +3,7 @@
 //including analytical data, the current watch lists, tags assigned to each movie.
 
 //html should only be appear in "render" - methods
-let watchList = {
+const watchList = {
 /** Initialise for first use **/
     details:{
         tvGenres: [],
@@ -17,18 +17,6 @@ let watchList = {
             lastFive:[]
         },
         tv: {
-            likes: 0,
-            dislikes: 0,
-            genres: {},
-            lastFive: []
-        },
-        game: {
-            likes: 0,
-            dislikes: 0,
-            genres: {},
-            lastFive: []
-        },
-        book: {
             likes: 0,
             dislikes: 0,
             genres: {},
@@ -92,16 +80,8 @@ let watchList = {
                 } 
                 if (prevData.list.analytics.tv) {
                     watchList.analytics.tv = prevData.list.analytics.tv;
-                }
-                if (prevData.list.analytics.book) {
-                    watchList.analytics.book = prevData.list.analytics.book;
-                }
-                if (prevData.list.analytics.game) {
-                    watchList.analytics.tv = prevData.list.analytics.game;
-                }
-                    
+                }   
             }
-
             if (prevData.list.details.movieGenres.length > 1 && prevData.list.details.tvGenres.length > 1){
                 watchList.details.movieGenres = prevData.list.details.movieGenres;
                 watchList.details.tvGenres = prevData.list.details.tvGenres;
@@ -126,12 +106,10 @@ let watchList = {
     }, 
     add: (obj)=>{
         watchList.contents.push(obj);
-        watchList.render(watchList.contents);
         watchList.updateLocalStorage();
     },
     remove: (id)=>{
         watchList.contents.splice(id, 1);
-        watchList.render(watchList.contents);
         watchList.updateLocalStorage();
     },
     filter: (filterBy, value)=>{
@@ -247,9 +225,9 @@ let watchList = {
         })
     },
     renderDataLists:()=>{
-        $("#movie-genres").html("");
-        $("#tv-genres").html("");
-        $("#tags-list").html("");
+        $("#movie-genres-list").html("");
+        $("#tv-genres-list").html("");
+        $("#tags-list-list").html("");
         console.log(watchList.details.movieGenres)
         watchList.details.movieGenres.forEach(element =>{
             $("#movie-genres-list").append(`<option value="${element.id}">${element.name}</option>`);
@@ -270,11 +248,15 @@ let watchList = {
             } else {
                 watchList.analytics[type].genres[element.name] = 1
             }
-        })
+        });
+                   
+        if (watchList.analytics[type].lastFive.length >= 5) {
+            watchList.analytics[type].lastFive = watchList.analytics[type].lastFive.slice(-4); 
+        }
         watchList.analytics[type].lastFive.push({
             id: id,
-            title: title,
-        })
+            title: title
+        });
         watchList.updateLocalStorage();
     },
     addDislike:(type)=>{

@@ -54,6 +54,18 @@ body {
   transform: rotate(90deg);
 }
 
+/*customise select boxes*/
+select {
+  border: none;
+  border-bottom: 2px solid #fcb653;
+}
+select option {
+  background-color: #eee;
+}
+select option:checked {
+  background-color: #fcb653;
+}
+
 #app {
   overflow: hidden;
 }
@@ -547,7 +559,6 @@ body {
   padding-top: 0px;
 }
 #add-or-edit-container #search-box {
-  margin-top: 5px;
   width: 100%;
   font-size: 1.3rem;
   border-bottom: 2px solid #fcb653;
@@ -556,6 +567,7 @@ body {
   background-color: #ddd;
 }
 #add-or-edit-container #search-box input {
+  height: 100%;
   width: 80%;
   background-color: rgba(0, 0, 0, 0);
   outline: none;
@@ -675,11 +687,13 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
 }
 .obscure #add-or-edit-container {
+  border-top: 2px solid orange;
+  border-radius: 5px;
+  margin: 50px auto;
   position: relative;
   top: 50px;
   width: 95vw;
   max-width: 600px;
-  min-height: 300px;
   max-height: 80vh;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -742,6 +756,33 @@ main .app {
 #watch-list {
   padding-top: 5vh;
   min-height: 90vh;
+}
+
+.page-footer a {
+  all: unset;
+  cursor: pointer;
+}
+.page-footer .outwardline {
+  transition: all 0.5s;
+}
+.page-footer .outwardline hr {
+  border-top: 2px solid white;
+  position: relative;
+  bottom: 20px;
+  width: 0%;
+  transition: all 0.5s;
+}
+.page-footer .outwardline:hover {
+  transform: scale(1.1);
+}
+.page-footer .outwardline:hover hr {
+  width: 70%;
+}
+.page-footer i {
+  transition: all 0.2s;
+}
+.page-footer i:hover {
+  transform: scale(1.5);
 }
 
 /*# sourceMappingURL=main.css.map */

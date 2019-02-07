@@ -2,7 +2,6 @@
   padding-top: 0px;
 }
 #add-or-edit-container #search-box {
-  margin-top: 5px;
   width: 100%;
   font-size: 1.3rem;
   border-bottom: 2px solid #fcb653;
@@ -11,6 +10,7 @@
   background-color: #ddd;
 }
 #add-or-edit-container #search-box input {
+  height: 100%;
   width: 80%;
   background-color: rgba(0, 0, 0, 0);
   outline: none;

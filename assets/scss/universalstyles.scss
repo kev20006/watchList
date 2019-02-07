@@ -47,3 +47,18 @@ body{
 .down{
   transform:rotate(90deg);
 }
+
+
+/*customise select boxes*/
+select{
+  border:none;
+  border-bottom: 2px solid nth($default-color,1);
+
+  option{
+    background-color: #eee;
+    &:checked{
+      background-color:nth($default-color,1);
+    }
+  }
+  
+}

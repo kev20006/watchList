@@ -7,17 +7,21 @@ function closePopUp(){
     });
 }
 
-function makePopUp(type){
+function makePopUp(type, name){
     $("#add-or-edit-container").html("")
     $(".obscure").fadeIn(300)
-    $(".obscure").css("display", "flex");
+    $(".obscure").css("display", "block");
     if (type == "manageFilters"){
         manageFilters();
     }
     else if (type == "help"){
         displayHelp();
-    }else if(type == "reset"){
+    }
+    else if(type == "reset"){
         resetData();
+    }
+    else if (type == "add") {
+        addingItem(type, name);
     }
     else{
         addNewMenu(type);
@@ -29,6 +33,26 @@ $(document).on("click", (e) => {
        closePopUp()
     }
 })
+
+function addingItem(type, name){
+    let typeString = capitalise(type);
+    if (type=="tv"){
+        typeString += " Show";
+    }
+    $("#add-or-edit-container").html(`<div class="p-4"><p class="heading text-center">${name} has been added</p></div>`)
+    let browse = $(`<button type="button" class="btn btn-default">Keep Browsing</button>`)
+        .on("click", ()=>{
+            closePopUp();
+        });
+    let viewList = $(`<button type="button" class="btn btn-default">View My List</button>`)
+        .on("click", () => {
+            closePopUp();
+            watchList.render(watchList.contents);
+        });
+    let buttonWrapper = $(`<div class="d-flex justify-content-around mb-4"></div>`).append(browse, viewList);
+    $("#add-or-edit-container").append(buttonWrapper);
+}
+
 
 function manageFilters(){
     $("#add-or-edit-container").html("")
