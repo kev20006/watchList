@@ -2,7 +2,6 @@
 //This file creates loads and manages all the watchlist data
 //including analytical data, the current watch lists, tags assigned to each movie.
 
-//html should only be appear in "render" - methods
 const watchList = {
 /** Initialise for first use **/
     details:{
@@ -86,7 +85,8 @@ const watchList = {
             if (prevData.list.details.movieGenres.length > 1 && prevData.list.details.tvGenres.length > 1){
                 watchList.details.movieGenres = prevData.list.details.movieGenres;
                 watchList.details.tvGenres = prevData.list.details.tvGenres;
-            }else{
+            }
+            else{
                 let movieGenresPromise = tmdb.getGenres("movie");
                 let tvGenresPromise = tmdb.getGenres("tv");
                 movieGenresPromise.then((movieGenres) => { 
@@ -96,22 +96,34 @@ const watchList = {
                     watchList.details.tvGenres = tvGenres.genres
                 });
                 Promise.all([movieGenresPromise, tvGenresPromise]).then(()=>{
-                    watchList.renderDataLists();
+                    watchListDom.renderDataLists();
                 })
             }
 
             if (prevData.list.returningUser){
                 watchList.returningUser = prevData.list.collections;
             }
-            watchList.renderDataLists();
             watchList.updateLocalStorage();
-            watchList.render(watchList.contents);
-            watchList.renderCollections();
         }
     }, 
     add: (obj)=>{
-        watchList.contents.push(obj);
-        watchList.updateLocalStorage();
+        let matchFound= false
+        watchList.contents.forEach(item =>{
+            console.log(`${item.dbid} is the same as ${obj.dbid}`)
+            if (item.dbid == obj.dbid){
+                matchFound = true;
+                return false;
+            }
+        });
+        if (matchFound){
+            return false;
+        }
+        else{
+            watchList.contents.push(obj);
+            watchList.updateLocalStorage();
+            return true;
+        }
+        
     },
     remove: (id)=>{
         watchList.contents.splice(id, 1);
@@ -123,128 +135,31 @@ const watchList = {
             filterList = watchList.contents.filter((element) => {
                 return element[filterBy] == value;
             })
-        }else{
+        }
+        else{
             filterList = watchList.contents.filter((element) => {
                 if (watchList.collections[value].includes(element.dbid)) return true;
             })
         }
-        let icons = {
-            movie:`<i class="fas fa-film"></i>`,
-            tv:`<i class="fas fa-tv"></i>`,
-            book:`<i class="fas fa-book"></i>`,
-            game:`<i class="fas fa-gamepad"></i>`
-        }
-        if(filterList.length == 0){
-            let htmlString = ""
-            if (filterBy == "type"){
-                let stringFix = ""
-                switch (value){
-                    case "movie": 
-                    case "game":
-                    case "book":
-                        stringFix = `${value}s`;
-                        break;
-                    case "tv":
-                        stringFix = "Tv Shows";
-                        break;
-                }
-                $("#view-title").html(`<h6>${stringFix[0].toUpperCase() + stringFix.slice(1)}</h6>`);
-                htmlString = `<div class="no-results text-center">
-                <h1>${icons[value]}</h1>
-                <h5>Currently you have no ${stringFix} in your list</h5>
-                <p>Click the add button to the right to start adding some ${value}s</p>
-                </div>
-            `
-            }else{
-                $("#view-title").html(`<h6>Items with the ${value} tag </h6>`)
-                htmlString = `
-                <div class="no-results text-center">
-                <h5>Collection: ${value}, no longer has any contents</h5>
-                </div>
-                `
-            }  
-            $("#watch-list").html(htmlString);
-        }else{
-            watchList.render(filterList)
-        }
+        return filterList;
     },
     addCollection: (name, id)=>{
         if (!Object.keys(watchList.collections).includes(name)){
             if(!id){
                 watchList.collections[name] = [];
-            }else{
+            }
+            else{
                 watchList.collections[name] = [id];
             }
-        }else{
+        }
+        else{
             watchList.collections[name].push(id);
         }
-        
-        watchList.renderCollections();
-        watchList.updateLocalStorage();
     },
     removeCollection: (key) =>{
         delete watchList.collections[key]
-        watchList.renderCollections();
-        watchList.updateLocalStorage();
     },
-    render: (list, isRecommendation = false) => {
-        if (list.length >= 1) {
-            let index = 0;
-            $("#watch-list").html("");
-            list.forEach((element) => {
-                element.id = "card-" + index;
-                $("#watch-list").append(element.card(isRecommendation));
-                element.updateCardTags();
-                index++;
-            })
-        } else {
-            $("#watch-list").html(`<div class="no-results text-center">
-                <h1><i class="fas fa-asterisk"></i></h1>
-                <h5>Currently you have no items in your list</h5>
-                <p >Click the add button to the right to start adding movies, tv shows and games to your to watch list</p> 
-                </div>
-            `);
-        }
-        watchList.renderCollections();
-
-    },
-    renderCollections: ()=>{
-        //update collection list in drawer menu
-        $("#category-list").html("");
-        if (Object.keys(watchList.collections).length != 0){
-            Object.entries(watchList.collections).forEach(element =>{
-                let collectionItem = $(`<li>${element[0]}</li>`)
-                    .on("click",()=>{
-                        performFilter("collection", element[0]);
-                    })
-                $("#category-list").append(collectionItem);
-            }) 
-        }
-        let addNew = $("<li class='add-new'>Add or Edit Tags</li>")
-        addNew.on("click", () =>{
-            makePopUp("manageFilters")
-        });
-        $("#category-list").append(addNew)
-        watchList.contents.forEach(element=>{
-            element.updateCardTags();
-        })
-    },
-    renderDataLists:()=>{
-        $("#movie-genres-list").html("");
-        $("#tv-genres-list").html("");
-        $("#tags-list-list").html("");
-        console.log(watchList.details.movieGenres)
-        watchList.details.movieGenres.forEach(element =>{
-            $("#movie-genres-list").append(`<option value="${element.id}">${element.name}</option>`);
-        });
-        watchList.details.tvGenres.forEach(element => {
-            $("#tv-genres-list").append(`<option value="${element.id}">${element.name}</option>`);
-       });
-       Object.keys(watchList.collections).forEach(element =>{
-           $("#tags-list").append(`<option value="${element}"></option>`);
-       })
-       console.log(watchList.collections);
-    },
+    
     addLike:(type, id, title, genres)=>{
         watchList.analytics[type].likes ++
         genres.forEach(element=>{
@@ -303,15 +218,9 @@ const watchList = {
         watchList.contents = [];
         watchList.collections= {};
         watchList.returningUser = false;
-        watchList.render(watchList.contents);
-        watchList.renderCollections(); 
         watchList.updateLocalStorage();
     }
 
 };
 
-watchList.load();
-watchList.render(watchList.contents);
-if (!watchList.returningUser){
-    makePopUp('help')
-}
+

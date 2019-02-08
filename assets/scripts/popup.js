@@ -34,11 +34,7 @@ $(document).on("click", (e) => {
     }
 })
 
-function addingItem(type, name){
-    let typeString = capitalise(type);
-    if (type=="tv"){
-        typeString += " Show";
-    }
+function addingItem(name){
     $("#add-or-edit-container").html(`<div class="p-4"><p class="heading text-center">${name} has been added</p></div>`)
     let browse = $(`<button type="button" class="btn btn-default">Keep Browsing</button>`)
         .on("click", ()=>{
@@ -47,7 +43,7 @@ function addingItem(type, name){
     let viewList = $(`<button type="button" class="btn btn-default">View My List</button>`)
         .on("click", () => {
             closePopUp();
-            watchList.render(watchList.contents);
+            watchListDom.render(watchList.contents);
         });
     let buttonWrapper = $(`<div class="d-flex justify-content-around mb-4"></div>`).append(browse, viewList);
     $("#add-or-edit-container").append(buttonWrapper);
@@ -86,7 +82,7 @@ function manageFilters(){
     let button = $(`<div class="btn my-0"><i class="fas fa-plus"></i></div>`)
     button.on("click", ()=>{
         if ($("#collection-input").val().length > 0) {
-            watchList.addCollection($("#collection-input").val())
+            watchListDOM.addCollection($("#collection-input").val())
             manageFilters()
         };
     });
@@ -103,14 +99,14 @@ function manageFilters(){
                 .on("input",(e)=>{
                     watchList.collections[e.target.value] =  watchList.collections[element]
                     delete watchList.collections[element] 
-                    watchList.renderCollections();
+                    watchListDom.renderCollections();
                     watchList.updateLocalStorage();
                 })
             let arrow = $(`<div class="d-flex align-items-center"><i class="fas fa-arrow-right my-0"></i>`)
             let deleteButton = $(`<div class="d-flex align-items-center btn-delete"><i class="far fa-trash-alt my-0"></i></i></div>`)
                 .on("click", ()=>{
-                    watchList.removeCollection(element)
-                    watchList.renderCollections()
+                    watchListDom.removeCollection(element)
+                    watchListDom.renderCollections()
                     manageFilters()
                 })
             wrapper.append(arrow,input,deleteButton)

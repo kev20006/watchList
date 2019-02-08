@@ -1,4 +1,6 @@
-function showWarning(){
+function showWarning(warningHTML){
+    $("#maxReq-Waring").html(warningHTML)
+        
     $("#maxReq-Waring").removeClass("d-none")
     let refresh = 8
     $("#maxReq-Waring span").html(refresh)
@@ -11,6 +13,7 @@ function showWarning(){
         }
     },1000);
 }
+
 
 function warningDismiss(){
     $("#maxReq-Waring").addClass("d-none")

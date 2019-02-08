@@ -17,7 +17,7 @@ const recommendations = {
                 id: object.id
             }, 
             (movieObjectArray) => {
-                watchList.render(movieObjectArray, true);
+                watchListDom.render(movieObjectArray, true);
                 $("#watch-list").append(
                     `<div id="next-twenty" class="card py-5"></div>
                     `);

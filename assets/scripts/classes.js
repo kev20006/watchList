@@ -59,7 +59,7 @@ It also has methods to generate the HTML for the cards, search results and previ
         wrapper.on("click", () => {
             if(!actorSearch){
                 $("#results").html(this.itemPreview("search"));
-                watchList.renderDataLists(); 
+                watchListDom.renderDataLists(); 
             }
             else{
                 $("#results").html(this.itemPreview("actorSearch"));
@@ -72,8 +72,8 @@ It also has methods to generate the HTML for the cards, search results and previ
                             </div>`)
             .on("click", () => {
                 closePopUp();
-                watchList.add(this);
-                watchList.render(watchList.contents);
+                watchListDom.add(this);
+                watchListDom.render(watchList.contents);
               
             })
         buttonWrapper.append(addButton);
@@ -125,28 +125,28 @@ It also has methods to generate the HTML for the cards, search results and previ
         let addBtn = $(`<div class="d-flex justify-content-center align-items-center btn-add-to-list btn-default"><i class="fas fa-plus my-0"></i></div>`)
             .on("click", () => {
                 closePopUp();
-                watchList.add(this);
-                watchList.render(watchList.contents);
+                watchListDom.add(this);
+                watchListDom.render(watchList.contents);
                 
             });
         let likeBtn = $(`<div class="d-flex justify-content-center align-items-center btn-thumbs-up btn-success"><i class="fas fa-thumbs-up"></i></div>`)
             .on("click",()=>{
                 watchList.addLike(this.type, this.dbid, this.title, this.genre)
-                watchList.remove(this.id.split("-")[1])
-                watchList.render(watchList.contents);
+                watchListDom.remove(this.id.split("-")[1])
+                watchListDom.render(watchList.contents);
                 this.getRecommendations("card");
             });
         let dislikeBtn = $(`<div class="d-flex justify-content-center align-items-center btn-thumbs-down btn-danger"><i class="fas fa-thumbs-down"></i></div>`)
             .on("click", () => {
                 watchList.addDislike(this.type)
-                watchList.remove(this.id.split("-")[1])
-                watchList.render(watchList.contents);
+                watchListDom.remove(this.id.split("-")[1])
+                watchListDom.render(watchList.contents);
                 closePopUp();
             });
         let deleteBtn = $(`<div class="d-flex justify-content-center align-items-center btn-delete btn-default"><i class="fas fa-trash-alt"></i></div>`)
             .on("click", () => {
-                watchList.remove(this.id.split("-")[1]);
-                watchList.render(watchList.contents);
+                watchListDom.remove(this.id.split("-")[1]);
+                watchListDom.render(watchList.contents);
                 closePopUp();
             });
         let backbutton = `<i class="fas fa-times"></i>`;
@@ -205,7 +205,7 @@ It also has methods to generate the HTML for the cards, search results and previ
                         .append(newSpan)
                         .append(this.updateCollections());
                     this.updateCardTags();
-                    watchList.renderDataLists();
+                    watchListDom.renderDataLists();
                     watchList.updateLocalStorage();
                 }
             })
@@ -313,18 +313,16 @@ It also has methods to generate the HTML for the cards, search results and previ
             let thumbUpButton = $(`<div class="d-flex justify-content-center align-items-center btn-actions btn-success"><i class="fas fa-thumbs-up"></i></div>`)
                 .on("click", () => {
                     watchList.addLike(this.type, this.dbid, this.title, this.genre)
-                    watchList.remove(this.id.split("-")[1])
+                    watchListDom.remove(this.id.split("-")[1])
                     this.getRecommendations("card");
-                    watchList.render(watchList.contents);
                 });
             let thumbDownButton = $(`<div class="d-flex justify-content-center align-items-center btn-actions btn-danger"><i class="fas fa-thumbs-down"></i></div>`)
                 .on("click", () => {
                     watchList.addDislike(this.type)
-                    watchList.remove(this.id.split("-")[1]);
-                    watchList.render(watchList.contents);
+                    watchListDom.remove(this.id.split("-")[1]);
                 });
             deleteButton.on("click", () => {
-                watchList.remove(this.id.split("-")[1]);
+                watchListDom.remove(this.id.split("-")[1]);
 
             })
             buttonWrapper.append(thumbUpButton, deleteButton, thumbDownButton)
@@ -337,10 +335,10 @@ It also has methods to generate the HTML for the cards, search results and previ
             quickAdd.on("click", ()=>{
                 if (recommendation == "recommendation"){
                     closePopUp()
-                    watchList.render(watchList.contents)
+                    watchListDom.add(watchList.contents)
                 }
                 else{
-                    watchList.add(this);
+                    watchListDom.add(this, false);
                     makePopUp("add", this.title);
                 }
             })
@@ -460,7 +458,8 @@ class tv extends watchItem{
         let episodeList = $(`<div id="episodes" class="d-flex flex-wrap"></div>`)
         let sIndex = 0;
         this.epTracker.forEach(season =>{
-            let epButton = $(`<span id="s-${sIndex}" class="mx-2 season button">${season.name}</span>`)
+            let epButton = $(
+                `<span id="s-${sIndex}" class="mx-2 season button">${season.name}</span>`)
             .on("click", (e)=>{
                 $("#episodes").html("");
                 $(e.target).addClass("selected");
@@ -470,7 +469,9 @@ class tv extends watchItem{
                     if(episode.watched){
                         state = "watched"
                     }
-                    let episodeButon = $(`<span id="S-${e.target.id.split("-")[1]}-E-${episode.episode}" class="mx-2 season-button ${state}">E-${episode.episode}</span>`)
+                    let episodeButon = $(`
+                    <span id="S-${e.target.id.split("-")[1]}-E-${episode.episode}" 
+                    class="mx-2 season-button ${state}">E-${episode.episode}</span>`)
                         .on("click", (e) => {
                             $(".ep-details").html("fetching episode information...")
                             let series = e.target.id.split("-");
@@ -478,15 +479,21 @@ class tv extends watchItem{
                             tmdb.getEpisodeName(this.dbid, series[1], series[3], (episode)=>{
                                 $(".ep-details").html("");
                                 $(".ep-details").append(`
-                                    <p class="mt-2 mb-0 text-center heading"><strong>${episode.name}</strong></p>
-                                    <p class="text-right"><small>first aired: ${tmdbDateFix(episode.air_date)}</small>
+                                    <p class="mt-2 mb-0 text-center heading">
+                                        <strong>${episode.name}</strong>
+                                    </p>
+                                    <p class="text-right">
+                                        <small>first aired: ${tmdbDateFix(episode.air_date)}</small>
                                     <p class="desc-box">${episode.overview}</p>
                                     `);
                                 let buttonText = "Mark as Watched";
-                                if (this.epTracker[series[1]].episodes[series[3] - 1]){
+                                if (this.epTracker[series[1]].episodes[series[3] - 1].watched){
                                     buttonText = "Unmark as Watched"
                                 }
-                                let confirmButton = $(`<div id="confirm-button" class="btn-default w-23 mx-auto text-center">${buttonText}</div>`)
+                                let confirmButton = $(`
+                                    <div id="confirm-button" class="btn-default w-23 mx-auto text-center">
+                                        ${buttonText}
+                                    </div>`)
                                     .on("click",()=>{
                                         if (this.epTracker[series[1]].episodes[series[3] - 1].watched) {
                                             this.epTracker[series[1]].episodes[series[3] - 1].watched = false;

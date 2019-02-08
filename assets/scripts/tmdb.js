@@ -104,15 +104,36 @@ const tmdb = {
             })
             .catch(e=>{
                 if (e.status == 429){
-                    showWarning()
+                    showWarning(
+                        `Maximum Requests made.Retrying Request in
+                        <span id="warning-time-left"></span>
+                        Seconds - click to close this warning`
+                        );
                     setTimeout(() => {tmdb.getObjects(details, callback)}, 8000);
                     
+                }
+                else {
+                    console.log("Catching Movie List Error");
+                    console.log(e);
                 }
             });
         })
         .catch(e=>{
-            console.log("Catching Movie List Error");
-            console.log(e);
+            if (e.status == 429) {
+                showWarning(
+                    `Maximum Requests made.Retrying Request in
+                        <span id="warning-time-left"></span>
+                        Seconds - click to close this warning`
+                );
+                setTimeout(() => { tmdb.getObjects(details, callback) }, 8000);
+            }
+            else {
+                console.log("Catching Movie List Error");
+                console.log(e);
+            }
+            
+            
+            
         });
     },
 

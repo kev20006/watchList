@@ -26,10 +26,10 @@ $(document).on("click", (e) => {
 function performFilter(filterBy, value){
     if (value =="all"){
         $("#view-title").html(`<h6>All Items</h6>`);
-        watchList.render(watchList.contents);
+        watchListDom.render(watchList.contents);
     }
     else{
-        watchList.filter(filterBy, value);
+        watchListDom.filter(filterBy, value);
     }
     menuActive = false;
     closeDrawerMenu()
