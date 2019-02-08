@@ -1,85 +1,16 @@
-@import "constants.scss";
+@import "constants";
 @import "mixins";
-@import "universalstyles.scss";
-@import "drawermenu.scss";
-@import "moviecard.scss";
-@import "navbuttons.scss";
-@import "errorstyles.scss";
-@import "./components/popup.scss";
+@import "universalstyles";
+@import "errorstyles";
+@import "./components/components";
+@import "./page/page";
+@import "./components/popup";
 
 
 
-#view-title{
-  margin-top: 55px;
-}
-.navbar{
-  background-color:  nth($default-color,2);
-  box-shadow: $shadow;
-}
-
-.list-card{
-  box-shadow: $shadow;
-  border-radius: 15px;
-}
-
-main .app{
-  background-color:#eeeeee;
-  min-height:100vh;
-  width:100vw;
-}
 
 
-#create-item-menu{
-  font-size: 0.8rem;
-  text-align: left;
-  
-}
 
-.menu-item{
-  padding: 10px 0px 10px 0px;
-  padding-left:15px;
-}
-
-.page-footer{
-  padding-top:30px;
-  color:white;
-  background-color: black;
-}
-
-#watch-list{
-    padding-top: 5vh;
-    min-height:90vh;
-  }
-
-.page-footer{
-  a{
-    all: unset;
-    cursor: pointer;
-  }
-  .outwardline{
-    transition: all 0.5s;
-    hr{
-      border-top: 2px solid white;
-      position: relative;
-      bottom: 20px;
-      width: 0%;
-      transition: all 0.5s;
-    }
-    &:hover{
-      transform:scale(1.1);
-      hr{
-        width: 70%;
-      }
-    }
-  }
-  i{
-    transition: all 0.2s;
-    &:hover{
-      transform:scale(1.5);
-    }
-  }
-
-}
 
 
 

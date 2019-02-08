@@ -1,5 +1,3 @@
-
-
 @import "../constants.scss";
 @import "./popup-submenus/preview.scss";
 @import "./popup-submenus/search.scss";
@@ -16,13 +14,13 @@
   #add-or-edit-container{
     border-top: 2px solid orange;
     border-radius:5px;
-    margin: 50px auto;
+    margin: auto auto;
     position: relative;
     top: 50px;
     width: 95vw;
     max-width: 600px;
     max-height:80vh;
-    overflow-y:scroll; 
+    overflow-y:auto; 
     overflow-x:hidden;
     background-color: white;
     box-shadow:1px 1px 2px rgba(0,0,0,0.1);

@@ -1,3 +1,16 @@
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+.heading {
+  font-family: "Bungee", cursive;
+}
+
+.navbar {
+  background-color: #e2a34a;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5), -1px -1px 5px rgba(0, 0, 0, 0.5);
+}
+
 #add {
   position: absolute;
   top: 7px;
@@ -38,10 +51,10 @@
   right: 5%;
   z-index: -5;
   display: none;
-  background-color: #8BEF86;
+  background-color: #fcb653;
 }
 #movie:hover {
-  background-color: #69EF62;
+  background-color: #e2a34a;
 }
 #movie:hover::before {
   background: #111;
@@ -69,10 +82,10 @@
   right: 5%;
   z-index: -5;
   display: none;
-  background-color: #FF7770;
+  background-color: #fcb653;
 }
 #tv:hover {
-  background-color: #F2716A;
+  background-color: #e2a34a;
 }
 #tv:hover::before {
   background: #111;
@@ -100,16 +113,17 @@
   right: 5%;
   z-index: -5;
   display: none;
-  background-color: #6BF9F9;
+  background-color: #fcb653;
 }
 #person:hover {
-  background-color: #43F2F2;
+  background-color: #e2a34a;
 }
 #person:hover::before {
   background: #111;
   background: rgba(0, 0, 0, 0.8);
   border-radius: 0.5em;
   color: #fff;
+  content: "Search Actors";
   display: block;
   right: 50px;
   top: 0px;
@@ -124,41 +138,53 @@
   font-size: 1.5rem;
 }
 
-#book {
-  position: absolute;
-  top: 7px;
-  right: 5%;
-  z-index: -5;
-  display: none;
-  background-color: #FF96FF;
-}
-#book:hover {
-  background-color: #F26AF2;
-}
-#book:hover::before {
-  background: #111;
-  background: rgba(0, 0, 0, 0.8);
-  border-radius: 0.5em;
-  color: #fff;
-  content: "New Book";
-  display: block;
-  right: 50px;
-  top: 0px;
-  padding: 0.3em 1em;
-  position: absolute;
-  text-shadow: 0 1px 0 #000;
-  white-space: nowrap;
-  z-index: 98;
-  font-size: 1rem;
-}
-#book i {
-  font-size: 1.5rem;
-}
-
 .nav-button {
   border-radius: 50%;
   width: 40px;
   height: 40px;
 }
 
-/*# sourceMappingURL=navbuttons.css.map */
+main .app {
+  background-color: #eeeeee;
+  min-height: 75vh;
+  width: 100vw;
+}
+
+#watch-list {
+  padding-top: 5vh;
+  min-height: 85vh;
+}
+
+.page-footer {
+  padding-top: 30px;
+  color: white;
+  background-color: black;
+}
+.page-footer a {
+  all: unset;
+  cursor: pointer;
+}
+.page-footer .outwardline {
+  transition: all 0.5s;
+}
+.page-footer .outwardline hr {
+  border-top: 2px solid white;
+  position: relative;
+  bottom: 20px;
+  width: 0%;
+  transition: all 0.5s;
+}
+.page-footer .outwardline:hover {
+  transform: scale(1.1);
+}
+.page-footer .outwardline:hover hr {
+  width: 100%;
+}
+.page-footer i {
+  transition: all 0.2s;
+}
+.page-footer i:hover {
+  transform: scale(1.5);
+}
+
+/*# sourceMappingURL=page.css.map */

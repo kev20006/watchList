@@ -19,8 +19,12 @@
   .controls{
     margin-bottom:10px;
     height:60px;
-    border-top: 2px solid orange;
-    border-bottom: 2px solid orange;
+      border-bottom: 4px solid nth($default-color, 1);
+    @media screen and (max-width: 575px) {
+      border-top: 4px solid nth($default-color, 1);
+      border-bottom: 4px solid nth($default-color, 1);
+    }
+    
     div{
       width: 30px;
       height:30px;
@@ -94,7 +98,7 @@
   }
   .desc-box{
     max-height:200px;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
   .actor-thumb{
 

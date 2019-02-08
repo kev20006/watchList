@@ -1,5 +1,5 @@
-@import "constants.scss";
-@import "mixins.scss";
+@import "../constants.scss";
+@import "../mixins.scss";
 
 #app{
   overflow: hidden;
@@ -15,7 +15,7 @@
   width:230px;
   border-right:4px solid nth($default-color,1);
   background-color: white;
-  overflow-y: scroll;
+  overflow-y: auto;
   .sub-head{
     font-size: 1.1rem;
     padding-left:10px;

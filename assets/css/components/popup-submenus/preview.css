@@ -15,8 +15,13 @@
 .preview .controls {
   margin-bottom: 10px;
   height: 60px;
-  border-top: 2px solid orange;
-  border-bottom: 2px solid orange;
+  border-bottom: 4px solid #fcb653;
+}
+@media screen and (max-width: 575px) {
+  .preview .controls {
+    border-top: 4px solid #fcb653;
+    border-bottom: 4px solid #fcb653;
+  }
 }
 .preview .controls div {
   width: 30px;
@@ -148,7 +153,7 @@
 }
 .preview .desc-box {
   max-height: 200px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .preview .actor-thumb {
   margin: 0 auto;

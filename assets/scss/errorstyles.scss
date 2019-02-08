@@ -1,5 +1,7 @@
 @import "constants.scss";
 
+
+/*styles for text that displays when no results are found*/
 .no-results{
     margin-top:150px;
     color:#dddddd;
@@ -7,4 +9,14 @@
         font-size:5rem;
         color:#dddddd;
     }
+}
+
+
+/*Styles for the warning modal that pops up if an error occurs on the site*/
+.alert-warning{
+  text-align: center;
+  position: fixed;
+  top: 50px;
+  z-index: 9999;
+  width: 100%;
 }

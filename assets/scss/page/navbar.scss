@@ -1,5 +1,13 @@
-@import "constants.scss";
-@import "mixins.scss";
+@import "../constants.scss";
+@import "../mixins.scss";
+
+
+.navbar{
+  background-color:  nth($default-color,2);
+  box-shadow: $shadow;
+}
+
+
 
 $colorlist:(
   add: $default-color,
@@ -13,12 +21,12 @@ $toolTips:(
   add: "click here to add a new item",
   movie: "Add Movie",
   tv: "Add Tv Show",
-  Person: "Search Actors",
-  book: "New Book"
+  person: "Search Actors",
 );
 
-$typelist: add, movie, tv, person, book;
+$typelist: add, movie, tv, person;
 $zpos: -5;
+
 
 @each $type in $typelist{
   ##{$type}{
@@ -32,9 +40,9 @@ $zpos: -5;
       z-index:10;
       display:flex;
     }
-    background-color: nth(map-get($colorlist,$type),1);
+    background-color: nth($default-color,1);
     &:hover{
-      background-color: nth(map-get($colorlist,$type),2);
+      background-color: nth($default-color,2);
       @include tooltip(map-get($toolTips,$type), 50px, 0px, nowrap);
     }
     i{
@@ -48,6 +56,3 @@ $zpos: -5;
   width:40px;
   height:40px;
 }
-
-
-

@@ -34,7 +34,7 @@
   bottom: -110%;
   background-color: white;
   transition: bottom 1s;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 .card .card-inner .card-info .year {
@@ -59,10 +59,17 @@
 }
 
 .info-card {
-  overflow-y: scroll;
+  overflow-y: auto;
+  border: 5px solid white;
   height: 50vh;
   width: 95%;
   max-width: 350px;
+}
+@media screen and (max-width: 575px) {
+  .info-card {
+    height: 80vh;
+    border-bottom: 4px solid #fcb653;
+  }
 }
 .info-card hr {
   margin: 0px;

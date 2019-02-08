@@ -21,11 +21,8 @@
     
 </head>
 <body>
-    <!-- navbar starts here -->
-    <datalist id="tv-genres"></datalist>
-    <datalist id="movie-genres"></datalist>
-    <datalist id="tags"></datalist>
     <main id="app">
+        <!-- navbar starts here -->
         <nav class="navbar fixed-top d-flex py-0">
             <div class="navbar-brand d-flex">
                 <div class="mr-3 align-self-center">
@@ -37,11 +34,18 @@
                 </div>    
             </div>
             <div class="d-flex">
-                <div id="add" class="icon nav-button ml-2 d-flex justify-content-center align-items-center"><i class="fas fa-plus my-0"></i></div>
-                <div id="movie" class="icon nav-button ml-2 d-flex d-none justify-content-center"><i class="fas fa-film align-self-center"></i></div>
-                <div id="tv" class="icon nav-button ml-2 d-flex d-none justify-content-center"><i class="fas fa-tv align-self-center"></i></div>
-                <div id="person" class="icon nav-button ml-2 d-flex d-none justify-content-center"><i class="fas fa-users align-self-center"></i></div>
-                <div id="book" class="icon nav-button ml-2 d-flex d-none justify-content-center"><i class="fas fa-book align-self-center"></i></div>
+                <div id="add" class="icon nav-button ml-2 d-flex justify-content-center align-items-center">
+                    <i class="fas fa-plus my-0"></i>
+                </div>
+                <div id="movie" class="icon nav-button ml-2 d-flex justify-content-center align-items-center d-none">
+                    <i class="fas fa-film align-self-center"></i>
+                </div>
+                <div id="tv" class="icon nav-button ml-2 d-flex justify-content-center align-items-center d-none">
+                    <i class="fas fa-tv align-self-center"></i>
+                </div>
+                <div id="person" class="icon nav-button ml-2 d-flex justify-content-center align-items-center d-none">
+                    <i class="fas fa-users align-self-center"></i>
+                </div>
             </div>
         </nav>
         <!-- navbar ends here -->
@@ -106,7 +110,7 @@
                     <div class="outwardline"> 
                         <h3><a href="https://github.com/kev20006/watchList" target="_blank"><i class="fab fa-github"></i></a>
                     </div>
-                    <div class="d-flex flex-wrap">
+                    <div class="d-flex flex-wrap justify-content-center">
                     <p><small>All movie information is provided by: </small></p>
                         <div class="outwardline ml-4">
                             <p><small><a href="https://www.themoviedb.org/" target="_blank">https://www.themoviedb.org/</a></small></p>
@@ -138,6 +142,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
     <!-- Custom Scripts-->
+    
     <script type="text/javascript" src="./assets/scripts/utilityFunctions.js"></script>
     <script type="text/javascript" src="./assets/scripts/classes.js"></script>
     <script type="text/javascript" src="./assets/scripts/menu.js"></script>
@@ -150,7 +155,8 @@
     <script type="text/javascript" src="./assets/scripts/warning.js"></script>
     <script type="text/javascript" src="./assets/scripts/watchHistory.js"></script>
     <script type="text/javascript" src="./assets/scripts/watchListDom.js"></script>
-    <!-- End of Custom Scripts-->
+
+    <!-- End of Custom Scripts--
 
 </body>
 </html>

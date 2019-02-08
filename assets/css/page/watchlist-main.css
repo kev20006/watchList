@@ -1,0 +1,12 @@
+main .app {
+  background-color: #eeeeee;
+  min-height: 75vh;
+  width: 100vw;
+}
+
+#watch-list {
+  padding-top: 5vh;
+  min-height: 85vh;
+}
+
+/*# sourceMappingURL=watchlist-main.css.map */

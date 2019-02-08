@@ -1,3 +1,9 @@
+/***********************************TMDB********************************************/
+
+//ALL API calls to The Movie Database are handled in this file.
+
+/***********************************TMDB********************************************/
+
 //ALL API calls to The Movie Database are handled in this file.
 
 const tmdb = {
@@ -57,7 +63,6 @@ const tmdb = {
             list = tmdb.getRecommendations(details)
         }
         list.then((items)=>{
-            console.log(items)
             if (details.recType == "movie actor"){
                 if (details.page){
                     let upperbound = (details.page * 20) - 1;
@@ -65,10 +70,7 @@ const tmdb = {
                         upperbound = items.movie_credits.cast.length
                     }
                     let lowerbound = (details.page - 1) * 20;
-                    console.log(items)
-                    console.log(`${lowerbound} and ${upperbound}`)
                     items = items.movie_credits.cast.slice(lowerbound, upperbound);
-                    console.log(items)
                 }
                 else{
                     
@@ -88,8 +90,7 @@ const tmdb = {
             else{
                 items = items.results
             }
-            console.log(items)
-            itemPromises = [];
+            let itemPromises = [];
             items.forEach((element)=>{
                 itemPromises.push(tmdb.getDetails({type: details.type, id: element.id}))
             })
@@ -146,7 +147,6 @@ const tmdb = {
     },
 
     getRecommendations:(object)=>{
-        console.log(tmdb.getURL(object.recType, { id: object.id, page: object.page }))
         return Promise.resolve($.getJSON(tmdb.getURL(object.recType, {id: object.id, page:object.page})));
     },
 
@@ -155,14 +155,15 @@ const tmdb = {
     },
 
     getEpisodeName:(id, season, episode, callback)=>{
-        let urlString = `https://api.themoviedb.org/3/tv/${id}/season/${season}/episode/${episode}?api_key=405219586381645a0c87c4c5dc9211d9&language=en-US`
-        let episodeDetails = $.getJSON(urlString)
+        let urlString = `https://api.themoviedb.org/3/tv/${id}/season/${season}/episode/${episode}?api_key=405219586381645a0c87c4c5dc9211d9&language=en-US`;
+        let episodeDetails = $.getJSON(urlString);
         episodeDetails.then((episode)=>{callback(episode)});
     },
 
     makeMovieObject:(movieDetails)=>{
         let thumb = "https://image.tmdb.org/t/p/w92";
         let lrgImage = "https://image.tmdb.org/t/p/w600_and_h900_bestv2";
+        let director = "None Given";
         movieDetails.credits.crew.forEach(element => {
             if (element.job == "Director") {
                 director = element.name;
@@ -225,7 +226,7 @@ const tmdb = {
         let epTracker = []
         tvDetails.seasons.forEach(element =>{
             let episodes = []
-            for (i = 0; i < element.episode_count; i++){
+            for (let i = 0; i < element.episode_count; i++){
                 episodes.push({
                     watched: false,
                     episode: i+1,
@@ -256,4 +257,3 @@ const tmdb = {
         );
     }
 }
-

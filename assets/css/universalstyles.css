@@ -1,3 +1,44 @@
+.btn-default {
+  position: relative;
+  background-color: #fcb653;
+}
+.btn-default:hover {
+  background-color: #e2a34a;
+}
+
+/* Styles for the material design style text-boxes */
+.input-box-wrapper {
+  position: relative;
+}
+.input-box-wrapper label {
+  position: absolute;
+  left: 5%;
+  bottom: 0px;
+  pointer-events: none;
+}
+
+/* classes for animating collapsable menus */
+.right {
+  transform: rotate(0deg);
+}
+
+.down {
+  transform: rotate(90deg);
+}
+
+/* customise select boxes */
+select {
+  border: none;
+  border-bottom: 2px solid #fcb653;
+}
+select option {
+  background-color: #eee;
+}
+select option:checked {
+  background-color: #fcb653;
+}
+
+/*Tag Formatting*/
 .collection-tag {
   background-color: #ddd;
   border-radius: 5px;
@@ -9,61 +50,6 @@
 }
 .collection-tag:active {
   background-color: #e2a34a;
-}
-
-.alert-warning {
-  text-align: center;
-  position: fixed;
-  top: 50px;
-  z-index: 9999;
-  width: 100%;
-}
-
-.btn-default {
-  position: relative;
-  background-color: #fcb653;
-}
-.btn-default:hover {
-  background-color: #e2a34a;
-}
-
-body {
-  font-family: "Montserrat", sans-serif;
-}
-
-.heading {
-  font-family: "Bungee", cursive;
-}
-
-.input-box-wrapper {
-  position: relative;
-}
-.input-box-wrapper label {
-  position: absolute;
-  left: 5%;
-  bottom: 0px;
-  pointer-events: none;
-}
-
-/*classes for animating collapsable menus*/
-.right {
-  transform: rotate(0deg);
-}
-
-.down {
-  transform: rotate(90deg);
-}
-
-/*customise select boxes*/
-select {
-  border: none;
-  border-bottom: 2px solid #fcb653;
-}
-select option {
-  background-color: #eee;
-}
-select option:checked {
-  background-color: #fcb653;
 }
 
 /*# sourceMappingURL=universalstyles.css.map */

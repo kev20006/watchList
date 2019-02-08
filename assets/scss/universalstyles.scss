@@ -1,33 +1,12 @@
 @import "constants.scss";
 @import "mixins.scss";
 
-.collection-tag{
-  background-color: #ddd;
-  border-radius: 5px;
-  padding: 0px 5px;
-  transition: background-color 1s;
-  @include collections-add-color(nth($default-color,1), nth($default-color,2));
-}
 
-.alert-warning{
-  text-align: center;
-  position: fixed;
-  top: 50px;
-  z-index: 9999;
-  width: 100%;
-}
 .btn-default{
   @include buttonClick(nth($default-color,1), nth($default-color,2));
 }
 
-body{
-  font-family: 'Montserrat', sans-serif;
-}
-
-.heading{
-  font-family: 'Bungee', cursive;
-}
-
+/* Styles for the material design style text-boxes */
 .input-box-wrapper{
   position:relative;
   label{
@@ -39,7 +18,7 @@ body{
 }
 
 
-/*classes for animating collapsable menus*/
+/* classes for animating collapsable menus */
 .right{
   transform: rotate(0deg);
 }
@@ -49,7 +28,7 @@ body{
 }
 
 
-/*customise select boxes*/
+/* customise select boxes */
 select{
   border:none;
   border-bottom: 2px solid nth($default-color,1);
@@ -60,5 +39,13 @@ select{
       background-color:nth($default-color,1);
     }
   }
-  
+}
+
+/*Tag Formatting*/
+.collection-tag{
+  background-color: #ddd;
+  border-radius: 5px;
+  padding: 0px 5px;
+  transition: background-color 1s;
+  @include collections-add-color(nth($default-color,1), nth($default-color,2));
 }
