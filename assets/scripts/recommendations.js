@@ -35,6 +35,8 @@ const recommendations = {
                             Next 20 <i class="fas fa-arrow-right ml-2"></i>
                         </div>`
 					).on('click', () => {
+						document.body.scrollTop = 0; // For Safari
+						document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 						recommendations.recommendationsList({
 							type: object.type,
 							recType: object.recType,
@@ -47,6 +49,8 @@ const recommendations = {
                             <i class="fas fa-arrow-left"></i> <span class="ml-2">prev 20</span>
                         </div>`
 					).on('click', () => {
+						document.body.scrollTop = 0; // For Safari
+						document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 						recommendations.recommendationsList({
 							type: object.type,
 							recType: object.recType,

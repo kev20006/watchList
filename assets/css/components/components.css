@@ -118,9 +118,16 @@
 
 .info-card {
   overflow-y: auto;
+  border: 5px solid white;
   height: 50vh;
   width: 95%;
   max-width: 350px;
+}
+@media screen and (max-width: 575px) {
+  .info-card {
+    height: 80vh;
+    border-bottom: 4px solid #fcb653;
+  }
 }
 .info-card hr {
   margin: 0px;
@@ -264,6 +271,7 @@
 }
 .preview .tag {
   padding: 0px 5px;
+  margin-bottom: 2px;
   border-radius: 40px;
   background-color: orange;
   margin-left: 5px;
@@ -273,7 +281,7 @@
   border: none;
   background: none;
   padding: 0px 5px;
-  width: 100px;
+  width: 120px;
 }
 .preview .add-tag::placeholder {
   color: black;
@@ -311,13 +319,17 @@
   margin-bottom: 0px;
   height: 131px;
 }
-.preview .watched {
-  border-radius: 50%;
-  background-color: #bbb;
-}
 .preview .selected {
   border-radius: 10px;
+  background-color: #ddd;
+}
+.preview .watched {
+  border-radius: 10px;
   background-color: orange;
+}
+.preview .season-button {
+  padding: 5px;
+  cursor: pointer;
 }
 
 #add-or-edit-container {

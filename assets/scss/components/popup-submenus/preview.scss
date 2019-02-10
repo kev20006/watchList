@@ -82,6 +82,7 @@
   }
   .tag{
     padding: 0px 5px;
+    margin-bottom:2px;
     border-radius:40px;
     background-color:orange;
     margin-left: 5px;
@@ -92,7 +93,7 @@
     border:none;
     background: none;
     padding: 0px 5px;
-    width:100px;
+    width:120px;
     &::placeholder { color: black;}
     &:focus {outline:0;}
   }
@@ -128,12 +129,16 @@
     margin-bottom: 0px;
     height: 131px;
   }
-  .watched{
-    border-radius:50%;
-    background-color: #bbb;
-  }
   .selected{
     border-radius:10px;
+    background-color: #ddd;
+  }
+  .watched{
+    border-radius:10px;
     background-color: orange;
+  }
+  .season-button{
+      padding: 5px;
+      cursor: pointer;
   }
 }

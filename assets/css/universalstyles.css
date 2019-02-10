@@ -41,6 +41,7 @@ select option:checked {
 /*Tag Formatting*/
 .collection-tag {
   background-color: #ddd;
+  margin-bottom: 5px;
   border-radius: 5px;
   padding: 0px 5px;
   transition: background-color 1s;

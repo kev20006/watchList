@@ -109,7 +109,6 @@ const watchList = {
 		watchList.contents.forEach(item => {
 			if (item.dbid == obj.dbid) {
 				matchFound = true;
-				return false;
 			}
 		});
 		if (matchFound) {
@@ -121,8 +120,10 @@ const watchList = {
 		}
 	},
 	remove: id => {
-		watchList.contents.splice(id, 1);
-		watchList.updateLocalStorage();
+		if (id >= 0 && id < watchList.contents.length){
+			watchList.contents.splice(id, 1);
+			watchList.updateLocalStorage();
+		}
 	},
 	filter: (filterBy, value) => {
 		let filterList = {};
@@ -139,7 +140,7 @@ const watchList = {
 	},
 	addCollection: (name, id = undefined) => {
 		if (!Object.keys(watchList.collections).includes(name)) {
-			if (!id) {
+			if (id == undefined) {
 				watchList.collections[name] = [];
 			} else {
 				watchList.collections[name] = [id];
@@ -152,27 +153,32 @@ const watchList = {
 		delete watchList.collections[key];
 	},
 
-	addLike: (type, id, title, genres) => {
-		watchList.analytics[type].likes++;
-		genres.forEach(element => {
-			if (watchList.analytics[type].genres[element.name]) {
-				watchList.analytics[type].genres[element.name] += 1;
-			} else {
-				watchList.analytics[type].genres[element.name] = 1;
-			}
-		});
+	addLike: (object) => {
+		watchList.analytics[object.type].likes++;
+		if (object.genre && object.genre.length >= 1){
+			object.genre.forEach(element => {
+				if (watchList.analytics[object.type].genres[element.name]) {
+					watchList.analytics[object.type].genres[element.name] += 1;
+				} else {
+					watchList.analytics[object.type].genres[element.name] = 1;
+				}
+			});
 
-		if (watchList.analytics[type].lastFive.length >= 5) {
-			watchList.analytics[type].lastFive = watchList.analytics[type].lastFive.slice(-4);
 		}
-		watchList.analytics[type].lastFive.push({
-			id: id,
-			title: title,
+
+		if (watchList.analytics[object.type].lastFive.length >= 5) {
+			watchList.analytics[object.type].lastFive = watchList.analytics[object.type].lastFive.slice(-4);
+		}
+		watchList.analytics[object.type].lastFive.push({
+			id: object.dbid,
+			title: object.title,
 		});
+		watchList.remove(object.id.split('-')[1]);
 		watchList.updateLocalStorage();
 	},
-	addDislike: type => {
-		watchList.analytics[type].dislikes++;
+	addDislike: (object) => {
+		watchList.analytics[object.type].dislikes++;
+		watchList.remove(object.id.split('-')[1]);
 		watchList.updateLocalStorage();
 	},
 	updateLocalStorage: () => {

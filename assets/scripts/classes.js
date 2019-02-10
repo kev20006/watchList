@@ -140,16 +140,14 @@ class watchItem {
 		let likeBtn = $(
 			`<div class="d-flex justify-content-center align-items-center btn-thumbs-up btn-success"><i class="fas fa-thumbs-up"></i></div>`
 		).on('click', () => {
-			watchList.addLike(this.type, this.dbid, this.title, this.genre);
-			watchListDom.remove(this.id.split('-')[1]);
+			watchList.addLike(this);
 			watchListDom.render(watchList.contents);
 			this.getRecommendations('card');
 		});
 		let dislikeBtn = $(
 			`<div class="d-flex justify-content-center align-items-center btn-thumbs-down btn-danger"><i class="fas fa-thumbs-down"></i></div>`
 		).on('click', () => {
-			watchList.addDislike(this.type);
-			watchListDom.remove(this.id.split('-')[1]);
+			watchList.addDislike(this);
 			watchListDom.render(watchList.contents);
 			closePopUp();
 		});
@@ -337,15 +335,15 @@ class watchItem {
 			let thumbUpButton = $(
 				`<div class="d-flex justify-content-center align-items-center btn-actions btn-success"><i class="fas fa-thumbs-up"></i></div>`
 			).on('click', () => {
-				watchList.addLike(this.type, this.dbid, this.title, this.genre);
-				watchListDom.remove(this.id.split('-')[1]);
+				watchList.addLike(this);
+				watchListDom.render(watchList.contents);
 				this.getRecommendations('card');
 			});
 			let thumbDownButton = $(
 				`<div class="d-flex justify-content-center align-items-center btn-actions btn-danger"><i class="fas fa-thumbs-down"></i></div>`
 			).on('click', () => {
-				watchList.addDislike(this.type);
-				watchListDom.remove(this.id.split('-')[1]);
+				watchList.addDislike(this);
+				watchListDom.render(watchList.contents);
 			});
 			deleteButton.on('click', () => {
 				watchListDom.remove(this.id.split('-')[1]);
@@ -493,10 +491,15 @@ class tv extends watchItem {
 		let seasonList = $(`<div id="seasons" class="d-flex flex-wrap"></div>`);
 		let episodeList = $(`<div id="episodes" class="d-flex flex-wrap"></div>`);
 		let sIndex = 0;
+		//loop through the seasons
 		this.epTracker.forEach(season => {
-			let epButton = $(`<span id="s-${sIndex}" class="mx-2 season button">${season.name}</span>`).on(
-				'click',
-				e => {
+			let epButton = $(`<span id="s-${sIndex}" class="mx-2 season-button">${season.name}</span>`)
+			if (this.epTracker[sIndex].episodes.every(e =>{return e.watched})){
+				epButton.addClass("watched")
+			}
+			//$(`#s-${ sIndex }`).
+			//season button event handler
+			epButton.on('click', e => {
 					$('#episodes').html('');
 					$(e.target).addClass('selected');
 					$(e.target)
@@ -508,42 +511,56 @@ class tv extends watchItem {
 							state = 'watched';
 						}
 						let episodeButon = $(`
-                    <span id="S-${e.target.id.split('-')[1]}-E-${episode.episode}" 
-                    class="mx-2 season-button ${state}">E-${episode.episode}</span>`).on('click', e => {
-							$('.ep-details').html('fetching episode information...');
-							let series = e.target.id.split('-');
-							tmdb.getEpisodeName(this.dbid, series[1], series[3], episode => {
-								$('.ep-details').html('');
-								$('.ep-details').append(`
-                                    <p class="mt-2 mb-0 text-center heading">
-                                        <strong>${episode.name}</strong>
-                                    </p>
-                                    <p class="text-right">
-                                        <small>first aired: ${tmdbDateFix(episode.air_date)}</small>
-                                    <p class="desc-box">${episode.overview}</p>
-                                    `);
-								let buttonText = 'Mark as Watched';
-								if (this.epTracker[series[1]].episodes[series[3] - 1].watched) {
-									buttonText = 'Unmark as Watched';
-								}
-								let confirmButton = $(`
-                                    <div id="confirm-button" class="btn-default w-23 mx-auto text-center">
-                                        ${buttonText}
-                                    </div>`).on('click', () => {
+                    		<span id="S-${e.target.id.split('-')[1]}-E-${episode.episode}" 
+							class="mx-2 season-button ${state}">E-${episode.episode}</span>`
+							)
+							.on('click', e => {
+								$(e.target).addClass('selected');
+								$(e.target)
+									.siblings()
+									.removeClass('selected');
+								$('.ep-details').html('fetching episode information...');
+								let series = e.target.id.split('-');
+								tmdb.getEpisodeName(this.dbid, series[1], series[3], episode => {
+									$('.ep-details').html('');
+									$('.ep-details').append(`
+										<p class="mt-2 mb-0 text-center heading">
+											<strong>${episode.name}</strong>
+										</p>
+										<p class="text-right">
+											<small>first aired: ${tmdbDateFix(episode.air_date)}</small>
+										<p class="desc-box">${episode.overview}</p>
+										`);
+									let buttonText = 'Mark as Watched';
 									if (this.epTracker[series[1]].episodes[series[3] - 1].watched) {
-										this.epTracker[series[1]].episodes[series[3] - 1].watched = false;
-										$(`#S-${series[1]}-E-${series[3]}`).removeClass('selected');
-										$('#confirm-button').html('Mark as Watched');
-									} else {
-										this.epTracker[series[1]].episodes[series[3] - 1].watched = true;
-										$(`#S-${series[1]}-E-${series[3]}`).addClass('selected');
-										$('#confirm-button').html('Unmark as Watched');
+										buttonText = 'Unmark as Watched';
 									}
+									let confirmButton = $(`
+										<div id="confirm-button" class="btn-default w-23 mx-auto text-center">
+											${buttonText}
+										</div>`)
+										.on('click', () => {
+											if (this.epTracker[series[1]].episodes[series[3] - 1].watched) {
+												this.epTracker[series[1]].episodes[series[3] - 1].watched = false;
+												$(`#S-${series[1]}-E-${series[3]}`).removeClass('watched');
+												$('#confirm-button').html('Mark as Watched');
+												if (!this.epTracker[series[1]].episodes.every(e => { return e.watched })) {
+													$(`#s-${series[1]}`).removeClass("watched")
+												}
+												
+											} else {
+												this.epTracker[series[1]].episodes[series[3] - 1].watched = true;
+												$(`#S-${series[1]}-E-${series[3]}`).addClass('watched');
+												$('#confirm-button').html('Unmark as Watched');
+												if (this.epTracker[series[1]].episodes.every(e => { return e.watched })) {
+													$(`#s-${series[1]}`).addClass("watched")
+												}
+											}
+									});
+									$('.ep-details').append(confirmButton);
 								});
-								$('.ep-details').append(confirmButton);
+								watchList.updateLocalStorage();
 							});
-							watchList.updateLocalStorage();
-						});
 
 						$('#episodes').append(episodeButon);
 					});
@@ -552,6 +569,7 @@ class tv extends watchItem {
 			seasonList.append(epButton);
 			sIndex += 1;
 		});
+
 		let collapseTracker = $(`
         <hr>
         <div class="d-flex justify-content-around">
@@ -591,6 +609,7 @@ class tv extends watchItem {
 		preview.find('.additional-info').append(collapseTracker);
 		return preview;
 	}
+
 	card(location) {
 		let cardContents = super.card(location);
 		if (this.nextEpisode) {
