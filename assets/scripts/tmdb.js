@@ -65,11 +65,11 @@ const tmdb = {
         list.then((items)=>{
             if (details.recType == "movie actor"){
                 if (details.page){
-                    let upperbound = (details.page * 20) - 1;
+                    let upperbound = (details.page * 10) - 1;
                     if (upperbound > items.movie_credits.cast.length) {
                         upperbound = items.movie_credits.cast.length
                     }
-                    let lowerbound = (details.page - 1) * 20;
+                    let lowerbound = (details.page - 1) * 10;
                     items = items.movie_credits.cast.slice(lowerbound, upperbound);
                 }
                 else{
@@ -90,51 +90,27 @@ const tmdb = {
             else{
                 items = items.results
             }
-            let itemPromises = [];
+            let objectArray = []
             items.forEach((element)=>{
-                itemPromises.push(tmdb.getDetails({type: details.type, id: element.id}))
+                element.type = details.type;
+                objectArray.push(tmdb.makeWatchItem(element));
             })
-            Promise.all(itemPromises).then((itemsWithDetails)=>{
-                let objectArray = []
-                itemsWithDetails.forEach(e=>{
-                    //type is lowercase, so this corrects it to camelCase to generate the correct object
-                    objectArray.push(tmdb[`make${capitalise(details.type)}Object`](e))
-                })
-                callback(objectArray)
+            callback(objectArray)
 
             })
-            .catch(e=>{
-                if (e.status == 429){
-                    showWarning(
-                        `Maximum Requests made.Retrying Request in
-                        <span id="warning-time-left"></span>
-                        Seconds - click to close this warning`
-                        );
-                    setTimeout(() => {tmdb.getObjects(details, callback)}, 8000);
-                    
-                }
-                else {
-                    console.log("Catching Movie List Error");
-                    console.log(e);
-                }
-            });
-        })
         .catch(e=>{
-            if (e.status == 429) {
+            if (e.status == 429){
                 showWarning(
                     `Maximum Requests made.Retrying Request in
-                        <span id="warning-time-left"></span>
-                        Seconds - click to close this warning`
+                    <span id="warning-time-left"></span>
+                    Seconds - click to close this warning`
                 );
-                setTimeout(() => { tmdb.getObjects(details, callback) }, 8000);
+                setTimeout(() => {tmdb.getObjects(details, callback)}, 8000);     
             }
-            else {
+            else{
                 console.log("Catching Movie List Error");
                 console.log(e);
             }
-            
-            
-            
         });
     },
 
@@ -143,6 +119,10 @@ const tmdb = {
     },
 
     getDetails:(object)=>{
+        console.log(object.type)
+        console.log(object.id)
+        console.log(tmdb.getURL(`${object.type} details`, { id: object.id }))
+
         return Promise.resolve($.getJSON(tmdb.getURL(`${object.type} details`, {id: object.id})));
     },
 
@@ -158,6 +138,55 @@ const tmdb = {
         let urlString = `https://api.themoviedb.org/3/tv/${id}/season/${season}/episode/${episode}?api_key=405219586381645a0c87c4c5dc9211d9&language=en-US`;
         let episodeDetails = $.getJSON(urlString);
         episodeDetails.then((episode)=>{callback(episode)});
+    },
+
+    makeWatchItem:(details)=>{
+        let icon = ""
+        let thumb = "https://image.tmdb.org/t/p/w92";
+        let lrgImage = "https://image.tmdb.org/t/p/w600_and_h900_bestv2";
+        let genres = []
+        details.genre_ids.forEach(element =>{
+            watchList.details[`${details.type}Genres`].forEach(genre =>{
+                if (genre.id==element){
+                    genres.push({
+                        name: genre.name,
+                        id: genre.id
+                    });
+                }
+            });
+        });
+        if (details.poster_path == null) {
+            thumb = "./assets/images/no-movie-found.png";
+            lrgImage = "./assets/images/no-movie-found.png";
+        } else {
+            thumb += details.poster_path;
+            lrgImage += details.poster_path;
+        }
+        let year = null;
+        let title = ""
+        if (details.type == "movie"){
+            icon = `<i class="fas fa-film m-1"></i>`;
+            year = details.release_date.split("-")[0];
+            title = details.title;
+        }
+        else{
+            icon = `<i class="fas fa-tv m-1"></i>`;
+            year = details.first_air_date.split("-")[0];
+            title = details.name;
+        }
+        return new watchItem(
+            {
+                icon: icon,
+                dbid: details.id,
+                type: details.type,
+                title: title,
+                genre: genres,
+                thumb: thumb,
+                lrgImage: lrgImage,
+                longDescription: details.overview,
+                year: year,
+            }
+        )
     },
 
     makeMovieObject:(movieDetails)=>{
@@ -201,7 +230,7 @@ const tmdb = {
         )
         
     },
-    makeTvObject:(tvDetails)=>{
+    makeTvObject: (tvDetails)=>{
         let thumb = "https://image.tmdb.org/t/p/w92";
         let lrgImage = "https://image.tmdb.org/t/p/w600_and_h900_bestv2";
         if (!tvDetails.poster_path){

@@ -18,6 +18,7 @@ let searches = {
 			} else {
 				let resultsContainer = $(`<div></div>`);
 				movies.forEach(element => {
+					console.log(element)
 					resultsContainer.append(element.searchItem());
 				});
 				$(`#results`).append(resultsContainer);
@@ -50,6 +51,7 @@ let searches = {
 			} else {
 				let resultsContainer = $(`<div></div>`);
 				shows.forEach(element => {
+					console.log(element)
 					resultsContainer.append(element.searchItem());
 				});
 				$(`#results`).append(resultsContainer);

@@ -52,16 +52,16 @@ function manageFilters() {
 	$('#add-or-edit-container').html('');
 	let manageFiltersWrapper = $(`<div class="manage-tags p-2"></div>`);
 	let title = $(`<h3 class="heading text-center">Add or Edit Tags</h3><hr>`);
-	let newCollectionWrapper = $(
+	let newTagWrapper = $(
 		`<div class="d-flex justify-content-center align-items-center new-collection-wrapper">`
 	);
 
-	let collectionLabel = $(`<label>Add New Collection</label>`);
-	let collectionInput = $(`<input id="collection-input" type="text"></input>`)
+	let tagLabel = $(`<label>Add New Tag</label>`);
+	let tagInput = $(`<input id="collection-input" type="text"></input>`)
 		.on('input keydown', e => {
 			if (e.keyCode == 13) {
 				if ($('#collection-input').val().length > 0) {
-					watchListDom.addCollection($('#collection-input').val());
+					watchListDom.addTag($('#collection-input').val());
 					manageFilters();
 				}
 				$(e.target).blur();
@@ -82,29 +82,29 @@ function manageFilters() {
 	let button = $(`<div class="btn my-0"><i class="fas fa-plus"></i></div>`);
 	button.on('click', () => {
 		if ($('#collection-input').val().length > 0) {
-			watchListDom.addCollection($('#collection-input').val());
+			watchListDom.addTag($('#collection-input').val());
 			manageFilters();
 		}
 	});
-	let inputWrapper = $(`<div class="input-box-wrapper my-0"></div>`).append(collectionLabel, collectionInput);
-	newCollectionWrapper.append(inputWrapper, button);
-	manageFiltersWrapper.append(title, newCollectionWrapper);
+	let inputWrapper = $(`<div class="input-box-wrapper my-0"></div>`).append(tagLabel, tagInput);
+	newTagWrapper.append(inputWrapper, button);
+	manageFiltersWrapper.append(title, newTagWrapper);
 
-	if (Object.keys(watchList.collections).length > 0) {
-		Object.keys(watchList.collections).forEach(element => {
+	if (Object.keys(watchList.tags).length > 0) {
+		Object.keys(watchList.tags).forEach(element => {
 			let wrapper = $(`<div class="d-flex justify-content-around tag-wrapper"></div>`);
 			let input = $(`<input type="text" value=${element}></input>`).on('input', e => {
-				watchList.collections[e.target.value] = watchList.collections[element];
-				delete watchList.collections[element];
-				watchListDom.renderCollections();
+				watchList.tags[e.target.value] = watchList.tags[element];
+				delete watchList.tags[element];
+				watchListDom.renderTags();
 				watchList.updateLocalStorage();
 			});
 			let arrow = $(`<div class="d-flex align-items-center"><i class="fas fa-arrow-right my-0"></i>`);
 			let deleteButton = $(
 				`<div class="d-flex align-items-center btn-delete"><i class="far fa-trash-alt my-0"></i></i></div>`
 			).on('click', () => {
-				watchListDom.removeCollection(element);
-				watchListDom.renderCollections();
+				watchListDom.removeTag(element);
+				watchListDom.renderTags();
 				manageFilters();
 			});
 			wrapper.append(arrow, input, deleteButton);

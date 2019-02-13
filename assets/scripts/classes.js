@@ -11,7 +11,9 @@ class watchItem {
     */
 
 	constructor(object) {
+		this.icon = object.icon;
 		this.dbid = object.dbid;
+		this.type = object.type;
 		this.title = object.title;
 		this.thumb = object.thumb;
 		this.lrgImage = object.lrgImage;
@@ -31,7 +33,7 @@ class watchItem {
 		this.note = object.note;
 		this.searchItem = this.searchItem.bind(this);
 		this.itemPreview = this.itemPreview.bind(this);
-		this.updateCollections = this.updateCollections.bind(this);
+		this.updateTags = this.updateTags.bind(this);
 		this.updateCardTags = this.updateCardTags.bind(this);
 	}
 
@@ -46,12 +48,6 @@ class watchItem {
 		this.genre.forEach(element => {
 			genreHtml.append(`<span class="mr-2 mb-1 collection-tag">${element.name}</span>`);
 		});
-		let leadCastHtml = $(`<p class="d-none d-sm-block my-0"></p>`).append(
-			`<pn class="mr-2"><strong><small>Lead Cast:</small></strong>`
-		);
-		this.cast.slice(0, 2).forEach(element => {
-			leadCastHtml.append(`<span class="mr-2"><small>${element.name}</small></span>`);
-		});
 
 		imgWrapper.append(
 			`<img src=${this.thumb} class="result-thumb mx-auto d-block" alt=${this.title.substring(0, 50)} />`
@@ -60,16 +56,20 @@ class watchItem {
 			`<h6 class="result-title"><strong class="heading">${this.title.substring(0, 40)}</strong> - ${
 				this.year
 			}</h6>`,
-			genreHtml,
-			leadCastHtml
+			genreHtml
 		);
 		wrapper.on('click', () => {
-			if (!actorSearch) {
-				$('#results').html(this.itemPreview('search'));
-				watchListDom.renderDataLists();
-			} else {
-				$('#results').html(this.itemPreview('actorSearch'));
-			}
+			let fullDetailsPromise = tmdb.getDetails({ id: this.dbid, type: this.type })
+			fullDetailsPromise.then(details => {
+				let fullItem = tmdb[`make${capitalise(this.type)}Object`](details)
+				if (!actorSearch) {	
+					$('#results').html(fullItem.itemPreview('search'))
+				} else {
+					$('#results').html(fullItem.itemPreview('actorSearch'));
+				}
+			})  
+			watchListDom.renderDataLists();
+
 			$('#search-box')
 				.addClass('d-none')
 				.removeClass('d-flex');
@@ -77,10 +77,14 @@ class watchItem {
 		let buttonWrapper = $('<div class="col-2 px-0"></div>');
 		let addButton = $(`<div class="add d-flex justify-content-center align-items-center mr-2"> 
                             <i class="fas fa-plus my-0"></i>
-                            </div>`).on('click', () => {
-			closePopUp();
-			watchListDom.add(this);
-			watchListDom.render(watchList.contents);
+							</div>`)
+				.on('click', () => {
+					closePopUp();
+					let fullDetailsPromise = tmdb.getDetails({id: this.dbid, type: this.type})
+					fullDetailsPromise.then( details =>{
+						watchListDom.add(tmdb[`make${capitalise(this.type)}Object`](details));
+						watchListDom.render(watchList.contents);
+				})  
 		});
 		buttonWrapper.append(addButton);
 		wrapper.append(imgWrapper, textWrapper, buttonWrapper);
@@ -203,7 +207,7 @@ class watchItem {
 					$('.add-tag').css('width', `${120 + ($('.add-tag').val().length - 9) * 9}px`);
 				}
 				if (e.keyCode == 13) {
-					watchListDom.addCollection($('.add-tag').val(), this.dbid);
+					watchListDom.addTag($('.add-tag').val(), this.dbid);
 					let newInput = $(`
                         <input list="tags-list" placeholder="add new"></input>
                         <datalist id="tags-list"></datalist>
@@ -212,7 +216,7 @@ class watchItem {
 					$('.preview-tags')
 						.html('')
 						.append(newSpan)
-						.append(this.updateCollections());
+						.append(this.updateTags());
 					this.updateCardTags();
 					watchListDom.renderDataLists();
 					watchList.updateLocalStorage();
@@ -230,7 +234,7 @@ class watchItem {
                 <input class="add-tag" list="tags-list" placeholder="add new"></input>
                 <datalist id="tags-list"></datalist>
             </span>`,
-				this.updateCollections()
+				this.updateTags()
 			);
 		let noteArea = $(
 			`<textarea id="notes" class="notes-area" placeholder="Any Additional notes about this ${
@@ -296,6 +300,7 @@ class watchItem {
 		cardImage.css('background-image', `url("${this.lrgImage}")`);
 		cardInner.append(cardImage);
 		let cardInfo = $(`<div class="card-info p-2"></div>`);
+		
 		let cardHeader = $(`<header class="card-head"></header>`);
 		let cardTitle = $(
 			`<div class="row mx-0"><h5 class="text-left">${this.icon}<span class="heading mx-2">${
@@ -308,24 +313,31 @@ class watchItem {
                                     <p><small>${this.shortDescription}</small></p>
                                     <hr>
                                 `);
-		let collectionsSubHeading = $(`<p><strong class="heading">Tags:</strong></p>`);
-		let collectionsArea = $(`<div id="collections-${this.id}" class="d-flex flex-wrap"></div>`);
+		let tagsSubHeading = $(`<p><strong class="heading">Tags:</strong></p>`);
+		let tagsArea = $(`<div id="collections-${this.id}" class="d-flex flex-wrap"></div>`);
 		let findOutMore = $(`<div class="btn btn-more-info text-center mt-2">more info</div>`);
 
-		findOutMore.on('click', () => {
-			makePopUp(this.type);
-			if (!recommendation) {
-				$('#search-box')
-					.addClass('d-none')
-					.removeClass('d-flex');
-				$('#results').html(this.itemPreview('list'));
-			} else {
-				$('#search-box')
-					.addClass('d-none')
-					.removeClass('d-flex');
-				$('#results').html(this.itemPreview('recommendation'));
-			}
-			watchListDom.renderDataLists();
+		findOutMore.on('click', e => {
+			let fullDetailsPromise = tmdb.getDetails({ id: this.dbid, type: this.type })
+			fullDetailsPromise.then(details => {
+				$(e.target).html("more info")
+				let object = tmdb[`make${capitalise(this.type)}Object`](details);
+				makePopUp(this.type);
+				if (!recommendation) {
+					$('#search-box')
+						.addClass('d-none')
+						.removeClass('d-flex');
+					$('#results').html(object.itemPreview('list'));
+				} else {
+					$('#search-box')
+						.addClass('d-none')
+						.removeClass('d-flex');
+					$('#results').html(object.itemPreview('recommendation'));
+				}
+				watchListDom.renderDataLists();
+			
+			})
+			$(e.target).html("getting preview")
 		});
 		if (!recommendation) {
 			let buttonWrapper = $('<div class="d-flex justify-content-around"></div>');
@@ -352,21 +364,25 @@ class watchItem {
 			cardInfo.append(
 				cardHeader,
 				shortDescription,
-				collectionsSubHeading,
-				collectionsArea,
+				tagsSubHeading,
+				tagsArea,
 				findOutMore,
 				buttonWrapper
 			);
 		} else {
 			let quickAdd = $(`<div class="btn btn-more-info text-center mt-3">add to list</div>`);
 			quickAdd.on('click', () => {
-				if (recommendation == 'recommendation') {
-					closePopUp();
-					watchListDom.add(watchList.contents);
-				} else {
-					watchListDom.add(this, false);
-					makePopUp('add', this.title);
-				}
+				let fullDetailsPromise = tmdb.getDetails({ id: this.dbid, type: this.type })
+				fullDetailsPromise.then(details => {
+					let object = tmdb[`make${capitalise(this.type)}Object`](details);
+					if (recommendation == 'recommendation') {
+						closePopUp();
+						watchListDom.add(object);
+					} else {
+						watchListDom.add(object, false);
+						makePopUp('add', this.title);
+					}
+				})
 			});
 			cardInfo.append(cardHeader, shortDescription, findOutMore, quickAdd);
 		}
@@ -375,12 +391,12 @@ class watchItem {
 		return newCard;
 	}
 
-	updateCollections(value) {
+	updateTags(value) {
 		let htmlString = '';
-		if (value) {
-			this.collection.push(value);
-		}
-		Object.entries(watchList.collections).forEach(element => {
+		//if (value) {
+		//	this.tags.push(value);
+		//}
+		Object.entries(watchList.tags).forEach(element => {
 			if (element[1].includes(this.dbid)) {
 				htmlString += `<span class="ml-2 collection-tag">${element[0]}</span>`;
 			}
@@ -389,11 +405,11 @@ class watchItem {
 	}
 
 	updateCardTags() {
-		let collectionHTMLstring = this.updateCollections();
-		if (collectionHTMLstring.length <= 0) {
-			collectionHTMLstring = `<span class="collection-tag mr-1 mb-1">no collections</span>`;
+		let tagHTMLstring = this.updateTags();
+		if (tagHTMLstring.length <= 0) {
+			tagHTMLstring = `<span class="collection-tag mr-1 mb-1">no collections</span>`;
 		}
-		$(`#collections-${this.id}`).html(collectionHTMLstring);
+		$(`#collections-${this.id}`).html(tagHTMLstring);
 	}
 }
 class movie extends watchItem {
@@ -405,10 +421,10 @@ class movie extends watchItem {
 		this.rating = object.rating;
 		this.cast = object.cast;
 		this.genre = object.genre;
-		this.searchItem = this.searchItem.bind(this);
-		this.itemPreview = this.itemPreview.bind(this);
+		//this.searchItem = this.searchItem.bind(this);
+		//this.itemPreview = this.itemPreview.bind(this);
 		this.card = this.card.bind(this);
-		this.updateCollections = this.updateCollections.bind(this);
+		//this.updateTags = this.updateTags.bind(this);
 		this.getRecommendations = this.getRecommendations.bind(this);
 	}
 
@@ -484,7 +500,7 @@ class tv extends watchItem {
 		this.itemPreview = this.itemPreview.bind(this);
 		this.card = this.card.bind(this);
 		this.getRecommendations = this.getRecommendations.bind(this);
-		this.updateCollections = this.updateCollections.bind(this);
+		this.updateTags = this.updateTags.bind(this);
 	}
 	itemPreview(location) {
 		let preview = super.itemPreview(location);
@@ -660,4 +676,13 @@ class tv extends watchItem {
 
 		$('#add-or-edit-container').append(buttonWrapper);
 	}
+}
+
+
+buttonControls = {
+	add: ()=>{
+
+	}
+
+
 }

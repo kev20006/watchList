@@ -23,7 +23,7 @@ const watchList = {
 		},
 	},
 	contents: [],
-	collections: {},
+	tags: {},
 	returningUser: false,
 	/** Load Data From Local Storage**/
 	load: () => {
@@ -72,11 +72,14 @@ const watchList = {
 					}
 				});
 			}
-			if (prevData.list.collections) {
-				watchList.collections = prevData.list.collections;
+			if (prevData.list.tags) {
+				watchList.tags = prevData.list.tags;
 			}
-			Object.keys(watchList.collections).forEach(key => watchList.collections[key].length == 0 && delete watchList.collections[key]
-			);
+			// Garbage collection - remove any tags that no longer have any movies
+			Object.keys(watchList.tags).forEach( key => {
+				watchList.tags[key].length == 0 && delete watchList.tags[key]
+			})
+
 			if (prevData.list.analytics) {
 				if (prevData.list.analytics.movie) {
 					watchList.analytics.movie = prevData.list.analytics.movie;
@@ -99,11 +102,13 @@ const watchList = {
 			}
 
 			if (prevData.list.returningUser) {
-				watchList.returningUser = prevData.list.collections;
+				watchList.returningUser = prevData.list.returningUser;
 			}
 			watchList.updateLocalStorage();
 		}
 	},
+
+	//add an item to the watch-list
 	add: obj => {
 		let matchFound = false;
 		watchList.contents.forEach(item => {
@@ -119,12 +124,19 @@ const watchList = {
 			return true;
 		}
 	},
+
+	//remove an item from the watchlist
 	remove: id => {
 		if (id >= 0 && id < watchList.contents.length){
 			watchList.contents.splice(id, 1);
 			watchList.updateLocalStorage();
 		}
 	},
+
+	//filter the watchlist - by wither type or by tags
+	//fitlerBy parameter store the type of filter, either type or tags
+	//value parameter stores what to filter by i.e. "movies", "tv" or the name of
+	//a specific tag
 	filter: (filterBy, value) => {
 		let filterList = {};
 		if (filterBy == 'type') {
@@ -133,24 +145,24 @@ const watchList = {
 			});
 		} else {
 			filterList = watchList.contents.filter(element => {
-				if (watchList.collections[value].includes(element.dbid)) return true;
+				if (watchList.tags[value].includes(element.dbid)) return true;
 			});
 		}
 		return filterList;
 	},
-	addCollection: (name, id = undefined) => {
-		if (!Object.keys(watchList.collections).includes(name)) {
+	addTag: (name, id = undefined) => {
+		if (!Object.keys(watchList.tags).includes(name)) {
 			if (id == undefined) {
-				watchList.collections[name] = [];
+				watchList.tags[name] = [];
 			} else {
-				watchList.collections[name] = [id];
+				watchList.tags[name] = [id];
 			}
 		} else {
-			watchList.collections[name].push(id);
+			watchList.tags[name].push(id);
 		}
 	},
-	removeCollection: key => {
-		delete watchList.collections[key];
+	removeTag: key => {
+		delete watchList.tags[key];
 	},
 
 	addLike: (object) => {
@@ -214,7 +226,7 @@ const watchList = {
 		watchList.details.movieGenres = [];
 		watchList.details.tvGenres = [];
 		watchList.contents = [];
-		watchList.collections = {};
+		watchList.tags = {};
 		watchList.returningUser = false;
 		watchList.updateLocalStorage();
 	},

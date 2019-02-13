@@ -4,7 +4,7 @@ const watchListDom = {
 		watchList.load();
 		watchListDom.renderDataLists();
 		watchListDom.render(watchList.contents);
-		watchListDom.renderCollections();
+		watchListDom.renderTags();
 	},
 	add: (obj, render = true) => {
 		let added = watchList.add(obj);
@@ -56,14 +56,14 @@ const watchListDom = {
 			watchListDom.render(filterList);
 		}
 	},
-	addCollection: (name, id) => {
-		watchList.addCollection(name, id);
-		watchListDom.renderCollections();
+	addTag: (name, id) => {
+		watchList.addTag(name, id);
+		watchListDom.renderTags();
 		watchList.updateLocalStorage();
 	},
-	removeCollection: key => {
-		watchList.removeCollection(key);
-		watchListDom.renderCollections();
+	removeTag: key => {
+		watchList.removeTag(key);
+		watchListDom.renderTags();
 		watchList.updateLocalStorage();
 	},
 	render: (list, isRecommendation = false) => {
@@ -86,17 +86,16 @@ const watchListDom = {
                 </div>`
 			);
 		}
-		watchListDom.renderCollections();
+		watchListDom.renderTags();
 	},
-	renderCollections: () => {
+	renderTags: () => {
 		$('#category-list').html('');
-		console.log(watchList.collections);
-		if (Object.keys(watchList.collections).length != 0) {
-			Object.entries(watchList.collections).forEach(element => {
-				let collectionItem = $(`<li>${element[0]}</li>`).on('click', () => {
-					performFilter('collection', element[0]);
+		if (Object.keys(watchList.tags).length != 0) {
+			Object.entries(watchList.tags).forEach(element => {
+				let tagsItem = $(`<li>${element[0]}</li>`).on('click', () => {
+					performFilter('tags', element[0]);
 				});
-				$('#category-list').append(collectionItem);
+				$('#category-list').append(tagsItem);
 			});
 		}
 		let addNew = $("<li class='add-new'>Add or Edit Tags</li>");
@@ -119,7 +118,7 @@ const watchListDom = {
 			$('#tv-genres-list').append(`
             <option value="${element.id}">${element.name}</option>`);
 		});
-		Object.keys(watchList.collections).forEach(element => {
+		Object.keys(watchList.tags).forEach(element => {
 			$('#tags-list').append(`
             <option value="${element}"></option>
             `);
@@ -128,7 +127,7 @@ const watchListDom = {
 	resetAll: () => {
 		watchList.resetAll();
 		watchListDom.render(watchList.contents);
-		watchListDom.renderCollections();
+		watchListDom.renderTags();
 	},
 };
 

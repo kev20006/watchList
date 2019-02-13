@@ -1,6 +1,7 @@
 /********************UTILITIES**********************/
-/*exported randomIndex*/
-/*eslint no-unused-vars: "error"*/
+
+
+/* Used to randomly select items from an array */
 const randomIndex = upperBound => {
 	if (typeof(upperBound) != "number"){
 		return 0;
@@ -11,6 +12,8 @@ const randomIndex = upperBound => {
 	
 };
 
+
+/* Used to convert a string to initial caps */
 const capitalise = string => {
 	if (typeof (string) != "string") {
 		return "";
@@ -30,6 +33,7 @@ const capitalise = string => {
 	
 };
 
+/* Used to add leading 0's to single digit numbers */
 const numberString = number => {
 	if (number < 10 && number > 0) {
 		return `0${number}`;
@@ -38,6 +42,9 @@ const numberString = number => {
 	}
 };
 
+
+/*TMDB stores dates in the format yyyy-mm-dd - function to convert them to the 
+format dd/mm/yyyy */
 const tmdbDateFix = dateString => {
 	if (dateString){
 		let dateArray = dateString.split('-');
