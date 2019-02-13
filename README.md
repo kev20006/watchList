@@ -101,8 +101,52 @@ Wireframes are included below or alternatively in the documentation folder in th
 
 #### Colours
 
-Another Shadow of google keep here. 
+In my choice of colours i chose to keep things quite simple. Initially i had planned to have movies, tv and tags to all be different colours and completely change the UI to match the selected item. 
 
 #### Typeface
 
+For headings I used the Google Font Bungee. I felt it creating quite a striking yet easy to read appearance.
+
+For body text i opted for the Montserrat font, again from google fonts. I felt this font provided a nice contrast from the much bolder heading font. Additionally, despite it being sans-serif it's still very easy to read. 
+
 #### Iteractions
+
+Every clickable element on the app has a hover effects to ensure that it is clear to the user that it is infact a clickable item.
+
+**Tooltips**: All buttons represented by icons have associated tool-tips that display on hover to make it clear what they do.
+
+**Buttons**: All buttons darken on hover to identify that they are clickable. 
+
+**Menu Items**: Menu items highlight in orange on mouse over, and darken when click on to show selection. Currently selected menu items are highlighted in grey.
+
+**Search Results**: When moused over search results rise up towards the user to show that they are currently selected.(i.e scale up and display box shadow to create the illusion of floating.)
+
+**Scrollable Elements**: use SimpleBar to create an on hover scrollbar that is less intrusive than the default one.
+
+**Expandable Content**: rotate when clicked to show if content has been or can be expanded.
+
+## Features
+
+### Existing Features
+
+* Movies and TV shows are stored as custom classes, with method to generate the HTML for their various states.
+..these classes are defined in classes.js - the card, searchItem and itemPreview methods are used to generate all the TV and Movie object HTML elsewhere in the app
+
+* The uses the TMDB api to get information about movies and TV shows used to create the movie and tv objects.
+..All API calls are handled by TMDB.js
+
+* Search for Movies By Title - Users can search for Movies by title from the drop down menu.
+* Search for Tv Shows by Title - Users can search for Movies by title from the drop down menu.
+* Search for Movies by Actor - Users can search for an actor. On selecting that Actor the user can view a list of movies that they are in.
+
+**The above features are implemented in a number of places.**
+* menu.js animates the add items dropdown menu and handles the click events for this menu.
+* popup.js renders the HTML for the pop box that is used by the search interface, and handles the event listeners for the search box
+* search.js uses tmdb.js to make the API calls and also provides a callback to render these search results in the pop window. It also handles pagination of search results.
+
+* Browse highest rated movies
+* Browse Movies in cinemas now
+* Broswe Movies by Genre
+* Browse highest rated TV shows
+* Browse TV shows currently airing
+* Broswe TV shows by Genre
