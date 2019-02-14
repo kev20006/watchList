@@ -9,7 +9,6 @@ class watchItem {
     Watch Item has a constructor method for adding common information to the item
     It also has methods to generate the HTML for the cards, search results and previews
     */
-
 	constructor(object) {
 		this.icon = object.icon;
 		this.dbid = object.dbid;
@@ -59,33 +58,19 @@ class watchItem {
 			genreHtml
 		);
 		wrapper.on('click', () => {
-			let fullDetailsPromise = tmdb.getDetails({ id: this.dbid, type: this.type })
-			fullDetailsPromise.then(details => {
-				let fullItem = tmdb[`make${capitalise(this.type)}Object`](details)
-				if (!actorSearch) {	
-					$('#results').html(fullItem.itemPreview('search'))
-				} else {
-					$('#results').html(fullItem.itemPreview('actorSearch'));
-				}
-			})  
-			watchListDom.renderDataLists();
-
-			$('#search-box')
-				.addClass('d-none')
-				.removeClass('d-flex');
+			let location = "search";
+			if (actorSearch){
+				location = "actorSearch"
+			}
+			buttonControls.preview(this, location)
 		});
 		let buttonWrapper = $('<div class="col-2 px-0"></div>');
 		let addButton = $(`<div class="add d-flex justify-content-center align-items-center mr-2"> 
                             <i class="fas fa-plus my-0"></i>
 							</div>`)
-				.on('click', () => {
-					closePopUp();
-					let fullDetailsPromise = tmdb.getDetails({id: this.dbid, type: this.type})
-					fullDetailsPromise.then( details =>{
-						watchListDom.add(tmdb[`make${capitalise(this.type)}Object`](details));
-						watchListDom.render(watchList.contents);
-				})  
-		});
+			.on('click', () => {
+				buttonControls.add(this, "search");
+			});
 		buttonWrapper.append(addButton);
 		wrapper.append(imgWrapper, textWrapper, buttonWrapper);
 		return wrapper;
@@ -104,10 +89,14 @@ class watchItem {
         this location parameter also determines the functionality of the back button: for search results the back button returns to the search
         and for list items the back button just closes the popup and returns to the list
         */
-		let pageNumber = $('#results').attr('data-page');
+
+
 		let wrapper = $(`<div class="row mx-0 preview"></div>`);
 		let previewHeader = $(`<header class="col-12 prev-head"></header>`);
 		let titleContainer = $(`<div class="row mx-0 p-2"></div>`);
+		
+		//create the header content
+		
 		let titleContent = $(
 			`<h3>${this.icon}<strong class="mx-2 heading">${this.title}</strong> <small class="ml-3">(${
 				this.year
@@ -121,12 +110,18 @@ class watchItem {
 		titleContainer.append(titleContent);
 		previewHeader.append(titleContainer, genreContainer);
 		wrapper.append(previewHeader, $(`<hr>`));
-		let previewBody = $(`<main class="row mx-0"></main>`);
+
+		//start creating the body element
+		
+		let previewBody = $(`<main class="col-12 mx-0"></main>`);
+		let imageRow = $(`<div class="row"></div>`)
 		let imageWrapper = $(`<div class="col-12 col-sm-4 d-flex justify-content-center img-wrapper"></div>`);
-		//style this image properly using scss please
 		imageWrapper.append(` <img class="p-2 pl-2" src=${this.lrgImage} alt=${this.title} />`);
-		previewBody.append(imageWrapper);
+		imageRow.append(imageWrapper);
 		let previewMainContentContainer = $(`<div class="content col-12 col-sm-8"></div>`);
+		
+		//adding controls and their event listeners
+		
 		let controlsContainer = $(`<div class="controls d-flex justify-content-around align-items-center"></div>`)
 			.append(`<div class="rating">
                     <div class= "d-flex flex-column">
@@ -137,56 +132,32 @@ class watchItem {
 		let addBtn = $(
 			`<div class="d-flex justify-content-center align-items-center btn-add-to-list btn-default"><i class="fas fa-plus my-0"></i></div>`
 		).on('click', () => {
-			closePopUp();
-			watchListDom.add(this);
-			watchListDom.render(watchList.contents);
+			buttonControls.add(this, "preview");
 		});
 		let likeBtn = $(
 			`<div class="d-flex justify-content-center align-items-center btn-thumbs-up btn-success"><i class="fas fa-thumbs-up"></i></div>`
 		).on('click', () => {
-			watchList.addLike(this);
-			watchListDom.render(watchList.contents);
-			this.getRecommendations('card');
+			buttonControls.like(this, "preview");
 		});
 		let dislikeBtn = $(
 			`<div class="d-flex justify-content-center align-items-center btn-thumbs-down btn-danger"><i class="fas fa-thumbs-down"></i></div>`
 		).on('click', () => {
-			watchList.addDislike(this);
-			watchListDom.render(watchList.contents);
-			closePopUp();
+			buttonControls.dislike(this, "preview");
 		});
 		let deleteBtn = $(
 			`<div class="d-flex justify-content-center align-items-center btn-delete btn-default"><i class="fas fa-trash-alt"></i></div>`
 		).on('click', () => {
-			watchListDom.remove(this.id.split('-')[1]);
-			watchListDom.render(watchList.contents);
-			closePopUp();
+			buttonControls.delete(this, "preview");
 		});
 		let backbutton = `<i class="fas fa-times"></i>`;
-		if (location == 'search') {
-			backbutton = `<i class="fas fa-search"></i>`;
-		}
 		let backBtn = $(
 			`<div class="d-flex justify-content-center align-items-center btn-back btn-default">${backbutton}</div>`
 		).on('click', () => {
-			$('#search-box')
-				.removeClass('d-none')
-				.addClass('d-flex');
-			if (location == 'search' || location == 'actorSearch') {
-				$('#results').html('');
-				if (location == 'search') {
-					searches[this.type]($('#search-box input').val(), pageNumber);
-				} else {
-					searches.actorMovies({
-						id: $('#results').attr('data-actorid'),
-						name: $('#search-box input[type=text]').val(),
-						page: pageNumber,
-					});
-				}
-			} else {
-				closePopUp();
-			}
+			buttonControls.back(this, location)
 		});
+
+		//conditionally create the controls
+
 		if (location == 'search' || location == 'recommendation' || location == 'actorSearch') {
 			controlsContainer.append(addBtn, backBtn);
 		} else {
@@ -195,12 +166,19 @@ class watchItem {
 
 		let previewDescription = $(`
             <p><strong class="heading">Description:</strong></p>
-            <p class="desc-box">${this.longDescription}</p>
-            `);
+			<div id="desc-box">
+				<p>${this.longDescription}</p>
+			</div>
+			`);
 
 		previewMainContentContainer.append(controlsContainer, previewDescription);
+		imageRow.append(previewMainContentContainer)
+		//empty div for adding movie or 
+		
 		let additionalInfo = $(`<section class="col-12 additional-info">`);
-		previewBody.append(previewMainContentContainer, additionalInfo);
+		previewBody.append(imageRow, additionalInfo);
+		
+		// start of the tags and notes section 
 		let tagsContainer = $(`<div class=" d-flex flex-wrap preview-tags"></div>`)
 			.on('keydown', 'input', e => {
 				if ($('.add-tag').val().length >= 10) {
@@ -244,12 +222,27 @@ class watchItem {
 			this.note = $(e.target).val();
 			watchList.updateLocalStorage();
 		});
+		let quickAdd = $(`<div class="btn btn-default text-center my-2 w-100"></div>`)
+		if (location == 'search' || location == 'recommendation' || location == 'actorSearch') {
+			quickAdd.html("Add Item To List")
+			quickAdd.on("click", ()=> {
+				buttonControls.add(this, "preview");
+			})
+		}
+		else {
+			quickAdd.html("Update Note")
+			quickAdd.on("click", ()=> {
+				closePopUp();
+			})
+		}
 		let tagsAndComments = $(`<section class="col-12"></section>`).append(
 			`<hr><p><strong class="heading">Tags</strong></p>`,
 			tagsContainer,
 			`<p class="d-none help"><small>press enter to add your new tag</small></p>`,
-			noteArea
+			noteArea,
+			quickAdd
 		);
+
 
 		wrapper.append(previewBody, tagsAndComments);
 		wrapper.append('<hr>');
@@ -268,16 +261,16 @@ class watchItem {
 				castContainer.append(
 					$(
 						`<div class="col-6 col-md-3 actor-thumb">
-                <div class="img-container">
-                    <img src="${actorpic}" alt="${element.name}">
-                </div>
-                <p><small>${element.name}</small></p>
-            </div>`
+                			<div class="img-container">
+                    			<img src="${actorpic}" alt="${element.name}">
+                			</div>
+                			<p class="text-center"><small>${element.name}</small></p>
+            			</div>`
 					)
 				);
 			});
 		} else {
-			castContainer.append(`<h3>No Cast Identified</h3>`);
+			castContainer.append(`<p>No Cast Identified</p>`);
 		}
 		castSection.append(castContainer);
 		wrapper.append(castSection);
@@ -300,7 +293,6 @@ class watchItem {
 		cardImage.css('background-image', `url("${this.lrgImage}")`);
 		cardInner.append(cardImage);
 		let cardInfo = $(`<div class="card-info p-2"></div>`);
-		
 		let cardHeader = $(`<header class="card-head"></header>`);
 		let cardTitle = $(
 			`<div class="row mx-0"><h5 class="text-left">${this.icon}<span class="heading mx-2">${
@@ -318,27 +310,11 @@ class watchItem {
 		let findOutMore = $(`<div class="btn btn-more-info text-center mt-2">more info</div>`);
 
 		findOutMore.on('click', e => {
-			let fullDetailsPromise = tmdb.getDetails({ id: this.dbid, type: this.type })
-			fullDetailsPromise.then(details => {
-				$(e.target).html("more info")
-				let object = tmdb[`make${capitalise(this.type)}Object`](details);
-				makePopUp(this.type);
-				if (!recommendation) {
-					$('#search-box')
-						.addClass('d-none')
-						.removeClass('d-flex');
-					$('#results').html(object.itemPreview('list'));
-				} else {
-					$('#search-box')
-						.addClass('d-none')
-						.removeClass('d-flex');
-					$('#results').html(object.itemPreview('recommendation'));
-				}
-				watchListDom.renderDataLists();
-			
-			})
+			buttonControls.preview(this, "card");
 			$(e.target).html("getting preview")
 		});
+
+		//if a card is not a recommendation it is in the list - meaning it needs like dislike and delete controls
 		if (!recommendation) {
 			let buttonWrapper = $('<div class="d-flex justify-content-around"></div>');
 			let deleteButton = $(
@@ -347,18 +323,15 @@ class watchItem {
 			let thumbUpButton = $(
 				`<div class="d-flex justify-content-center align-items-center btn-actions btn-success"><i class="fas fa-thumbs-up"></i></div>`
 			).on('click', () => {
-				watchList.addLike(this);
-				watchListDom.render(watchList.contents);
-				this.getRecommendations('card');
+				buttonControls.like(this)
 			});
 			let thumbDownButton = $(
 				`<div class="d-flex justify-content-center align-items-center btn-actions btn-danger"><i class="fas fa-thumbs-down"></i></div>`
 			).on('click', () => {
-				watchList.addDislike(this);
-				watchListDom.render(watchList.contents);
+				buttonControls.dislike(this)
 			});
 			deleteButton.on('click', () => {
-				watchListDom.remove(this.id.split('-')[1]);
+				buttonControls.delete(this)
 			});
 			buttonWrapper.append(thumbUpButton, deleteButton, thumbDownButton);
 			cardInfo.append(
@@ -369,20 +342,11 @@ class watchItem {
 				findOutMore,
 				buttonWrapper
 			);
+		//if it is a recommendation it only needs an additional like button
 		} else {
 			let quickAdd = $(`<div class="btn btn-more-info text-center mt-3">add to list</div>`);
 			quickAdd.on('click', () => {
-				let fullDetailsPromise = tmdb.getDetails({ id: this.dbid, type: this.type })
-				fullDetailsPromise.then(details => {
-					let object = tmdb[`make${capitalise(this.type)}Object`](details);
-					if (recommendation == 'recommendation') {
-						closePopUp();
-						watchListDom.add(object);
-					} else {
-						watchListDom.add(object, false);
-						makePopUp('add', this.title);
-					}
-				})
+				buttonControls.add(this, "recommendation")
 			});
 			cardInfo.append(cardHeader, shortDescription, findOutMore, quickAdd);
 		}
@@ -391,11 +355,9 @@ class watchItem {
 		return newCard;
 	}
 
-	updateTags(value) {
+	//methods updates tags and builds a new html string of tags.
+	updateTags() {
 		let htmlString = '';
-		//if (value) {
-		//	this.tags.push(value);
-		//}
 		Object.entries(watchList.tags).forEach(element => {
 			if (element[1].includes(this.dbid)) {
 				htmlString += `<span class="ml-2 collection-tag">${element[0]}</span>`;
@@ -403,7 +365,7 @@ class watchItem {
 		});
 		return htmlString;
 	}
-
+	//renders the tags to the cards
 	updateCardTags() {
 		let tagHTMLstring = this.updateTags();
 		if (tagHTMLstring.length <= 0) {
@@ -412,6 +374,8 @@ class watchItem {
 		$(`#collections-${this.id}`).html(tagHTMLstring);
 	}
 }
+
+//movie subclass stores the additional information to populate the movie preview items
 class movie extends watchItem {
 	constructor(object) {
 		super(object);
@@ -421,10 +385,7 @@ class movie extends watchItem {
 		this.rating = object.rating;
 		this.cast = object.cast;
 		this.genre = object.genre;
-		//this.searchItem = this.searchItem.bind(this);
-		//this.itemPreview = this.itemPreview.bind(this);
 		this.card = this.card.bind(this);
-		//this.updateTags = this.updateTags.bind(this);
 		this.getRecommendations = this.getRecommendations.bind(this);
 	}
 
@@ -439,6 +400,7 @@ class movie extends watchItem {
 		return cardContents;
 	}
 
+	//when you like a movie item, this function randomly selects recommendations, based on the genre of the movie and and one of the 4 top billed actors
 	getRecommendations(location) {
 		if (location == 'card') {
 			makePopUp();
@@ -449,10 +411,12 @@ class movie extends watchItem {
 			this.title
 		} you might also like </strong></p>
         <p class="text-center">Because you liked ${randomActor.name}</p>
-        <div id="actor-rec" class="d-flex justify-content-center">
+		<div id="actor-rec" class="d-flex justify-content-center">
+			<img src="./assets/images/loading.gif" alt="loader">
         </div>
         <p class="text-center">Because you liked a ${randomGenre.name} movie</p>
-        <div id="genre-rec" class="d-flex justify-content-center"">
+		<div id="genre-rec" class="d-flex justify-content-center"">
+			<img src="./assets/images/loading.gif" alt="loader">
         </div>
         </div>
         `);
@@ -468,6 +432,7 @@ class movie extends watchItem {
 				type: this.type,
 			},
 			movie => {
+				$('#actor-rec').html("")
 				$('#actor-rec').append(movie[0].card('recommendation'));
 			}
 		);
@@ -475,6 +440,7 @@ class movie extends watchItem {
 		tmdb.getObjects(
 			{ listType: 'recommendations', recType: `${this.type} genre`, id: randomGenre.id, type: this.type },
 			movie => {
+				$('#genre-rec').html("")
 				$('#genre-rec').append(movie[0].card('recommendation'));
 			}
 		);
@@ -484,6 +450,8 @@ class movie extends watchItem {
 	}
 }
 
+
+//sub class stores further information unique to tv shows - including information about episodes.
 class tv extends watchItem {
 	constructor(object) {
 		super(object);
@@ -502,18 +470,20 @@ class tv extends watchItem {
 		this.getRecommendations = this.getRecommendations.bind(this);
 		this.updateTags = this.updateTags.bind(this);
 	}
+
+
 	itemPreview(location) {
 		let preview = super.itemPreview(location);
 		let seasonList = $(`<div id="seasons" class="d-flex flex-wrap"></div>`);
 		let episodeList = $(`<div id="episodes" class="d-flex flex-wrap"></div>`);
 		let sIndex = 0;
-		//loop through the seasons
+		//loop through the seasons to create the season tracker
 		this.epTracker.forEach(season => {
+			//seasons are later identified using their id - i.e. s-1 refers to season 1
 			let epButton = $(`<span id="s-${sIndex}" class="mx-2 season-button">${season.name}</span>`)
 			if (this.epTracker[sIndex].episodes.every(e =>{return e.watched})){
 				epButton.addClass("watched")
 			}
-			//$(`#s-${ sIndex }`).
 			//season button event handler
 			epButton.on('click', e => {
 					$('#episodes').html('');
@@ -526,6 +496,8 @@ class tv extends watchItem {
 						if (episode.watched) {
 							state = 'watched';
 						}
+						//episode objects are identified in the same way as seasons. using the span id's
+						//for example s-1-e-2 represents season 1 episode 2
 						let episodeButon = $(`
                     		<span id="S-${e.target.id.split('-')[1]}-E-${episode.episode}" 
 							class="mx-2 season-button ${state}">E-${episode.episode}</span>`
@@ -537,47 +509,10 @@ class tv extends watchItem {
 									.removeClass('selected');
 								$('.ep-details').html('fetching episode information...');
 								let series = e.target.id.split('-');
-								tmdb.getEpisodeName(this.dbid, series[1], series[3], episode => {
-									$('.ep-details').html('');
-									$('.ep-details').append(`
-										<p class="mt-2 mb-0 text-center heading">
-											<strong>${episode.name}</strong>
-										</p>
-										<p class="text-right">
-											<small>first aired: ${tmdbDateFix(episode.air_date)}</small>
-										<p class="desc-box">${episode.overview}</p>
-										`);
-									let buttonText = 'Mark as Watched';
-									if (this.epTracker[series[1]].episodes[series[3] - 1].watched) {
-										buttonText = 'Unmark as Watched';
-									}
-									let confirmButton = $(`
-										<div id="confirm-button" class="btn-default w-23 mx-auto text-center">
-											${buttonText}
-										</div>`)
-										.on('click', () => {
-											if (this.epTracker[series[1]].episodes[series[3] - 1].watched) {
-												this.epTracker[series[1]].episodes[series[3] - 1].watched = false;
-												$(`#S-${series[1]}-E-${series[3]}`).removeClass('watched');
-												$('#confirm-button').html('Mark as Watched');
-												if (!this.epTracker[series[1]].episodes.every(e => { return e.watched })) {
-													$(`#s-${series[1]}`).removeClass("watched")
-												}
-												
-											} else {
-												this.epTracker[series[1]].episodes[series[3] - 1].watched = true;
-												$(`#S-${series[1]}-E-${series[3]}`).addClass('watched');
-												$('#confirm-button').html('Unmark as Watched');
-												if (this.epTracker[series[1]].episodes.every(e => { return e.watched })) {
-													$(`#s-${series[1]}`).addClass("watched")
-												}
-											}
-									});
-									$('.ep-details').append(confirmButton);
-								});
+								//this function is defined below the TV object.
+								showEpisode(this, series[1], series[3]);
 								watchList.updateLocalStorage();
 							});
-
 						$('#episodes').append(episodeButon);
 					});
 				}
@@ -589,9 +524,10 @@ class tv extends watchItem {
 		let collapseTracker = $(`
         <hr>
         <div class="d-flex justify-content-around">
-
             <p class="heading">Episode Tracker</p>
-            <div class="btn btn-default right" data-toggle="collapse" href="#ep-tracker" role="button" aria-expanded="false" aria-controls="ep-tracker">
+			<div class="btn btn-default right" data-toggle="collapse" 
+			href="#ep-tracker" role="button" aria-expanded="false" 
+			aria-controls="ep-tracker">
                 <i class="fas fa-angle-right"></i>
             </div>
         </div>
@@ -649,9 +585,11 @@ class tv extends watchItem {
 		$('#add-or-edit-container').html(`<div class="p-2"><p class="text-center"><strong>Because you liked ${
 			this.title
 		} you might also like </strong></p>
-        <div id="actor-rec" class="d-flex justify-content-center">
+		<div id="actor-rec" class="d-flex justify-content-center">
+			<img src="./assets/images/loading.gif" alt="loader">
         </div>
-        <div id="genre-rec" class="d-flex justify-content-center">
+		<div id="genre-rec" class="d-flex justify-content-center">
+			<img src="./assets/images/loading.gif" alt="loader">
         </div>
         </div>
         `);
@@ -662,6 +600,8 @@ class tv extends watchItem {
 		tmdb.getObjects(
 			{ listType: 'recommendations', recType: `tv recommendations`, id: this.dbid, type: this.type },
 			movie => {
+				$('#actor-rec').html("");
+				$('#genre-rec').html("");
 				let recOneIndex = randomIndex(movie.length);
 				let recTwoIndex = randomIndex(movie.length);
 				if (recOneIndex == recTwoIndex) {
@@ -678,11 +618,141 @@ class tv extends watchItem {
 	}
 }
 
+//callback function to get information about each episode of a show, called by the item preview above.
+showEpisode = (object, season, episode) => {
+	tmdb.getEpisodeName(object.dbid, season, episode, episodeDetails => {
+		$('.ep-details').html('');
+		$('.ep-details').append(`
+				<p class="mt-2 mb-0 text-center heading">
+					<strong>${episodeDetails.name}</strong>
+				</p>
+				<p class="text-right">
+					<small>first aired: ${tmdbDateFix(episodeDetails.air_date)}</small>
+				</p>
+				<p class="desc-box">${episodeDetails.overview}</p>
+			`);
+		let buttonText = 'Mark as Watched';
+		if (object.epTracker[season].episodes[episode - 1].watched) {
+			buttonText = 'Unmark as Watched';
+		}
+		let confirmButton = $(`
+				<div id="confirm-button" class="btn-default w-23 mx-auto text-center">
+					${buttonText}
+				</div>`
+		)
+			.on('click', () => {
+				if (object.epTracker[season].episodes[episode - 1].watched) {
+					object.epTracker[season].episodes[episode - 1].watched = false;
+					$(`#S-${season}-E-${episode}`).removeClass('watched');
+					$('#confirm-button').html('Mark as Watched');
+					if (!object.epTracker[season].episodes.every(e => { return e.watched })) {
+						$(`#s-${season}`).removeClass("watched")
+					}
+
+				} else {
+					object.epTracker[season].episodes[episode - 1].watched = true;
+					$(`#S-${season}-E-${episode}`).addClass('watched');
+					$('#confirm-button').html('Unmark as Watched');
+					if (object.epTracker[season].episodes.every(e => { return e.watched })) {
+						$(`#s-${season}`).addClass("watched")
+					}
+				}
+			});
+		$('.ep-details').append(confirmButton);
+	});
+}
+
+
+//button controls are used to perform the actions by the various buttons rendered by the watchList classes.
+//each button takes the object that called it and the location that it was called from
 
 buttonControls = {
-	add: ()=>{
+	add: (object, location) => {
+		closePopUp();
+		if (location != "preview"){
+			let fullDetailsPromise = tmdb.getDetails({ id: object.dbid, type: object.type })
+			fullDetailsPromise.then(details => {
+				watchListDom.add(tmdb[`make${capitalise(object.type)}Object`](details));
+			});
+		}
+		else{
+			watchListDom.add(object);
+		}
+	},
 
+	delete: (object) => {
+		console.log(object)
+		watchListDom.remove(object.id.split('-')[1]);
+		watchListDom.render(watchList.contents);
+		closePopUp();
+	},
+
+	preview: (object, location) => {
+		if (location == "card"){
+			makePopUp()
+		}
+		if (object.cast){
+			console.log("using item")
+			$('#results').html(object.itemPreview('card'))
+		}
+		else{
+			console.log("getting new item")
+			let fullDetailsPromise = tmdb.getDetails({ id: object.dbid, type: object.type })
+			fullDetailsPromise.then(details => {
+				let fullItem = tmdb[`make${capitalise(object.type)}Object`](details)
+				if (location != "actorSearch") {
+					$('#results').html(fullItem.itemPreview('search'))
+				} else {
+					$('#results').html(fullItem.itemPreview('actorSearch'));
+				}
+			})
+			$('#results').html(`
+				<div class="d-flex flex-column justify-content-center align-items-center">
+				<img src="./assets/images/loading.gif"></img>
+				<p>Getting item preview</p>
+				</div>
+			`);
+
+		}
+		watchListDom.renderDataLists();
+
+		$('#search-box')
+			.addClass('d-none')
+			.removeClass('d-flex');
+	},
+
+	like: (object) => {
+		watchList.addLike(object);
+		watchListDom.render(watchList.contents);
+		object.getRecommendations('card');
+	},
+
+	dislike: (object) => {
+		watchList.addDislike(object);
+		watchListDom.render(watchList.contents);
+		closePopUp();
+	},
+
+	back: (object, location) => {
+		let pageNumber = $('#results').attr('data-page');
+		$('#search-box')
+			.removeClass('d-none')
+			.addClass('d-flex');
+		if (location == 'search' || location == 'actorSearch') {
+			$('#results').html('');
+			if (location == 'search') {
+				searches[object.type]($('#search-box input').val(), pageNumber);
+			} else {
+				searches.actorMovies({
+					id: $('#results').attr('data-actorid'),
+					name: $('#search-box input[type=text]').val(),
+					page: pageNumber,
+				});
+			}
+		} else {
+			closePopUp();
+		}
 	}
 
-
 }
+

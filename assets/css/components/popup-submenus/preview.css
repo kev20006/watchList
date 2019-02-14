@@ -152,7 +152,7 @@
 .preview .add-tag:focus {
   outline: 0;
 }
-.preview .desc-box {
+.preview #desc-box {
   max-height: 200px;
   overflow-y: auto;
 }

@@ -3,7 +3,8 @@
 
 ["movie", "tv", "person"].forEach((element) => {
     $(`#${element}`).on("click", () => {
-        makePopUp(`${element}`)
+        makePopUp(`${element}`);
+        $(`#${element}`).blur();
     })
 })
 

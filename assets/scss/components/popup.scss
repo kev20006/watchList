@@ -12,18 +12,19 @@
   width:100vw;
   background-color:rgba(0,0,0,0.5);
   #add-or-edit-container{
-    border-top: 2px solid orange;
+    border: 4px solid nth($default-color,1);
     border-radius:5px;
     margin: auto auto;
     position: relative;
-    top: 50px;
+    top: 30px;
     width: 95vw;
     max-width: 600px;
-    max-height:80vh;
-    overflow-y:auto; 
-    overflow-x:hidden;
+    max-height:90vh;
+    min-height: 50vh;
+    overflow-y: auto;
     background-color: white;
-    box-shadow:1px 1px 2px rgba(0,0,0,0.1);
+    box-shadow:2px 2px 2px rgba(39, 26, 26, 0.7);
+    padding-top:5px;
     #add-collection{
       padding: 0;
       border:none;

@@ -13,9 +13,9 @@
   height:100vh;
   left: -240px;
   width:230px;
+  overflow-y:auto;
   border-right:4px solid nth($default-color,1);
   background-color: white;
-  overflow-y: auto;
   .sub-head{
     font-size: 1.1rem;
     padding-left:10px;

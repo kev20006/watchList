@@ -184,7 +184,7 @@ main .app {
   transition: all 0.2s;
 }
 .page-footer i:hover {
-  transform: scale(1.5);
+  transform: scale(1.2);
 }
 
 /*# sourceMappingURL=page.css.map */

@@ -53,45 +53,44 @@
         <!-- navbar ends here -->
         <!-- Drawer Menu Starts Here --> 
         <aside id="menu">
-            <h5 class="sub-head heading"><strong>Filter By Type:</strong></h5>
-            <ul id="filter-menu" class="menu-list">
-                <li onclick="performFilter('type','all')"><i class="fas fa-asterisk mr-2 w-30"></i><span>All</span></li>
-                <li onclick="performFilter('type','movie')"><i class="fas fa-film m-1 w-30"></i> <span>Movies</span> </li>
-                <li onclick="performFilter('type','tv')"><i class="fas fa-tv mr-1 w-30"></i> <span>TV </span></li>
-            </ul>
-            <hr />
-            <h5 class="sub-head heading"><strong>Filter by Tags:</strong></h5>
-            <ul id="category-list" class="category-list menu-list">
-            </ul>
-            <hr />
-            <div>
-            <h5 class="sub-head heading"><strong>Browse:</strong></h5>
-            <ul id="category-list" class="category-list menu-list">
-                <li onclick="recommendations.recommendationsList({type:'movie', recType:'cinema now', page:1})">In Theatres Now</li>
-                <li onclick="recommendations.recommendationsList({type:'movie', recType:'top movies', page:1})">Top Rated Movies</li>
-                <li onclick="recommendations.recommendationsList({type:'tv', recType:'top tv',page:1} )">Top Rated TV Shows</li>
-                <li onclick="recommendations.recommendationsList({type:'tv', recType:'tv now', page:1})">On TV Now</li>
-            </ul>
-            <hr />
-            </div>
-            <div id="browse-genres">
-            <h5 class="sub-head heading"><strong>Browse by Genre:</strong></h5>
-            <ul id="browse-genres" class="category-list menu-list">
-                <li id="movie-by-genre">Movies </li>
-                <p id="movie-genre-search" class="mx-0 px-4">
-                    <select id="movie-genres-list">
-                        <option>select a genre</option>
-                    </select>
-                </p>
-            
-                <li id="tv-by-genre">TV</li>
-                <p id="tv-genre-search" class="mx-0 px-4">
-                    <select id="tv-genres-list" class="w-90">
-                        <option>select a genre</option>
-                    </select>
-                </p>
-            </ul>
-            <hr />
+                <h5 class="sub-head heading"><strong>Filter By Type:</strong></h5>
+                <ul id="filter-menu" class="menu-list">
+                    <li onclick="performFilter('type','all')"><i class="fas fa-asterisk mr-2 w-30"></i><span>All</span></li>
+                    <li onclick="performFilter('type','movie')"><i class="fas fa-film m-1 w-30"></i> <span>Movies</span> </li>
+                    <li onclick="performFilter('type','tv')"><i class="fas fa-tv mr-1 w-30"></i> <span>TV </span></li>
+                </ul>
+                <hr />
+                <h5 class="sub-head heading"><strong>Filter by Tags:</strong></h5>
+                <ul id="category-list" class="category-list menu-list">
+                </ul>
+                <hr />
+                <div>
+                <h5 class="sub-head heading"><strong>Browse:</strong></h5>
+                <ul id="category-list" class="category-list menu-list">
+                    <li onclick="recommendations.recommendationsList({type:'movie', recType:'cinema now', page:1})">In Theatres Now</li>
+                    <li onclick="recommendations.recommendationsList({type:'movie', recType:'top movies', page:1})">Top Rated Movies</li>
+                    <li onclick="recommendations.recommendationsList({type:'tv', recType:'top tv',page:1} )">Top Rated TV Shows</li>
+                    <li onclick="recommendations.recommendationsList({type:'tv', recType:'tv now', page:1})">On TV Now</li>
+                </ul>
+                <hr />
+                </div>
+                <div id="browse-genres">
+                <h5 class="sub-head heading"><strong>Browse by Genre:</strong></h5>
+                <ul id="browse-genres" class="category-list menu-list">
+                    <li id="movie-by-genre">Movies </li>
+                    <p id="movie-genre-search" class="mx-0 px-4">
+                        <select id="movie-genres-list">
+                            <option>select a genre</option>
+                        </select>
+                    </p>    
+                    <li id="tv-by-genre">TV</li>
+                    <p id="tv-genre-search" class="mx-0 px-4">
+                        <select id="tv-genres-list" class="w-90">
+                            <option>select a genre</option>
+                        </select>
+                    </p>
+                </ul>
+                <hr />
             </div>
             <p class="sub-head heading"><strong>Other Options:</strong></p>
             <ul class = "category-list menu-list">
@@ -134,9 +133,11 @@
     </main>  
     <!-- End Modal -->
     <!-- bootstrap scripts -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" 
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" 
+    integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
         crossorigin="anonymous"></script>
     <!-- Bootstrap tooltips -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>

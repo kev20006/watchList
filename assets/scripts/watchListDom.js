@@ -111,6 +111,8 @@ const watchListDom = {
 		$('#movie-genres-list').html('');
 		$('#tv-genres-list').html('');
 		$('#tags-list-list').html('');
+		$('#movie-genres-list').append(`<option>Select an item</option>`);
+		$('#tv-genres-list').append(`<option>Select an item</option>`);
 		watchList.details.movieGenres.forEach(element => {
 			$('#movie-genres-list').append(`<option value="${element.id}">${element.name}</option>`);
 		});

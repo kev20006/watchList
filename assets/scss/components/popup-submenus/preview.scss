@@ -97,7 +97,7 @@
     &::placeholder { color: black;}
     &:focus {outline:0;}
   }
-  .desc-box{
+  #desc-box{
     max-height:200px;
     overflow-y: auto;
   }

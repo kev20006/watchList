@@ -84,9 +84,9 @@ select option:checked {
   height: 100vh;
   left: -240px;
   width: 230px;
+  overflow-y: auto;
   border-right: 4px solid #fcb653;
   background-color: white;
-  overflow-y: auto;
 }
 #menu .sub-head {
   font-size: 1.1rem;
@@ -363,7 +363,7 @@ select option:checked {
 .preview .add-tag:focus {
   outline: 0;
 }
-.preview .desc-box {
+.preview #desc-box {
   max-height: 200px;
   overflow-y: auto;
 }
@@ -538,18 +538,19 @@ select option:checked {
   background-color: rgba(0, 0, 0, 0.5);
 }
 .obscure #add-or-edit-container {
-  border-top: 2px solid orange;
+  border: 4px solid #fcb653;
   border-radius: 5px;
   margin: auto auto;
   position: relative;
-  top: 50px;
+  top: 30px;
   width: 95vw;
   max-width: 600px;
-  max-height: 80vh;
+  max-height: 90vh;
+  min-height: 50vh;
   overflow-y: auto;
-  overflow-x: hidden;
   background-color: white;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 2px 2px rgba(39, 26, 26, 0.7);
+  padding-top: 5px;
 }
 .obscure #add-or-edit-container #add-collection {
   padding: 0;
@@ -754,7 +755,7 @@ main .app {
   transition: all 0.2s;
 }
 .page-footer i:hover {
-  transform: scale(1.5);
+  transform: scale(1.2);
 }
 
 .preview {
@@ -911,7 +912,7 @@ main .app {
 .preview .add-tag:focus {
   outline: 0;
 }
-.preview .desc-box {
+.preview #desc-box {
   max-height: 200px;
   overflow-y: auto;
 }
@@ -1086,18 +1087,19 @@ main .app {
   background-color: rgba(0, 0, 0, 0.5);
 }
 .obscure #add-or-edit-container {
-  border-top: 2px solid orange;
+  border: 4px solid #fcb653;
   border-radius: 5px;
   margin: auto auto;
   position: relative;
-  top: 50px;
+  top: 30px;
   width: 95vw;
   max-width: 600px;
-  max-height: 80vh;
+  max-height: 90vh;
+  min-height: 50vh;
   overflow-y: auto;
-  overflow-x: hidden;
   background-color: white;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 2px 2px rgba(39, 26, 26, 0.7);
+  padding-top: 5px;
 }
 .obscure #add-or-edit-container #add-collection {
   padding: 0;

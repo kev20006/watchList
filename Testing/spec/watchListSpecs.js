@@ -52,15 +52,15 @@ describe('Testing the functionality, of the watchlist methods', () => {
 
     describe("adding tags", () => { 
         it('should be able to add empty custom collections', () => {
-            watchList.addCollection("test 1");
+            watchList.addTag("test 1");
             expect(watchList.collections["test 1"].length).toBe(0);
         })
         it('should be able to add custom collections with content', () => {
-            watchList.addCollection("test 2", 0);
+            watchList.addTag("test 2", 0);
             expect(watchList.collections["test 2"].length).toBe(1);
         })
         it('should be able to add more items to a custom collection', () => {
-            watchList.addCollection("test 2", 1);
+            watchList.addTag("test 2", 1);
             expect(watchList.collections["test 2"].length).toBe(2);
         })
     })
@@ -102,8 +102,8 @@ describe('Testing the functionality, of the watchlist methods', () => {
         })
         describe('should be able to sort by tags', () => {
             it(`should be able to filter the list to show the items listed in a tag`,()=>{
-                watchList.addCollection("Wizards", 1);
-                watchList.addCollection("Wizards", 0);
+                watchList.addTag("Wizards", 1);
+                watchList.addTag("Wizards", 0);
                 let newList = watchList.filter("tags", "Wizards");
                 expect(newList.length).toBe(2);
             }); 

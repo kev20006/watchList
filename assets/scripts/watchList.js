@@ -194,7 +194,8 @@ const watchList = {
 		watchList.updateLocalStorage();
 	},
 	updateLocalStorage: () => {
-		window.localStorage.setItem('watchListData', JSON.stringify({ list: watchList }));
+		let tmpLst = watchList
+		window.localStorage.setItem('watchListData', JSON.stringify({ list:tmpLst }));
 	},
 	resetAll: () => {
 		watchList.analytics = {
