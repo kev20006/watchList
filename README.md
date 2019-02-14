@@ -101,7 +101,7 @@ Wireframes are included below or alternatively in the documentation folder in th
 
 #### Colours
 
-In my choice of colours i chose to keep things quite simple. Initially i had planned to have movies, tv and tags to all be different colours and completely change the UI to match the selected item. 
+In my choice of colours i chose to keep things quite simple. Initially i had planned to have movies, tv and tags to all be different colours and completely change the UI to match the selected item, however, felt that would detract from the app having a cohesive theme. Instead I decided to use one main colour, and shades of grey for secondary colouring. I decided to go with an orange/yellow color for the app as I felt that it is a colour that evokes positivity and optimism. 
 
 #### Typeface
 
@@ -129,24 +129,118 @@ Every clickable element on the app has a hover effects to ensure that it is clea
 
 ### Existing Features
 
-* Movies and TV shows are stored as custom classes, with method to generate the HTML for their various states.
-..these classes are defined in classes.js - the card, searchItem and itemPreview methods are used to generate all the TV and Movie object HTML elsewhere in the app
+#### Data Structures 
 
-* The uses the TMDB api to get information about movies and TV shows used to create the movie and tv objects.
-..All API calls are handled by TMDB.js
+Movies and TV shows are stored as custom classes, with methods to generate the HTML for their various states.
+
+These classes are defined in classes.js 
+
+#### Up To Date External Data
+
+WatchList uses the TMDB API to get information about movies and TV shows used to create the movie and tv objects.
+ 
+All API calls are handled by TMDB.js
+ 
+As a free user Watchlist is limited to 10 API requests every 10 seconds. If this number is exceeded warning.js displays an error message and a countdown. 
+
+#### Search Movies, TV Show and Actors
 
 * Search for Movies By Title - Users can search for Movies by title from the drop down menu.
 * Search for Tv Shows by Title - Users can search for Movies by title from the drop down menu.
 * Search for Movies by Actor - Users can search for an actor. On selecting that Actor the user can view a list of movies that they are in.
 
-**The above features are implemented in a number of places.**
-* menu.js animates the add items dropdown menu and handles the click events for this menu.
-* popup.js renders the HTML for the pop box that is used by the search interface, and handles the event listeners for the search box
-* search.js uses tmdb.js to make the API calls and also provides a callback to render these search results in the pop window. It also handles pagination of search results.
+menu.js animates the add items dropdown menu and handles the click events for this menu.
+popup.js renders the HTML for the pop box that is used by the search interface, and handles the event listeners for the search box
+search.js uses tmdb.js to make the API calls and also provides a callback to render these search results in the pop window. It also handles pagination of search results.
 
+#### Browse TV and Movies
 * Browse highest rated movies
 * Browse Movies in cinemas now
 * Broswe Movies by Genre
 * Browse highest rated TV shows
 * Browse TV shows currently airing
 * Broswe TV shows by Genre
+
+## Testing
+
+### Automated Testing
+
+**A couple of caveats**
+* Due to some dependency on previous inputs the testing will only work if done in order. Items are added using the add method these items are then removed using the remove method.
+
+* Running the tests will reset the local storage of your current watchlist
+
+
+Automated testing was carried out using the Jasmine testing suite and can be found in the testing folder in the repo. Alternatively clicking [here will open the jasmine tests](https://kev20006.github.io/watchList/Testing/SpecRunner.html?random=false)
+
+The automated testing is carried out on the watchlist.js and utilityFunctions.js as these are the functions that do not rely on external APIs or modify the DOM or application state in anyway.
+
+**Watchlist.js**: initialises, handles and stores the data used by the other scripts. 
+
+**utilityFunctions.js**: contains a number of functions used throughout the app for converting data, string formats or generating random numbers. 
+
+### Manual Testing
+
+### User Testing
+
+I shared my app with the CI slack group, some of my colleagues at work and with my family at different stages of it's development in the following sections are details of bugs found and fixes applied.
+
+#### Bugs & Bug Fixes
+Below details a list of bugs found from user testing.
+
+##### Manually Having to Referesh The Page when items were added
+
+**Status:** Fixed
+
+**Details**
+If the user added an item they would then have to manually referesh the page to see the items in the list.
+
+**Fix**
+This bug occured as a result of splitting the watchlist.js file into watchList.js to handle the model and watchListDom.js to update the DOM. The watchList.add method was called as a part of WatchListDom.add, to add data to list, however the render method was never called after the add took place. Render method added to WatchListDom.add fixed this.
+
+#### Frequent Annoying Pop-Up
+
+**Status:** Fixed
+
+**Details**
+The first time the user opens watchlist the information and help screen is supposed to display, however it was continuing to display everytime a user visited the app.
+
+**Fix**
+The pop-up was displaying whenever a user had an empty list. However having an empty list doesn't guarantee a first time user. A boolean property called returningUser was added to the watchList to record whether it was a users first visit or not. clicking ok on the welcome message sets this value to true, this then prevents the pop-up displaying on future visits 
+
+##### Frequently Exceeeding API Request Limit
+App would frequently exceed it's API request limit.
+**Status:** Fixed
+
+**Details**
+Each search was creating an array of 20 movie or tv objects. This meant that each search or browser was making 21 requests. I for the search and then a further 20 to get the details of each object. 
+
+**Fix**
+Added a generic WatchItem constructor, constructor creates a partial movie or tv object only using details from the search resultswith enough information to render a card or a search result. this reduces the total number of API calls significantly. from 21 to 1 per search. Full movie/tv details are only requested by a a further APU call if the item is select or added to the list.
+
+##### Pagination Controls Not Working Correctly
+The back button for search results doesn't work as expected when looking at Movies by Actor.
+
+**status:** identified
+
+**Details**
+When the user selects an actor from the actor search to see the movies that they are in, the back button on the pagination controls don't respond.
+
+**Fix**
+pending...
+
+##### View more information generates a new movie item each time it is clicked
+
+Each time the user selects a new movie item
+
+**status:** identified
+
+**Details**
+When the user selects an actor from the actor search to see the movies that they are in, the back button on the pagination controls don't respond.
+
+**Fix**
+pending...
+
+
+ 
+
