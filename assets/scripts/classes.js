@@ -577,7 +577,7 @@ class tv extends watchItem {
 		}
 		return cardContents;
 	}
-
+	//Gets two recommendations using the discover End point ot the TMDB API
 	getRecommendations(location) {
 		if (location == 'card') {
 			makePopUp();
