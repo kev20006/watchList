@@ -1,12 +1,10 @@
 # Watch-List (Working Title)
 
-Have you ever seen a trailer for a movie or tv show only to forget it by the time you get home to watch it? Has your friend or colleague ever recommended an life changing book and the when you found time to look for it you couldn't remember what it was called? 
+Have you ever seen a trailer for a movie only to forget it by the time you get home to watch it? Was everybody at work or school talking about an amazing show they saw at the weekend, yet when you sat down infront of your computer you forgot what it was called? Have you ever taken a break from watching tv series, and then forgot what episode you were on?
 
-Watch-list is an app to help with exactly that. It allows you to record any books, films, movies and games that you want to remember and store them conviently in your webbrowser. Using a series of database API's watch-list will search for and store details of media that you want to watch later.
+If you answered yes to a ny of these questions, Watch-List is the app for you. It allows you to search for any TV or Movies by title or by actor and then store them in a list conviently in your web browser. 
 
 [check out the app here](https://kev20006.github.io/watchList/)
-
-Watch list is a JAM stack Single Page Application that locally stores movies and tv shows for the user. 
  
 ## UX
 
@@ -103,6 +101,8 @@ Wireframes are included below or alternatively in the documentation folder in th
 
 In my choice of colours i chose to keep things quite simple. Initially i had planned to have movies, tv and tags to all be different colours and completely change the UI to match the selected item, however, felt that would detract from the app having a cohesive theme. Instead I decided to use one main colour, and shades of grey for secondary colouring. I decided to go with an orange/yellow color for the app as I felt that it is a colour that evokes positivity and optimism. 
 
+As well as the orange color, i utilised some other color conventions, negative actions, like dislike or deleting use red icons, and positive actions, such as liking a movie are green.
+
 #### Typeface
 
 For headings I used the Google Font Bungee. I felt it creating quite a striking yet easy to read appearance.
@@ -129,12 +129,6 @@ Every clickable element on the app has a hover effects to ensure that it is clea
 
 ### Existing Features
 
-#### Data Structures 
-
-Movies and TV shows are stored as custom classes, with methods to generate the HTML for their various states.
-
-These classes are defined in classes.js 
-
 #### Up To Date External Data
 
 WatchList uses the TMDB API to get information about movies and TV shows used to create the movie and tv objects.
@@ -142,6 +136,10 @@ WatchList uses the TMDB API to get information about movies and TV shows used to
 All API calls are handled by TMDB.js
  
 As a free user Watchlist is limited to 10 API requests every 10 seconds. If this number is exceeded warning.js displays an error message and a countdown. 
+
+#### Responsive Card Based Interface.
+
+Users movies and TV shows are stored in the app as cards that will rearrange themselves for different display sizes, making the app completely responsive across all devices.
 
 #### Search Movies, TV Show and Actors
 
@@ -160,6 +158,7 @@ search.js uses tmdb.js to make the API calls and also provides a callback to ren
 * Browse highest rated TV shows
 * Browse TV shows currently airing
 * Broswe TV shows by Genre
+
 
 ## Testing
 
@@ -180,6 +179,33 @@ The automated testing is carried out on the watchlist.js and utilityFunctions.js
 **utilityFunctions.js**: contains a number of functions used throughout the app for converting data, string formats or generating random numbers. 
 
 ### Manual Testing
+
+To test how the varous views rendered into the DOM I conducted manual testing. For the first round of manual testing I completed the following tasks on my desktop computer. (This computer is running windows 10, and uses a display resolution of 1920 x 1080).
+On this computer I tested the app on the following:
+
+1. Chrome Version 72.0.3626.109 -full screen at native resolution
+2. Chrome - emulating an S5
+3. Chrome - emulating a pixel 2
+4. Chrome - emulating a pixel 2 XL
+5. Chrome - emulating an iPhone 5
+6. Chrome - emulating an iPnone 6/7/8
+7. Chrome - emulating an iPhone X
+8. Chrome - emulating an ipad
+9. Chrome - emulating an ipad Pro
+10. Firefox Version  - fullscreen at native resolution
+11. Microsft Edge  - fullscreen at native resolution
+
+After completing this testing completed the same tasks again on the following devices.
+
+1. Samsung A7 - 2016 - "screen
+2. Samsung S6 - 2017 - "screen
+4. Tablet
+5. Levonvo Ideapad - windows 10 - connected to a 42" TV
+6. Levonvo Ideapad - windows 10 - 16" Screen
+
+#### Tasks
+
+
 
 ### User Testing
 
@@ -209,21 +235,23 @@ The first time the user opens watchlist the information and help screen is suppo
 The pop-up was displaying whenever a user had an empty list. However having an empty list doesn't guarantee a first time user. A boolean property called returningUser was added to the watchList to record whether it was a users first visit or not. clicking ok on the welcome message sets this value to true, this then prevents the pop-up displaying on future visits 
 
 ##### Frequently Exceeeding API Request Limit
-App would frequently exceed it's API request limit.
+
 **Status:** Fixed
 
 **Details**
+App would frequently exceed it's API request limit.
+
 Each search was creating an array of 20 movie or tv objects. This meant that each search or browser was making 21 requests. I for the search and then a further 20 to get the details of each object. 
 
 **Fix**
 Added a generic WatchItem constructor, constructor creates a partial movie or tv object only using details from the search resultswith enough information to render a card or a search result. this reduces the total number of API calls significantly. from 21 to 1 per search. Full movie/tv details are only requested by a a further APU call if the item is select or added to the list.
 
 ##### Pagination Controls Not Working Correctly
-The back button for search results doesn't work as expected when looking at Movies by Actor.
 
 **status:** identified
 
 **Details**
+The back button for search results doesn't work as expected when looking at Movies by Actor.
 When the user selects an actor from the actor search to see the movies that they are in, the back button on the pagination controls don't respond.
 
 **Fix**
@@ -231,15 +259,13 @@ pending...
 
 ##### View more information generates a new movie item each time it is clicked
 
-Each time the user selects a new movie item
-
 **status:** identified
 
 **Details**
-When the user selects an actor from the actor search to see the movies that they are in, the back button on the pagination controls don't respond.
+When a user clicks the more information button from a card in their watchlist, the app makes a new API request and creates a new instance of that move object instead of creating a preview of the movie or tv item from the list. This has led to any notes added getting lost and also like, dislike and delete buttons not working as expected. 
 
 **Fix**
-pending...
+When the more info button is clicked the state card that triggered the click event is checked. If that card was generated by a preview or a recommendation an api call is made to get full move or tv info to display in the preview. If it is not a preview item, It is safe to assume that the card must be in the list and therefore the list item's own preview method can be renedered. 
 
 
  
