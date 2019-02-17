@@ -53,15 +53,15 @@ describe('Testing the functionality, of the watchlist methods', () => {
     describe("adding tags", () => { 
         it('should be able to add empty custom collections', () => {
             watchList.addTag("test 1");
-            expect(watchList.collections["test 1"].length).toBe(0);
+            expect(watchList.tags["test 1"].length).toBe(0);
         })
         it('should be able to add custom collections with content', () => {
             watchList.addTag("test 2", 0);
-            expect(watchList.collections["test 2"].length).toBe(1);
+            expect(watchList.tags["test 2"].length).toBe(1);
         })
         it('should be able to add more items to a custom collection', () => {
             watchList.addTag("test 2", 1);
-            expect(watchList.collections["test 2"].length).toBe(2);
+            expect(watchList.tags["test 2"].length).toBe(2);
         })
     })
 

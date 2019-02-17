@@ -21,7 +21,7 @@ function makePopUp(type, name) {
 	} else if (type == 'reset') {
 		resetData();
 	} else if (type == 'add') {
-		addingItem(type, name);
+		addingItem(name);
 	} else {
 		addNewMenu(type);
 	}
@@ -180,16 +180,22 @@ function resetData() {
 	$('#add-or-edit-container').html(``);
 	let resetMenu = $(`<div class="reset-menu p-2"></div>`).append(`
         <h3 class="heading text-center mb-4">Delete Everything?</h3>
-        <p class="mb-1">Thank you for using WatchList, I hope you enjoyed your time here and I'm sorry that maybe things didn't work out quite as well as you hoped</p>
-        <p class="mb-3">Please be cautious, there is no going back from this point.</p>
-        <p>By clicking the button below you will delete:</p>
+		<p class="mb-1">
+			Thank you for using WatchList, I hope you enjoyed your time here and I'm sorry that maybe things didn't work out quite as well as you hoped
+		</p>
+		<p class="mb-3">
+			Please be cautious, there is no going back from this point.
+		</p>
+		<p>
+			By clicking the button below you will delete:
+		</p>
         <ul class="mb-4">
-        <li>The current watchlist</li>
-        <li>All your custom tags and groups</li>
-        <li>All the details about your watch history</li>
+        	<li>The current watchlist</li>
+        	<li>All your custom tags and groups</li>
+        	<li>All the details about your watch history</li>
         </ul>
         `);
-	let deleteButton = $(`<button type="button" class="btn btn-danger">Yes Please, delete all my data</button>`).on(
+	let deleteButton = $(`<button type="button" class="btn btn-danger my-3">Yes Please, delete all my data</button>`).on(
 		'click',
 		() => {
 			watchListDom.resetAll();

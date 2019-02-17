@@ -53,7 +53,8 @@
         <!-- navbar ends here -->
         <!-- Drawer Menu Starts Here --> 
         <aside id="menu">
-                <h5 class="sub-head heading"><strong>Filter By Type:</strong></h5>
+            <div>
+            <h5 class="sub-head heading"><strong>Filter By Type:</strong></h5>
                 <ul id="filter-menu" class="menu-list">
                     <li onclick="performFilter('type','all')"><i class="fas fa-asterisk mr-2 w-30"></i><span>All</span></li>
                     <li onclick="performFilter('type','movie')"><i class="fas fa-film m-1 w-30"></i> <span>Movies</span> </li>
@@ -91,13 +92,14 @@
                     </p>
                 </ul>
                 <hr />
+                </div>
+                <p class="sub-head heading"><strong>Other Options:</strong></p>
+                <ul class = "category-list menu-list">
+                    <li onclick="makePopUp('help')">About Watch List</li>
+                    <li onclick="watchHistory.render()">My Watch History</li>
+                    <li onclick="makePopUp('reset')">Delete Watch List</li>
+                </ul>
             </div>
-            <p class="sub-head heading"><strong>Other Options:</strong></p>
-            <ul class = "category-list menu-list">
-                <li onclick="makePopUp('help')">About Watch List</li>
-                <li onclick="watchHistory.render()">My Watch History</li>
-                <li onclick="makePopUp('reset')">Delete Watch List</li>
-            </ul>
         </aside>
         <!-- End of Drawer Menu Menu Starts Here -->
         <!-- Watch List Main Container Starts Here -->
@@ -107,10 +109,8 @@
         <footer class="page-footer">
             <div class="row mx-0 d-flex justify-content-center">
                 <div class="text-center">
-                    <p>Check out this project on github:</p>
-                    <div class="outwardline"> 
-                        <h3><a href="https://github.com/kev20006/watchList" target="_blank"><i class="fab fa-github"></i></a>
-                    </div>
+                    <p><small class="mr-2">View on Github:</small>
+                        <a href="https://github.com/kev20006/watchList" target="_blank"><i class="fab fa-github"></i></p>
                     <div class="d-flex flex-wrap justify-content-center">
                     <p><small>All movie information is provided by: </small></p>
                         <div class="outwardline ml-4">

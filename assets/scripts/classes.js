@@ -346,7 +346,8 @@ class watchItem {
 		} else {
 			let quickAdd = $(`<div class="btn btn-more-info text-center mt-3">add to list</div>`);
 			quickAdd.on('click', () => {
-				buttonControls.add(this, "recommendation")
+				
+				buttonControls.add(this, recommendation)
 			});
 			cardInfo.append(cardHeader, shortDescription, findOutMore, quickAdd);
 		}
@@ -672,7 +673,14 @@ buttonControls = {
 		if (location != "preview"){
 			let fullDetailsPromise = tmdb.getDetails({ id: object.dbid, type: object.type })
 			fullDetailsPromise.then(details => {
-				watchListDom.add(tmdb[`make${capitalise(object.type)}Object`](details));
+				let newItem = tmdb[`make${capitalise(object.type)}Object`](details)
+				if (location == "recommendation-card") {
+					watchList.add(newItem);
+					makePopUp("add", newItem.title)
+				}else{
+					watchListDom.add(newItem);
+				}
+				
 			});
 		}
 		else{
