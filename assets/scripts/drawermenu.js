@@ -1,6 +1,6 @@
 /****************************DRAWER MENU********************************/
 //animates the drawer menu handles drawer menu events
-
+/*******************************************max length in git hub*********************************************************************/
 let menuActive = false;
 
 $(document).on('click', e => {

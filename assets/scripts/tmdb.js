@@ -63,6 +63,7 @@ const tmdb = {
             list = tmdb.getRecommendations(details)
         }
         list.then((items)=>{
+            let totalPages = items.total_pages
             if (details.recType == "movie actor"){
                 if (details.page){
                     let upperbound = (details.page * 10) - 1;
@@ -95,7 +96,8 @@ const tmdb = {
                 element.type = details.type;
                 objectArray.push(tmdb.makeWatchItem(element));
             })
-            callback(objectArray)
+            
+            callback(objectArray, totalPages)
 
             })
         .catch(e=>{
@@ -119,10 +121,6 @@ const tmdb = {
     },
 
     getDetails:(object)=>{
-        console.log(object.type)
-        console.log(object.id)
-        console.log(tmdb.getURL(`${object.type} details`, { id: object.id }))
-
         return Promise.resolve($.getJSON(tmdb.getURL(`${object.type} details`, {id: object.id})));
     },
 

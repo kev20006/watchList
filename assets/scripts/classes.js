@@ -63,6 +63,7 @@ class watchItem {
 				location = "actorSearch"
 			}
 			buttonControls.preview(this, location)
+			
 		});
 		let buttonWrapper = $('<div class="col-2 px-0"></div>');
 		let addButton = $(`<div class="add d-flex justify-content-center align-items-center mr-2"> 
@@ -173,12 +174,19 @@ class watchItem {
 
 		previewMainContentContainer.append(controlsContainer, previewDescription);
 		imageRow.append(previewMainContentContainer)
-		//empty div for adding movie or 
+		//empty div for adding movie or tv info
 		
 		let additionalInfo = $(`<section class="col-12 additional-info">`);
 		previewBody.append(imageRow, additionalInfo);
 		
+		// populate dropdown box with tags
+		let options = $(`<datalist id="tags-list"></datalist>`)
+		Object.keys(watchList.tags).forEach(element =>{
+			options.append(`<option value="${element}"></option>`)
+		})
 		// start of the tags and notes section 
+		let collectionSpan = $(`<span class="ml-2 collection-tag"></span>`)
+			.append(`<input class="add-tag" list="tags-list" placeholder="add new"></input>`, options)
 		let tagsContainer = $(`<div class=" d-flex flex-wrap preview-tags"></div>`)
 			.on('keydown', 'input', e => {
 				if ($('.add-tag').val().length >= 10) {
@@ -207,13 +215,10 @@ class watchItem {
 				$('.help').toggleClass('d-none');
 			})
 			.append(
-				`
-            <span class="ml-2 collection-tag">
-                <input class="add-tag" list="tags-list" placeholder="add new"></input>
-                <datalist id="tags-list"></datalist>
-            </span>`,
+				collectionSpan,                           
 				this.updateTags()
 			);
+		
 		let noteArea = $(
 			`<textarea id="notes" class="notes-area" placeholder="Any Additional notes about this ${
 				this.type
@@ -311,7 +316,6 @@ class watchItem {
 
 		findOutMore.on('click', e => {
 			buttonControls.preview(this, "card");
-			$(e.target).html("getting preview")
 		});
 
 		//if a card is not a recommendation it is in the list - meaning it needs like dislike and delete controls
@@ -478,10 +482,16 @@ class tv extends watchItem {
 		let seasonList = $(`<div id="seasons" class="d-flex flex-wrap"></div>`);
 		let episodeList = $(`<div id="episodes" class="d-flex flex-wrap"></div>`);
 		let sIndex = 0;
+		let firstSeason = 0;
+		if(this.epTracker[0].name == "Season 1"){
+			 firstSeason = 1;
+		}
+		
+		console.log(this.epTracker)
 		//loop through the seasons to create the season tracker
 		this.epTracker.forEach(season => {
 			//seasons are later identified using their id - i.e. s-1 refers to season 1
-			let epButton = $(`<span id="s-${sIndex}" class="mx-2 season-button">${season.name}</span>`)
+			let epButton = $(`<span id="s-${firstSeason}" class="mx-2 season-button">${season.name}</span>`)
 			if (this.epTracker[sIndex].episodes.every(e =>{return e.watched})){
 				epButton.addClass("watched")
 			}
@@ -492,34 +502,42 @@ class tv extends watchItem {
 					$(e.target)
 						.siblings()
 						.removeClass('selected');
-					this.epTracker[e.target.id.split('-')[1]].episodes.forEach(episode => {
-						let state = '';
-						if (episode.watched) {
-							state = 'watched';
-						}
-						//episode objects are identified in the same way as seasons. using the span id's
-						//for example s-1-e-2 represents season 1 episode 2
-						let episodeButon = $(`
+				//fix for shows with no 0 season
+				let targetVal = e.target.id.split('-')[1]
+				if (firstSeason != sIndex){
+					targetVal -= 1
+				}
+
+
+				this.epTracker[targetVal].episodes.forEach(episode => {
+					let state = '';
+					if (episode.watched) {
+						state = 'watched';
+					}
+					//episode objects are identified in the same way as seasons. using the span id's
+					//for example s-1-e-2 represents season 1 episode 2
+					let episodeButon = $(`
                     		<span id="S-${e.target.id.split('-')[1]}-E-${episode.episode}" 
 							class="mx-2 season-button ${state}">E-${episode.episode}</span>`
-							)
-							.on('click', e => {
-								$(e.target).addClass('selected');
-								$(e.target)
-									.siblings()
-									.removeClass('selected');
-								$('.ep-details').html('fetching episode information...');
-								let series = e.target.id.split('-');
-								//this function is defined below the TV object.
-								showEpisode(this, series[1], series[3]);
-								watchList.updateLocalStorage();
-							});
-						$('#episodes').append(episodeButon);
-					});
+					)
+						.on('click', e => {
+							$(e.target).addClass('selected');
+							$(e.target)
+								.siblings()
+								.removeClass('selected');
+							$('.ep-details').html('fetching episode information...');
+							let series = e.target.id.split('-');
+							//this function is defined below the TV object.
+							showEpisode(this, series[1], series[3]);
+							watchList.updateLocalStorage();
+						});
+					$('#episodes').append(episodeButon);
+				});
 				}
 			);
 			seasonList.append(epButton);
 			sIndex += 1;
+			firstSeason += 1;
 		});
 
 		let collapseTracker = $(`
@@ -622,6 +640,9 @@ class tv extends watchItem {
 //callback function to get information about each episode of a show, called by the item preview above.
 showEpisode = (object, season, episode) => {
 	tmdb.getEpisodeName(object.dbid, season, episode, episodeDetails => {
+		if (object.epTracker[0].name == "Season 1"){
+			season -= 1
+		}
 		$('.ep-details').html('');
 		$('.ep-details').append(`
 				<p class="mt-2 mb-0 text-center heading">
@@ -689,8 +710,7 @@ buttonControls = {
 	},
 
 	delete: (object) => {
-		console.log(object)
-		watchListDom.remove(object.id.split('-')[1]);
+		watchListDom.remove(object.id.split('-')[1], object.dbid);
 		watchListDom.render(watchList.contents);
 		closePopUp();
 	},

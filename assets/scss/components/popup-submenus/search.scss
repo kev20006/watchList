@@ -46,10 +46,9 @@
       transition: all 0.1s;
       &:hover {
         top: 20px;
-        @include tooltip("quick add to list, click anywhere else for more info", 75px, 0px, wrap);
+         @include tooltip("quick add to list, click anywhere else for more info", 50px, 0px, wrap);
         &::before{
           width: 300px;
-          right: 10px;
           font-size: 0.7rem;
         }
         
@@ -71,7 +70,6 @@
       padding: 5px 10px;
       margin-top: 5px;
       margin-bottom:15px;
-
       transition: all 0.1s;
       &:hover{
         top: 2px;

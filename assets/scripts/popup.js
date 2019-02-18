@@ -89,19 +89,38 @@ function manageFilters() {
 	let inputWrapper = $(`<div class="input-box-wrapper my-0"></div>`).append(tagLabel, tagInput);
 	newTagWrapper.append(inputWrapper, button);
 	manageFiltersWrapper.append(title, newTagWrapper);
-
 	if (Object.keys(watchList.tags).length > 0) {
 		Object.keys(watchList.tags).forEach(element => {
 			let wrapper = $(`<div class="d-flex justify-content-around tag-wrapper"></div>`);
-			let input = $(`<input type="text" value=${element}></input>`).on('input', e => {
-				watchList.tags[e.target.value] = watchList.tags[element];
-				delete watchList.tags[element];
-				watchListDom.renderTags();
-				watchList.updateLocalStorage();
-			});
+			wrapper.hover((e)=>{
+				$(e.target)
+					.find(".fa-arrow-right")
+					.removeClass("fa-arrow-right")
+					.addClass("fa-pencil-alt");
+			}, (e)=>{
+				$(e.target)
+					.find(".fa-pencil-alt")
+					.removeClass("fa-pencil-alt")
+					.addClass("fa-arrow-right");
+					$(e.target).find("input").blur();
+			})
+			let input = $(`<input type="text" value=${element}></input>`)
+				.on('input', e => {
+					if ($(e.target).val().length == 0) {
+						delete watchList.tags[element];
+					}else{
+						watchList.tags[e.target.value] = watchList.tags[element];
+						delete watchList.tags[element];
+					}
+					manageFilters();
+					watchList.updateLocalStorage();
+				})
+				
+					
+				
 			let arrow = $(`<div class="d-flex align-items-center"><i class="fas fa-arrow-right my-0"></i>`);
 			let deleteButton = $(
-				`<div class="d-flex align-items-center btn-delete"><i class="far fa-trash-alt my-0"></i></i></div>`
+				`<div class="d-flex align-items-center btn"><i class="far fa-trash-alt my-0"></i></i></div>`
 			).on('click', () => {
 				watchListDom.removeTag(element);
 				watchListDom.renderTags();
@@ -137,8 +156,13 @@ function addNewMenu(type) {
                             </div>`);
 		}
 		if (e.keyCode == 13) {
-			searches[type](searchBar.val(), 1);
-			$(e.target).blur();
+			if (searchBar.val().length > 0){
+				searches[type](searchBar.val(), 1);
+				$(e.target).blur();
+			}else{
+				$("#search-box input").effect("shake");
+			}
+			
 		}
 	});
 	let searchIcon = $(`<i class="fas fa-search ml-2 mr-4"></i>`);

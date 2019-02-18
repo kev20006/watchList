@@ -6,7 +6,7 @@ let searches = {
 	//paginate movies
 	movie: (terms, page) => {
 		let searchPage = Math.ceil(page / 2);
-		tmdb.getObjects({ type: 'movie', terms: terms, page: searchPage, listType: 'search' }, movies => {
+		tmdb.getObjects({ type: 'movie', terms: terms, page: searchPage, listType: 'search' }, (movies, totalPage) => {
 			if (page % 2 != 0) {
 				movies = movies.slice(0, 9);
 			} else {
@@ -22,7 +22,7 @@ let searches = {
 					resultsContainer.append(element.searchItem());
 				});
 				$(`#results`).append(resultsContainer);
-				$(`#results`).append(paginationControls(page, terms, 'movie'));
+				$(`#results`).append(paginationControls(page, terms, 'movie', totalPage, movies.length));
 			}
 		});
 		$(`#results`).html(`
@@ -39,7 +39,7 @@ let searches = {
             <p>searching......</p>
             </div>`);
 		let searchPage = Math.ceil(page / 2);
-		tmdb.getObjects({ type: 'tv', terms: terms, page: searchPage, listType: 'search' }, shows => {
+		tmdb.getObjects({ type: 'tv', terms: terms, page: searchPage, listType: 'search' }, (shows, totalPage) => {
 			if (page % 2 != 0) {
 				shows = shows.slice(0, 9);
 			} else {
@@ -55,7 +55,7 @@ let searches = {
 					resultsContainer.append(element.searchItem());
 				});
 				$(`#results`).append(resultsContainer);
-				$(`#results`).append(paginationControls(page, terms, 'tv'));
+				$(`#results`).append(paginationControls(page, terms, 'tv', totalPage, shows.length));
 			}
 		});
 	},
@@ -136,9 +136,9 @@ let searches = {
 	},
 };
 
-function paginationControls(page, terms, type) {
+function paginationControls(page, terms, type, totalPage, lengthOfCurrent) {
 	let incr = 1;
-	let pageButtons = $(`<div class="d-flex justify-content-around mt-2"></div>`);
+	let pageButtons = $(`<div class="d-flex justify-content-around mt-2 mb-2"></div>`);
 	let back = $(`<div class="result-btn">prev</div>`).on('click', () => {
 		let newPage = (p => {
 			return p - incr;
@@ -157,12 +157,20 @@ function paginationControls(page, terms, type) {
 			return p + incr;
 		})(page);
 		$('#results').attr('data-page', newPage);
-		if (type == 'actor-movies') {
-			searches.actorMovies({ id: terms.id, name: terms.name, page: newPage });
-		} else {
-			searches[type](terms, newPage);
+		if (newPage <= totalPage * 2  && lengthOfCurrent >= 9){
+			if (type == 'actor-movies') {
+				searches.actorMovies({ id: terms.id, name: terms.name, page: newPage });
+			} else {
+				searches[type](terms, newPage);
+			}
 		}
 	});
-	pageButtons.append(back, next);
+	if (page > 1){
+		pageButtons.append(back);
+	}
+	
+	if (page <= totalPage * 2 && lengthOfCurrent >= 9) {
+		pageButtons.append(next);
+	}
 	return pageButtons;
 }

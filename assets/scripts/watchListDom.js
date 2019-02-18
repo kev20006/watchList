@@ -16,8 +16,15 @@ const watchListDom = {
 			showWarning(`item is already in watchlist did not add. click to close`);
 		}
 	},
-	remove: id => {
+	remove: (id, dbid) => {
 		watchList.remove(id);
+		Object.keys(watchList.tags).forEach(tag => {
+			if (watchList.tags[tag].includes(dbid)) {
+				tagPosition = watchList.tags[tag].indexOf(dbid)
+				watchList.tags[tag] = [...watchList.tags[tag].splice(0, tagPosition), ...watchList.tags[tag].splice(tagPosition + 1)]
+			}
+		})
+		watchListDom.renderTags()
 		watchListDom.render(watchList.contents);
 	},
 	filter: (filterBy, value) => {

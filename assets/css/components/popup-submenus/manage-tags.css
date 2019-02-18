@@ -25,5 +25,13 @@
   background-color: #e6e6e6;
   border-bottom: 2px solid orange;
 }
+.manage-tags .btn {
+  position: relative;
+  background-color: #ddd;
+  border-radius: 50%;
+}
+.manage-tags .btn:hover {
+  background-color: #aaa;
+}
 
 /*# sourceMappingURL=manage-tags.css.map */
