@@ -7,7 +7,7 @@
   padding-top: 20px;
   z-index: 2000;
   position: fixed;
-  height: 100vh;
+  height: 100%;
   left: -240px;
   width: 230px;
   overflow-y: auto;

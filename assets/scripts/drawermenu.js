@@ -76,13 +76,3 @@ function closeDrawerMenu() {
 	);
 }
 
-//stop both items scrolling at once
-$('#menu').hover(
-	(e)=>{
-		e.stopPropagation()
-		$('body').css("overflow-y", "hidden");
-	},
-	(e)=>{
-		e.stopPropagation()
-		$('body').css("overflow-y", "auto");
-	})
