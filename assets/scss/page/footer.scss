@@ -6,7 +6,8 @@
   color:white;
   background-color: black;
   a{
-    all: unset;
+    color: inherit;
+    text-decoration: none;
     cursor: pointer;
   }
   .outwardline{
