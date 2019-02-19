@@ -3,10 +3,12 @@
 //Code for rendering search results in the app
 
 let searches = {
-	//paginate movies
+	//renders movie search items to the popup modal
 	movie: (terms, page) => {
 		let searchPage = Math.ceil(page / 2);
 		tmdb.getObjects({ type: 'movie', terms: terms, page: searchPage, listType: 'search' }, (movies, totalPage) => {
+			//by default tmdb returns 20 search results, this felt like too many to display at one time.
+			// this allows me to render them 10 at a time
 			if (page % 2 != 0) {
 				movies = movies.slice(0, 9);
 			} else {
@@ -18,7 +20,6 @@ let searches = {
 			} else {
 				let resultsContainer = $(`<div></div>`);
 				movies.forEach(element => {
-					console.log(element)
 					resultsContainer.append(element.searchItem());
 				});
 				$(`#results`).append(resultsContainer);
@@ -31,7 +32,7 @@ let searches = {
             <p>searching movies....</p>
             </div>`);
 	},
-
+	//renders tv search items to the popup modal
 	tv: (terms, page) => {
 		$(`#results`).html(`
             <div class="no-results text-center">
@@ -51,7 +52,6 @@ let searches = {
 			} else {
 				let resultsContainer = $(`<div></div>`);
 				shows.forEach(element => {
-					console.log(element)
 					resultsContainer.append(element.searchItem());
 				});
 				$(`#results`).append(resultsContainer);
@@ -59,6 +59,7 @@ let searches = {
 			}
 		});
 	},
+	//renders person search items to the popup modal
 	person: (terms, page) => {
 		$(`#results`).html(`
             <div class="no-results text-center">
@@ -67,6 +68,7 @@ let searches = {
             </div>`);
 		let searchPage = Math.ceil(page / 2);
 		tmdb.getSearchResults({ type: 'person', terms: terms, page: searchPage, listType: 'search' }).then(person => {
+			let totalPages = person.total_pages
 			person = person.results;
 			if (page % 2 != 0) {
 				person = person.slice(0, 9);
@@ -87,11 +89,11 @@ let searches = {
 					resultsContainer.append(searchItem);
 				});
 				$(`#results`).append(resultsContainer);
-				$(`#results`).append(paginationControls(page, terms, 'person'));
+				$(`#results`).append(paginationControls(page, terms, 'person', totalPages, person.length));
 			}
 		});
 	},
-
+	//renders all an actors movies to the pop-up modal
 	actorMovies: object => {
 		$(`#results`).html('');
 		$(`#results`).html(`
@@ -109,14 +111,14 @@ let searches = {
 				type: 'movie',
 				page: object.page,
 			},
-			movies => {
+			(movies, totalPage) => {
 				$(`#results`).html('');
 				$('#results').attr('data-actorid', object.id);
 				movies.forEach(movie => {
 					resultsContainer.append(movie.searchItem(true));
 				});
 				$(`#results`).append(resultsContainer);
-				$(`#results`).append(paginationControls(1, { id: object.id, name: object.name }, 'actor-movies'));
+				$(`#results`).append(paginationControls(object.page, { id: object.id, name: object.name }, 'actor-movies', totalPage, movies.length));
 			}
 		);
 	},
@@ -136,6 +138,7 @@ let searches = {
 	},
 };
 
+// generate the controls to paginate the search results.
 function paginationControls(page, terms, type, totalPage, lengthOfCurrent) {
 	let incr = 1;
 	let pageButtons = $(`<div class="d-flex justify-content-around mt-2 mb-2"></div>`);
@@ -165,6 +168,8 @@ function paginationControls(page, terms, type, totalPage, lengthOfCurrent) {
 			}
 		}
 	});
+	console.log(page)
+	console.log(totalPage)
 	if (page > 1){
 		pageButtons.append(back);
 	}

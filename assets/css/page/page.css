@@ -146,16 +146,19 @@ body {
 
 main .app {
   background-color: #eeeeee;
-  min-height: 75vh;
+  min-height: 85vh;
   width: 100vw;
 }
 
 #watch-list {
-  padding-top: 5vh;
-  min-height: 85vh;
+  padding-top: 60px;
+  min-height: 95vh;
 }
 
 .page-footer {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 95vh;
   padding-top: 30px;
   color: white;
   background-color: black;

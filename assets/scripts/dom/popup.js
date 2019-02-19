@@ -1,4 +1,4 @@
-/********************POPUP***************** */
+
 //animates the pop-up menu and generates the HTML for all the non-search pop-up menu functions
 
 function closePopUp() {
@@ -9,6 +9,9 @@ function closePopUp() {
 		$(this).css('display', 'none');
 	});
 }
+
+
+//controller function for the pop-up box
 
 function makePopUp(type, name) {
 	$('#add-or-edit-container').html('');
@@ -27,12 +30,17 @@ function makePopUp(type, name) {
 	}
 }
 
+
+//close the modal on outside clicks
 $(document).on('click', e => {
 	if ($(e.target).hasClass('obscure')) {
 		closePopUp();
 	}
 });
 
+
+// when a user clicks adds an item while browsing a pop-up appears asking if they wish to continue browsing 
+// or view their updated watchList
 function addingItem(name) {
 	$('#add-or-edit-container').html(
 		`<div class="p-4"><p class="heading text-center">${name} has been added</p></div>`
@@ -47,6 +55,8 @@ function addingItem(name) {
 	let buttonWrapper = $(`<div class="d-flex justify-content-around mb-4"></div>`).append(browse, viewList);
 	$('#add-or-edit-container').append(buttonWrapper);
 }
+
+//Create and Render HTML for the manage tags menu
 
 function manageFilters() {
 	$('#add-or-edit-container').html('');
@@ -79,7 +89,7 @@ function manageFilters() {
 					.animate({ 'font-size': '1rem', bottom: '0px' }, 'linear');
 			}
 		});
-	let button = $(`<div class="btn my-0"><i class="fas fa-plus"></i></div>`);
+	let button = $(`<div class="btn d-flex justify-content-center align-items-center my-0"><i class="fas fa-plus"></i></div>`);
 	button.on('click', () => {
 		if ($('#collection-input').val().length > 0) {
 			watchListDom.addTag($('#collection-input').val());
@@ -108,7 +118,8 @@ function manageFilters() {
 				.on('input', e => {
 					if ($(e.target).val().length == 0) {
 						delete watchList.tags[element];
-					}else{
+					}
+					else{
 						watchList.tags[e.target.value] = watchList.tags[element];
 						delete watchList.tags[element];
 					}
@@ -120,7 +131,7 @@ function manageFilters() {
 				
 			let arrow = $(`<div class="d-flex align-items-center"><i class="fas fa-arrow-right my-0"></i>`);
 			let deleteButton = $(
-				`<div class="d-flex align-items-center btn"><i class="far fa-trash-alt my-0"></i></i></div>`
+				`<div class="d-flex justify-content-center align-items-center btn"><i class="far fa-trash-alt my-0"></i></i></div>`
 			).on('click', () => {
 				watchListDom.removeTag(element);
 				watchListDom.renderTags();
@@ -133,6 +144,7 @@ function manageFilters() {
 	$('#add-or-edit-container').append(manageFiltersWrapper);
 }
 
+//render the search inteface and perform the searches.
 function addNewMenu(type) {
 	let searchPlaceholder = `Enter a`;
 	switch (type) {
@@ -156,10 +168,12 @@ function addNewMenu(type) {
                             </div>`);
 		}
 		if (e.keyCode == 13) {
+			//validation
 			if (searchBar.val().length > 0){
 				searches[type](searchBar.val(), 1);
 				$(e.target).blur();
-			}else{
+			}
+			else{
 				$("#search-box input").effect("shake");
 			}
 			
@@ -179,18 +193,33 @@ function addNewMenu(type) {
 function displayHelp() {
 	$('#add-or-edit-container').html('');
 	let helpMenu = $(`<div class="help-menu p-4"></div>`)
-		.append(`<h3 class="heading text-center mb-4">Welcome to Watch List</h3>
-        <p class="mb-2">Has anybody ever recommended a great Movie to you, and then when you sat down to watch it, you couldn't remember what it was called?</p>
-        <p class="mb-2">Have you ever been mid-way through a show then taken a break and forgotten what episode you were on? </p>
-        <p class="mb-4">If you answered yes to any of these questions then WatchList is for you allows you to keep track of any Movie or
-        TV recommendations that you have received. It uses The TMBD API to search for up-to-date information about media that you want to remember.
+		.append(
+		`<h3 class="heading text-center mb-4">Welcome to Watch List</h3>
+		<p class="mb-2">
+			Has anybody ever recommended a great Movie to you, and then when you sat down to watch it,
+			you couldn't remember what it was called?
+		</p>
+		<p class="mb-2">
+			Have you ever been mid-way through a show then taken a break and forgotten what episode you were on? 
+		</p>
+		<p class="mb-4">
+			If you answered yes to any of these questions then WatchList is for you allows you to keep track of any Movie or
+			TV recommendations that you have received. It uses The TMBD API to search for up-to-date information about media 
+			that you want to remember.
         </p>
-        <p class="heading mb-3"> <strong>Getting Started:</strong> </p>
+		<p class="heading mb-3"> 
+			<strong>Getting Started:</strong> 
+		</p>
         <ul>
             <li>search for specific using the <i class="fas fa-plus my-0"></i> icon</li>
             <li>Browse new and popular items by selecting one of the recommendations from the menu</li> 
         </ul>
-        <p class="my-2"><small class="text-center"><strong>User History and Watch List are stored using your browsers local storage</strong></small></p>`);
+		<p class="my-2">
+			<small class="text-center">
+				<strong>User History and Watch List are stored using your browsers local storage</strong>
+			</small>
+		</p>`
+	);
 	let okButton = $(`<button type="button" class="btn btn-default mx-auto">OK</button>`).on('click', () => {
 		watchList.returningUser = true;
 		watchList.updateLocalStorage();
@@ -205,7 +234,8 @@ function resetData() {
 	let resetMenu = $(`<div class="reset-menu p-2"></div>`).append(`
         <h3 class="heading text-center mb-4">Delete Everything?</h3>
 		<p class="mb-1">
-			Thank you for using WatchList, I hope you enjoyed your time here and I'm sorry that maybe things didn't work out quite as well as you hoped
+			Thank you for using WatchList, I hope you enjoyed your time here and I'm sorry that maybe things didn't 
+			work out quite as well as you hoped
 		</p>
 		<p class="mb-3">
 			Please be cautious, there is no going back from this point.
@@ -219,13 +249,11 @@ function resetData() {
         	<li>All the details about your watch history</li>
         </ul>
         `);
-	let deleteButton = $(`<button type="button" class="btn btn-danger my-3">Yes Please, delete all my data</button>`).on(
-		'click',
-		() => {
+	let deleteButton = $(`<button type="button" class="btn btn-danger my-3">Yes Please, delete all my data</button>`)
+	.on('click',() => {
 			watchListDom.resetAll();
 			closePopUp();
-		}
-	);
+	});
 	let buttonWrapper = $(`<div class="d-flex justify-content-center"></div>`).append(deleteButton);
 	resetMenu.append(buttonWrapper);
 	$('#add-or-edit-container').append(resetMenu);

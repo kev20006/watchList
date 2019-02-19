@@ -1,6 +1,11 @@
 /***********************MENU*************************/
 //Animates the add new items quick dropdown menu, and attached event listeners.
 
+
+//init start state of add menu
+let addMenuVis = false;
+
+//iteratively assign event listeners to the popup menu
 ["movie", "tv", "person"].forEach((element) => {
     $(`#${element}`).on("click", () => {
         makePopUp(`${element}`);
@@ -9,7 +14,7 @@
 })
 
 
-let addMenuVis = false;
+//animate drop down
 $(document).on("click", (e) => {
     if ($(e.target).closest('div[id]').attr("id") == "add") {
         let startPos = 60;

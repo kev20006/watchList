@@ -1,4 +1,5 @@
-/********************WATCH LIST DOM*******************/
+//scripts to render all changes to the watchlist model.
+
 const watchListDom = {
 	load: () => {
 		watchList.load();

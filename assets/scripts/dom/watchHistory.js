@@ -9,6 +9,7 @@ const watchHistory = {
 			watchHistory.historyCard('tv')
 		);
 	},
+	//total up stats and generate html for the current watchlist card
 	getCurrentListStatsHTML: () => {
 		let noOfMovies = 0;
 		let noOfTV = 0;
@@ -52,6 +53,7 @@ const watchHistory = {
                             </article>
         `);
 		Object.keys(genres).forEach(element => {
+			//regex is used to format genre names for ids action & adventure becomes action-adventure for example
 			let genreHeader = $(`
                 <div class="col-12 mx-0">
                     <div class="col-12 genre d-flex justify-content-between my-1">
@@ -110,6 +112,8 @@ const watchHistory = {
 
 		return htmlOutput;
 	},
+	//generate html for either movies or tv history cards
+	// parameter type determines which type of card to make.
 	historyCard: type => {
 		let history = $(`
             <article class="card info-card p-3">
@@ -160,11 +164,5 @@ const watchHistory = {
 		lastFiveTable.append(tableBody);
 		history.append(lastFiveTable);
 		return history;
-	},
-	tvHistory: () => {
-		return `<article class="card info-card p-3">
-                            <header class="mb-2">
-                            <h3 class="heading">TV History</h3>
-                            </header>`;
 	},
 };

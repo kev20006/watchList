@@ -1,4 +1,6 @@
-/***********************Warning*****************************/
+//render a yellow alert display that renders on top of all content.
+//Takes an HTML string as a parameter and renders that string in the warning.
+//if the warning html string contains a span element, a countdown timer will be rendered in the span.
 function showWarning(warningHTML) {
 	$('#maxReq-Waring').html(warningHTML);
 
@@ -10,11 +12,9 @@ function showWarning(warningHTML) {
 		$('#maxReq-Waring span').html(refresh);
 		if (refresh == 0) {
 			clearInterval(countdown);
-			warningDismiss();
+			$('#maxReq-Waring').addClass('d-none');
 		}
 	}, 1000);
 }
 
-function warningDismiss() {
-	$('#maxReq-Waring').addClass('d-none');
-}
+

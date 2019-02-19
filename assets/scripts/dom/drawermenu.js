@@ -1,8 +1,10 @@
-/****************************DRAWER MENU********************************/
 //animates the drawer menu handles drawer menu events
-/*******************************************max length in git hub*********************************************************************/
-let menuActive = false;
 
+
+//init menu active to false
+menuActive = false;
+
+//slide drawer menu in amd out
 $(document).on('click', e => {
 	if ($(e.target).attr('id') == 'toggle-menu') {
 		if (!menuActive) {
@@ -24,9 +26,10 @@ $(document).on('click', e => {
 	}
 });
 
+// controller function for filters
+
 function performFilter(filterBy, value) {
 	if (value == 'all') {
-		$('#view-title').html(`<h6>All Items</h6>`);
 		watchListDom.render(watchList.contents);
 	} else {
 		watchListDom.filter(filterBy, value);
@@ -34,6 +37,9 @@ function performFilter(filterBy, value) {
 	menuActive = false;
 	closeDrawerMenu();
 }
+
+
+//event listeners for menu items
 
 $('#category-list .add-new').on('click', () => {
 	makePopUp('manageFilters');

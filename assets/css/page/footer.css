@@ -1,4 +1,7 @@
 .page-footer {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 95vh;
   padding-top: 30px;
   color: white;
   background-color: black;

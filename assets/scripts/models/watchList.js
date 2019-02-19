@@ -1,4 +1,4 @@
-/****************************************WATCHLIST******************************/
+
 //This file creates loads and manages all the watchlist data
 //including analytical data, the current watch lists, tags assigned to each movie.
 
@@ -150,6 +150,13 @@ const watchList = {
 		}
 		return filterList;
 	},
+
+	/*
+	Tags are stored in the watchlist as an object in the format
+	{
+		nameOfTag:[array, of, itemIds, that, possess, this, tag]
+	}
+	*/
 	addTag: (name, id = undefined) => {
 		if (!Object.keys(watchList.tags).includes(name)) {
 			if (id == undefined) {
@@ -178,6 +185,7 @@ const watchList = {
 
 		}
 
+		// check to see if last 5 is longer than 5, if it is prune it down to the 4 latest elements
 		if (watchList.analytics[object.type].lastFive.length >= 5) {
 			watchList.analytics[object.type].lastFive = watchList.analytics[object.type].lastFive.slice(-4);
 		}

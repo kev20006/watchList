@@ -530,6 +530,9 @@ select option:checked {
   position: relative;
   background-color: #ddd;
   border-radius: 50%;
+  font-size: 0.9rem;
+  height: 30px;
+  width: 30px;
 }
 .manage-tags .btn:hover {
   background-color: #aaa;
@@ -725,16 +728,19 @@ body {
 
 main .app {
   background-color: #eeeeee;
-  min-height: 75vh;
+  min-height: 85vh;
   width: 100vw;
 }
 
 #watch-list {
-  padding-top: 5vh;
-  min-height: 85vh;
+  padding-top: 60px;
+  min-height: 95vh;
 }
 
 .page-footer {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 95vh;
   padding-top: 30px;
   color: white;
   background-color: black;
@@ -1087,6 +1093,9 @@ main .app {
   position: relative;
   background-color: #ddd;
   border-radius: 50%;
+  font-size: 0.9rem;
+  height: 30px;
+  width: 30px;
 }
 .manage-tags .btn:hover {
   background-color: #aaa;

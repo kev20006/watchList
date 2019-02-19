@@ -1,8 +1,5 @@
-/***********************************TMDB********************************************/
 
-//ALL API calls to The Movie Database are handled in this file.
-
-/***********************************TMDB********************************************/
+/******************************************* max length of a github line *****************************************************/ 
 
 //ALL API calls to The Movie Database are handled in this file.
 
@@ -14,33 +11,62 @@ const tmdb = {
         }
         switch (typeOfSearch){
             case "movie search":
-                return `https://api.themoviedb.org/3/search/movie?api_key=${tmdb.key}&language=en-US&query=${details.terms}&page=${details.page}`;
+                return `https://api.themoviedb.org/3/search/movie?api_key=${tmdb.key}`+
+                        `&language=en-US&query=${details.terms}` +
+                        `&page=${details.page}`;
             case "movie details":
-                return `https://api.themoviedb.org/3/movie/${details.id}?api_key=${tmdb.key}&language=en-US&append_to_response=credits`;
+                return `https://api.themoviedb.org/3/movie/${details.id}?api_key=${tmdb.key}`+
+                        `&language=en-US`+
+                        `&append_to_response=credits`;
             case "cinema now": 
-                return `https://api.themoviedb.org/3/movie/now_playing?api_key=${tmdb.key}&language=en-US&page=${details.page}`;
+                return `https://api.themoviedb.org/3/movie/now_playing?api_key=${tmdb.key}`+
+                        `&language=en-US`+
+                        `&page=${details.page}`;
             case "top movies":
-                return `https://api.themoviedb.org/3/movie/top_rated?api_key=${tmdb.key}&language=en-US&page=${details.page}`;
+                return `https://api.themoviedb.org/3/movie/top_rated?api_key=${tmdb.key}`+
+                        `&language=en-US`+
+                        `&page=${details.page}`;
             case "movie genre":
-                return `https://api.themoviedb.org/3/discover/movie?api_key=${tmdb.key}&language=en-us&with_genres=${details.id}&page=${details.page}`
+                return `https://api.themoviedb.org/3/discover/movie?api_key=${tmdb.key}` +
+                        `&language=en-us&`  +
+                        `with_genres=${details.id}` +
+                        `&page=${details.page}`;
             case "tv genre":
-                return `https://api.themoviedb.org/3/discover/tv?api_key=${tmdb.key}&language=en-us&with_genres=${details.id}&page=${details.page}`    
+                return `https://api.themoviedb.org/3/discover/tv?api_key=${tmdb.key}` +
+                        `&language=en-us&with_genres=${details.id}` + 
+                        `&page=${details.page}` ;   
             case "movie actor":
-                return `https://api.themoviedb.org/3/person/${details.id}?api_key=${tmdb.key}&append_to_response=movie_credits`
+                return `https://api.themoviedb.org/3/person/${details.id}?api_key=${tmdb.key}` +
+                        `&append_to_response=movie_credits`
             case "tv search":
-                return `https://api.themoviedb.org/3/search/tv?api_key=${tmdb.key}&language=en-US&query=${details.terms}&page=${details.page}`;
+                return `https://api.themoviedb.org/3/search/tv?api_key=${tmdb.key}` +
+                        `&language=en-US&query=${details.terms}&` +
+                        `page=${details.page}`;
             case "tv details":
-                return `https://api.themoviedb.org/3/tv/${details.id}?api_key=${tmdb.key}&language=en-US&append_to_response=credits`
+                return `https://api.themoviedb.org/3/tv/${details.id}?api_key=${tmdb.key}` +
+                        `&language=en-US` +
+                        `&append_to_response=credits`;
             case "tv now":
-                return `https://api.themoviedb.org/3/tv/on_the_air?api_key=${tmdb.key}&language=en-US&page=${details.page}`
+                return `https://api.themoviedb.org/3/tv/on_the_air?api_key=${tmdb.key}` +
+                        `&language=en-US` + 
+                        `&page=${details.page}`;
             case "top tv":
-                return `https://api.themoviedb.org/3/tv/top_rated?api_key=${tmdb.key}&language=en-US&page=${details.page}`
+                return `https://api.themoviedb.org/3/tv/top_rated?api_key=${tmdb.key}` +
+                        `&language=en-US` +
+                        `&page=${details.page}`;
             case "tv recommendations":
-                return `https://api.themoviedb.org/3/tv/${details.id}/recommendations?api_key=${tmdb.key}&language=en-US&page=1`
+                return `https://api.themoviedb.org/3/tv/${details.id}/recommendations?api_key=${tmdb.key}` +
+                        `&language=en-US` +
+                        `&page=1`;
             case "tv today":
-                return `https://api.themoviedb.org/3/tv/airing_today?api_key=${tmdb.key}&language=en-US&page=${details.page}`
+                return `https://api.themoviedb.org/3/tv/airing_today?api_key=${tmdb.key}` +
+                        `&language=en-US` + 
+                        `&page=${details.page}`;
             case "person search":
-                return `https://api.themoviedb.org/3/search/person?api_key=${tmdb.key}&language=en-US&query=${details.terms}&page=${details.page}`;
+                return `https://api.themoviedb.org/3/search/person?api_key=${tmdb.key}` + 
+                        `&language=en-US` + 
+                        `&query=${details.terms}` +
+                        `&page=${details.page}`;
 
         }
     },
@@ -63,8 +89,10 @@ const tmdb = {
             list = tmdb.getRecommendations(details)
         }
         list.then((items)=>{
+            console.log(items)
             let totalPages = items.total_pages
             if (details.recType == "movie actor"){
+                totalPages = Math.floor((items.movie_credits.cast.length/10)+1)/2
                 if (details.page){
                     let upperbound = (details.page * 10) - 1;
                     if (upperbound > items.movie_credits.cast.length) {
@@ -74,7 +102,7 @@ const tmdb = {
                     items = items.movie_credits.cast.slice(lowerbound, upperbound);
                 }
                 else{
-                    
+                    //edge case used to get single items for recommendations
                     items = [items.movie_credits.cast[randomIndex(items.movie_credits.cast.length)]];
                 }
                
@@ -84,6 +112,7 @@ const tmdb = {
                     items = items.results
                 }
                 else{
+                    //edge case used to get single items for recommendations
                     items = [items.results[randomIndex(items.results.length)]];
                 }
                 
@@ -96,11 +125,12 @@ const tmdb = {
                 element.type = details.type;
                 objectArray.push(tmdb.makeWatchItem(element));
             })
-            
+            //callback function is used to render the objects to the DOM
             callback(objectArray, totalPages)
 
             })
         .catch(e=>{
+            // if a request exceeds the allowed requests (20 per 10 seconds) - wait 10 secs and resend
             if (e.status == 429){
                 showWarning(
                     `Maximum Requests made.Retrying Request in
@@ -137,7 +167,8 @@ const tmdb = {
         let episodeDetails = $.getJSON(urlString);
         episodeDetails.then((episode)=>{callback(episode)});
     },
-
+    // take a search result and create a renderable watchItem
+    // watch items only use superficial data from search results so can be built without an API call for full details
     makeWatchItem:(details)=>{
         let icon = ""
         let thumb = "https://image.tmdb.org/t/p/w92";
@@ -186,7 +217,8 @@ const tmdb = {
             }
         )
     },
-
+    // take a search result from a specific movie ID and make a movie object
+    // Each movie requires it's own API call, so movie objects are only made if something is previewed or add to the list
     makeMovieObject:(movieDetails)=>{
         let thumb = "https://image.tmdb.org/t/p/w92";
         let lrgImage = "https://image.tmdb.org/t/p/w600_and_h900_bestv2";
@@ -228,6 +260,8 @@ const tmdb = {
         )
         
     },
+    // take a search result from a specific TV show ID and make a TV object
+    // Each TV Show requires it's own API call, so TV objects are only made if something is previewed or add to the list
     makeTvObject: (tvDetails)=>{
         let thumb = "https://image.tmdb.org/t/p/w92";
         let lrgImage = "https://image.tmdb.org/t/p/w600_and_h900_bestv2";

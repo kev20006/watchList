@@ -456,6 +456,9 @@
   position: relative;
   background-color: #ddd;
   border-radius: 50%;
+  font-size: 0.9rem;
+  height: 30px;
+  width: 30px;
 }
 .manage-tags .btn:hover {
   background-color: #aaa;

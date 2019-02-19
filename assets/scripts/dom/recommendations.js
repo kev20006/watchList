@@ -1,4 +1,14 @@
-/*************************Recommendations**************************/
+//recommendations.js contains the code that generates the the results of browsing for items.
+
+
+/*recommendationsList takes in an object with the following properties as an argument
+	type: where type is either movie or tv,
+	recType: Which is the type of recommendations. i.e. movies by genre or top movies. A full list of options can
+	be seen in the getUrl() method of the TMDB object.
+	page: the current page of search, stating at 1
+	id: the database id of the object being searched. 
+
+*/
 const recommendations = {
 	recommendationsList: object => {
 		if (object.page == 1) {
@@ -19,19 +29,15 @@ const recommendations = {
 			},
 			movieObjectArray => {
 				watchListDom.render(movieObjectArray, "recommendation-card");
-				$('#watch-list').append(
-					`<div id="next-twenty" class="card py-5"></div>
-                    `
-				);
 				if (movieObjectArray.length == 20) {
 					$('#watch-list').append(
 						`<div id="next-twenty" 
-                        class="button-wrapper d-flex flex-wrap 
-                        justify-content-center">
+                        class="d-flex button-wrapper  
+                        w-100">
                         </div>`
 					);
 					let moreButton = $(
-						`<div class="btn btn-default my-5"> 
+						`<div class="btn btn-default ml-auto my-5"> 
                             Next 20 <i class="fas fa-arrow-right ml-2"></i>
                         </div>`
 					).on('click', () => {
@@ -59,8 +65,9 @@ const recommendations = {
 						});
 					});
 					if (object.page > 1) {
-						$('#next-twenty').append(moreButton, prevButton);
-					} else {
+						$('#next-twenty').append(prevButton, moreButton);
+					} 
+					else {
 						$('#next-twenty').append(moreButton);
 					}
 				}
