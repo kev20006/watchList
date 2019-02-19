@@ -205,6 +205,10 @@ The search is still quite simplistic, It would be beneficial to users users if t
 
 It would be useful if the app could send push notifications to remind you if one of your tv shows is about to come on.
 
+### Improved Backwards Compatibility
+
+AS the app uses a lot of modern js features, such as classes, promises and arrow functions. In the future i would like to work to ensure that it works even on the oldest systems.
+
 # Technologies Used
 
 This Project uses:
@@ -493,6 +497,8 @@ I checked the app on my desktop computer running windows 10 under the following 
 * gap found between footer and bottom of the page at large resolutions - fixed using position sticky and sticking the footer to the bottom of the page when it scrolls into view.
 
 * The CSS property unset doesn't work in older browsers; replaced it to make the app better supported.
+
+* Further testing proved that the app didn't work on IE. I transpiled all the JS using babel and added a polyfill to the head of my project, which granted the app some functionality in IE, but it still didn't work fully. So there changes were rolled back. The transpiled JS in in the assets folder in this rep. 
 
 After completing this testing completed the same tasks again on the following devices.
 
