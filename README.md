@@ -93,9 +93,9 @@ Controls would be hidden in drop downs and sliding drawer menus to create a clea
 
 Because of the intention to use a card based layout there is little differentiation between the designs for the different viewports as the cards.
 
-Wireframes are included below with a brief discussion about each. Alternatively, you can view the wireframes in the documentation > wirefframes > images folder in this repo.
+Wireframes are included below with a brief discussion about each. Alternatively, you can view the wireframes in the documentation > wirefframes > images folder in this [repo](https://github.com/kev20006/watchList/tree/master/documentation/wireframes/images).
 
-[**Wireframes Discussion**](https://kev20006.github.io/watchList/documentation/WatchListWireframes.html)
+[**Wireframes Discussion**](https://kev20006.github.io/watchList/documentation/wireframes/WatchListWireframes.html)
 
 ## Surface Layer
 
@@ -205,6 +205,10 @@ The search is still quite simplistic, It would be beneficial to users users if t
 
 It would be useful if the app could send push notifications to remind you if one of your tv shows is about to come on.
 
+### Improved Backwards Compatibility
+
+AS the app uses a lot of modern js features, such as classes, promises and arrow functions. In the future i would like to work to ensure that it works even on the oldest systems.
+
 # Technologies Used
 
 This Project uses:
@@ -233,7 +237,7 @@ This Project uses:
 
 * Running the tests will reset the local storage of your current watchlist
 
-Automated testing was carried out using the Jasmine testing suite and can be found in the testing folder in the repo. Alternatively clicking [here will open the jasmine tests](https://kev20006.github.io/watchList/Testing/SpecRunner.html?random=false)
+Automated testing was carried out using the Jasmine testing suite and can be found in the testing folder in the repo [here](https://github.com/kev20006/watchList/tree/master/testing). Alternatively clicking [here will open the jasmine tests spec runner](https://kev20006.github.io/watchList/testing/SpecRunner.html?random=false)
 
 The automated testing is carried out on the watchlist.js and utilityFunctions.js as these are the functions that do not rely on external APIs or modify the DOM or application state in anyway.
 
@@ -491,6 +495,10 @@ I checked the app on my desktop computer running windows 10 under the following 
 * Pagination for browsing was done using a card similar to a movie card. Whilst this looked quite good on medium sized screens. It looked a bit odd on other devices. The browsing pagination controls were changed to a bar that sits below the last row of movie cards.
 
 * gap found between footer and bottom of the page at large resolutions - fixed using position sticky and sticking the footer to the bottom of the page when it scrolls into view.
+
+* The CSS property unset doesn't work in older browsers; replaced it to make the app better supported.
+
+* Further testing proved that the app didn't work on IE. I transpiled all the JS using babel and added a polyfill to the head of my project, which granted the app some functionality in IE, but it still didn't work fully. So there changes were rolled back. The transpiled JS in in the assets folder in this rep. 
 
 After completing this testing completed the same tasks again on the following devices.
 
