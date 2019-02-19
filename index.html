@@ -18,7 +18,7 @@
     crossorigin="anonymous">
     <!-- custom styles -->
     <link href="./assets/css/main.css" rel="stylesheet">
-    
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 </head>
 <body>
     <main id="app">
@@ -130,6 +130,8 @@
         </div>
     </main>  
     <!-- End Modal -->
+    <!-- polyfill to support old browsers-->
+    <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <!-- bootstrap scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" 
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -141,15 +143,17 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
     <!-- Bootstrap core JavaScript -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    
+    <!-- start of custom scripts -->
     <!-- Custom Scripts: Utilities-->
     <script type="text/javascript" src="./assets/scripts/utilities/utilityFunctions.js"></script>
-    <!-- Custom Scripts: Data Structures-->
+    <!-- Custom Scripts: Data Structures--> 
     <script type="text/javascript" src="./assets/scripts/data-structures/classes.js"></script>
     <!-- Custom Scripts: Models -->
     <script type="text/javascript" src="./assets/scripts/models/watchList.js"></script>
     <!-- Custom Scripts: API Scripts-->
-    <script type="text/javascript" src="./assets/scripts/api/tmdb.js"></script>
-    <!-- Custom Scripts: Views and DOM Manipulation -->
+    <script type="text/javascript" src="./assets/scripts/api/tmdb.js"></script> 
+    <!-- Custom Scripts: Views and DOM Manipulation --> 
     <script type="text/javascript" src="./assets/scripts/dom/menu.js"></script>
     <script type="text/javascript" src="./assets/scripts/dom/popup.js"></script>
     <script type="text/javascript" src="./assets/scripts/dom/search.js"></script>
@@ -159,6 +163,10 @@
     <script type="text/javascript" src="./assets/scripts/dom/watchHistory.js"></script>
     <script type="text/javascript" src="./assets/scripts/dom/watchListDom.js"></script>
     <!-- End of Custom Scripts -->
+    <!-- Transpiled and minified script for older browsers - doesn't fully work-->
+    <!-- <script type="text/javascript" src="./assets/scripts/code.min.js"></script> -->
+    
+    
 
 </body>
 </html>
