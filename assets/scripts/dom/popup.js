@@ -74,6 +74,9 @@ function manageFilters() {
 					watchListDom.addTag($('#collection-input').val());
 					manageFilters();
 				}
+				else{
+					$('#collection-input').effect("shake")
+				}
 				$(e.target).blur();
 			}
 		})

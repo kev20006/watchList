@@ -89,7 +89,6 @@ const tmdb = {
             list = tmdb.getRecommendations(details)
         }
         list.then((items)=>{
-            console.log(items)
             let totalPages = items.total_pages
             if (details.recType == "movie actor"){
                 totalPages = Math.floor((items.movie_credits.cast.length/10)+1)/2

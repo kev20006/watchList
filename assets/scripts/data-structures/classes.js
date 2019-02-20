@@ -204,19 +204,24 @@ class watchItem {
 					$('.add-tag').css('width', `${120 + ($('.add-tag').val().length - 9) * 9}px`);
 				}
 				if (e.keyCode == 13) {
-					watchListDom.addTag($('.add-tag').val(), this.dbid);
-					let newInput = $(`
-                        <input list="tags-list" placeholder="add new"></input>
-                        <datalist id="tags-list"></datalist>
-                    `).addClass('add-tag');
-					let newSpan = $(`<span class="collection-tag"></span>`).append(newInput);
-					$('.preview-tags')
-						.html('')
-						.append(newSpan)
-						.append(this.updateTags());
-					this.updateCardTags();
-					watchListDom.renderDataLists();
-					watchList.updateLocalStorage();
+					if ($('.add-tag').val().length >= 1){
+						watchListDom.addTag($('.add-tag').val(), this.dbid);
+						let newInput = $(
+							`<input list="tags-list" placeholder="add new"></input>
+							<datalist id="tags-list"></datalist>`
+						).addClass('add-tag');
+						let newSpan = $(`<span class="collection-tag"></span>`).append(newInput);
+						$('.preview-tags')
+							.html('')
+							.append(newSpan)
+							.append(this.updateTags());
+						this.updateCardTags();
+						watchListDom.renderDataLists();
+						watchList.updateLocalStorage();
+					}
+					else {
+						$(".add-tag").effect("shake");
+					}		
 				}
 			})
 			.focusin(() => {
@@ -509,7 +514,6 @@ class tv extends watchItem {
 			 firstSeason = 1;
 		}
 		
-		console.log(this.epTracker)
 		//loop through the seasons to create the season tracker
 		this.epTracker.forEach(season => {
 			//seasons are later identified using their id - i.e. s-1 refers to season 1
@@ -751,11 +755,9 @@ buttonControls = {
 			makePopUp()
 		}
 		if (object.cast){
-			console.log("using item")
 			$('#results').html(object.itemPreview('card'))
 		}
 		else{
-			console.log("getting new item")
 			let fullDetailsPromise = tmdb.getDetails({ id: object.dbid, type: object.type })
 			fullDetailsPromise.then(details => {
 				let fullItem = tmdb[`make${capitalise(object.type)}Object`](details)

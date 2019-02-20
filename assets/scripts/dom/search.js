@@ -168,8 +168,6 @@ function paginationControls(page, terms, type, totalPage, lengthOfCurrent) {
 			}
 		}
 	});
-	console.log(page)
-	console.log(totalPage)
 	if (page > 1){
 		pageButtons.append(back);
 	}
