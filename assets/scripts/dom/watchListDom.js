@@ -118,7 +118,7 @@ const watchListDom = {
 	renderDataLists: () => {
 		$('#movie-genres-list').html('');
 		$('#tv-genres-list').html('');
-		$('#tags-list-list').html('');
+		$('#tags-list').html('');
 		$('#movie-genres-list').append(`<option>Select an item</option>`);
 		$('#tv-genres-list').append(`<option>Select an item</option>`);
 		watchList.details.movieGenres.forEach(element => {
